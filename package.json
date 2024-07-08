@@ -2,7 +2,8 @@
   "name": "wiki-elements",
   "version": "0.0.1",
   "description": "A collection of WebComponents to share or interact with Wikipedia content",
-  "main": "wiki-elements.js",
+  "main": "src/index.js",
+  "style": "src/style.css",
   "scripts": {
     "test": "light-server --quiet --serve . --port 7000 -w '*.html, *.js, *.css, src/**'"
   },
@@ -21,7 +22,7 @@
   "author": "Santhosh Thottingal",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LeaVerou/wiki-elements/issues"
+    "url": "https://github.com/santhoshtr/wiki-elements/issues"
   },
   "homepage": "https://https://santhoshtr.github.io/wiki-elements",
   "devDependencies": {

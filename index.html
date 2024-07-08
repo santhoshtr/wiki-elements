@@ -6,12 +6,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml">
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="src/wiki-profile.css">
-        <link rel="stylesheet" href="src/wiki-article.css">
-        <script src="src/wiki-wikitext.js" type="module"></script>
-        <script src="src/wiki-profile.js" type="module"></script>
-        <script src="src/wiki-article.js" type="module"></script>
+        <link rel="stylesheet" href="src/style.css">
+        <script src="src/index.js" type="module"></script>
     </head>
 
     <body>
@@ -22,6 +20,7 @@
         </header>
         <nav class="nav" >
             <ul>
+                <li><a href="#introduction">Introduction</a></li>
                 <li><a href="#install">Install</a></li>
                 <li><details href="#components" open>
                     <summary>Components</summary>
@@ -35,6 +34,7 @@
                         <li><a href="#wiki-fact">wiki-facts</a></li>
                         <li><a href="#wiki-language-selector">wiki-language-selector</a></li>
                         <li><a href="#wiki-machine-translation">wiki-machine-translation</a></li>
+                        <li><a href="#wiki-location">wiki-location</a></li>
                     </ul>
                 </li>
                 <li><a href="https://github.com/santhoshtr/wiki-elements">Source code</a></li>
@@ -46,10 +46,10 @@
             <h2 id="components"><a href="#components">Components</a></h2>
             <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
             <section  class="example">
-                <section class="code">
+                <code>
                     &lt;wiki-wikitext&gt; [[Chordophone]]  &lt;/wiki-wikitext&gt;
                     </pre>
-                </section>
+                </code>
                 <section class="rendering">
                     <wiki-wikitext>
                         [[Chordophone]]
@@ -58,7 +58,7 @@
                 </section>
             </section>
             <section  class="example">
-                <code class="code">
+                <code>
                     &lt;wiki-wikitext&gt;
                     == Violin ==
 
@@ -106,8 +106,9 @@
 
             <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
             <section class="example">
-                <code class="code">
-                    &lt;wiki-profile language="en" article="Barack Obama"&gt;&lt;/wiki-profile&gt;
+                <code>
+                    &lt;wiki-profile language="en" article="Barack Obama"&gt;
+                    &lt;/wiki-profile&gt;
 
                 </code>
                 <section class="rendering">
@@ -117,10 +118,13 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-profile language="en" article="Ethan Hawk"&gt;&lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Julia Roberts"&gt;&lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Mahershala Ali"&gt;&lt;/wiki-profile&gt;
+                <code>
+                    &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
+                    &lt;/wiki-profile&gt;
+                    &lt;wiki-profile language="en" article="Julia Roberts"&gt;
+                    &lt;/wiki-profile&gt;
+                    &lt;wiki-profile language="en" article="Mahershala Ali"&gt;
+                    &lt;/wiki-profile&gt;
 
                 </code>
                 <section class="rendering flex">
@@ -132,8 +136,9 @@
 
             <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="en" article="Osaka">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="en" article="Osaka">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="en" article="Osaka"></wiki-article>
@@ -141,8 +146,9 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="ml" article="Kerala">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="ml" article="Kerala">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="ml" article="Kerala"></wiki-article>
@@ -150,8 +156,9 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="eu" article="Barcelona">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="eu" article="Barcelona">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="eu" article="Barcelona"></wiki-article>
@@ -159,8 +166,9 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="he" article="קרלה">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="he" article="קרלה">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="he" article="קרלה"></wiki-article>
@@ -168,8 +176,9 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="el" article="Αστρονομία">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="el" article="Αστρονομία">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="el" article="Αστρονομία"></wiki-article>
@@ -177,8 +186,9 @@
             </section>
 
             <section class="example">
-                <code class="code">
-                    &lt;wiki-article language="hi" article="बुलबुल">&lt;/wiki-article>
+                <code>
+                    &lt;wiki-article language="hi" article="बुलबुल">
+                    &lt;/wiki-article>
                 </code>
                 <section class="rendering">
                     <wiki-article language="hi" article="बुलबुल"></wiki-article>

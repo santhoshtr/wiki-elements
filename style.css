@@ -30,12 +30,17 @@
     grid-area: header;
     padding: 1em;
     border-bottom: 1px solid var(--border-color);
+    background-image: url('./logo.svg');
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: center left;
+    padding-left: 120px;
+    color: var(--primary-color);
   }
 
   .main {
     grid-area: main;
     padding: 1em;
-
     margin: 0 2vw;
   }
 
@@ -54,6 +59,7 @@
     }
     a {
       text-decoration: none;
+      color: var(--primary-color);
     }
   }
 
@@ -82,9 +88,11 @@
     grid-template-columns: repeat(2, minmax(50ch, 1fr));
     gap: 1em;
     border: 1px solid var(--border-color);
-    margin: 1em 0;
-    padding: 0.5em;
     border-radius: 4px;
+
+    margin: 1em 0 2em 0;
+    padding: 0.5em;
+
     background-color: var(--surface-2);
     code {
       white-space: preserve-breaks;
@@ -117,12 +125,11 @@
         'footer';
     }
     .example {
+      grid-template-columns: 1fr;
       code {
-
         border: none;
-
-     }
-  }
+      }
+    }
     .nav {
       position: static;
     }
