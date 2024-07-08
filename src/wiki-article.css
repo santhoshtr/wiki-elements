@@ -1,0 +1,88 @@
+wiki-article {
+  .wiki-article {
+    --wiki-border-radius: 8px;
+    --wiki-border-color: oklch(95% 0 0 / 75%);
+    --wiki-image-height: 220px;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 40px 140px 30px;
+    align-items: stretch;
+    gap: 10px;
+
+    border: 1px solid var(--wiki-border-color);
+    border-radius: var(--wiki-border-radius);
+
+    min-width: 600px;
+    height: var(--wiki-image-height);
+    max-height: var(--wiki-image-height);
+    margin: 8px;
+
+    overflow: hidden;
+    container-type: inline-size;
+
+    .thumbnail {
+      grid-column: span 1;
+      grid-row: span 2;
+      border-radius-top-start: var(--wiki-border-radius);
+      border-radius-bottom-start: var(--wiki-border-radius);
+      img {
+        width: auto;
+        aspect-ratio: 1;
+        height: var(--wiki-image-height);
+        object-fit: cover;
+      }
+    }
+    .title-header {
+      grid-column: span 1;
+      grid-row: span 1;
+      font-size: 1.5em;
+      margin: 0.25em 0;
+      padding: 0;
+      .title {
+        text-decoration: none;
+      }
+    }
+    .description {
+      grid-column: span 1;
+      grid-row: span 1;
+      font-size: 1em;
+      color: var(--text-color);
+
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: 20px auto auto auto auto 50px;
+      gap: 4px;
+      grid-column: 2;
+      grid-row: 3;
+      font-size: small;
+      border-top: 1px solid var(--wiki-border-color);
+
+      .logo {
+        background-image: url('https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg');
+        width: 16px;
+        height: 16px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .cc {
+        background-image: url(https://upload.wikimedia.org/wikipedia/commons/e/e5/CC_BY-SA_icon.svg);
+        width: 50px;
+        height: 16px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .moto {
+        white-space: nowrap;
+      }
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}

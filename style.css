@@ -1,0 +1,130 @@
+@layer demo {
+  :root {
+    --primary-color: light-dark(hsl(212, 100%, 50%), hsl(212, 100%, 60%));
+    --border-color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 30%));
+    --surface-1: light-dark(hsl(0, 0%, 99%), hsl(0, 0%, 10%));
+    --surface-2: light-dark(hsl(0, 0%, 96%), hsl(0, 0%, 20%));
+    --text-1: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
+    --text-2: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 80%));
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    font-family: system-ui, sans-serif;
+    line-height: 1.5;
+    line-height: 1.5;
+
+    accent-color: var(--primary-color);
+    color: var(--text-1);
+    background-color: var(--surface-1);
+    display: grid;
+    grid-template-areas:
+      'header header  header'
+      'nav    main main'
+      'footer footer footer';
+  }
+  .header {
+    grid-area: header;
+    padding: 1em;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .main {
+    grid-area: main;
+    padding: 1em;
+
+    margin: 0 2vw;
+  }
+
+  .nav {
+    grid-area: nav;
+    border-right: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    font-size: 1.25em;
+    line-height: 1.5;
+
+    ul {
+      list-style: none;
+      padding: 0 0.5em;
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .subheading {
+    color: var(--text-2);
+  }
+
+  h2,
+  h3 {
+    a {
+      text-decoration: none;
+      color: var(--text-1);
+    }
+    a:hover::before {
+      content: '§';
+      position: absolute;
+      padding: 0 0.2em;
+      margin-left: -1em;
+      border-radius: 0.2em;
+      color: var(--text-2);
+    }
+  }
+
+  .example {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50ch, 1fr));
+    gap: 1em;
+    border: 1px solid var(--border-color);
+    margin: 1em 0;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: var(--surface-2);
+    code {
+      white-space: preserve-breaks;
+      max-inline-size: 70ch;
+      font-size: 1.2em;
+      font-family: monospace;
+      border-right: 1px solid var(--border-color);
+      padding: 0.5em;
+    }
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .footer {
+    padding: 1em;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--surface-2);
+    grid-area: footer;
+    z-index: 2;
+  }
+
+  @media (max-width: 100ch) {
+    body {
+      grid-template-areas:
+        'header'
+        'nav'
+        'main'
+        'footer';
+    }
+    .example {
+      code {
+
+        border: none;
+
+     }
+  }
+    .nav {
+      position: static;
+    }
+  }
+}

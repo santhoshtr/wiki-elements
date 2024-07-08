@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="src/wiki-profile.css">
+        <link rel="stylesheet" href="src/wiki-article.css">
+        <script src="src/wiki-wikitext.js" type="module"></script>
+        <script src="src/wiki-profile.js" type="module"></script>
+        <script src="src/wiki-article.js" type="module"></script>
+    </head>
+
+    <body>
+        <header class="header" >
+            <h1>wiki-elements</h1>
+            <h4 class="subheading" >A collection of WebComponents to share or interact with Wikipedia content</h4>
+
+        </header>
+        <nav class="nav" >
+            <ul>
+                <li><a href="#install">Install</a></li>
+                <li><details href="#components" open>
+                    <summary>Components</summary>
+                    <ul>
+                        <li><a href="#wiki-profile">wiki-profile</a></li>
+                        <li><a href="#wiki-article">wiki-article</a></li>
+                        <li><a href="#wiki-wikitext">wiki-wikitext</a></li>
+                        <li><a href="#wiki-image">wiki-image</a></li>
+                        <li><a href="#wiki-user">wiki-user</a></li>
+                        <li><a href="#wiki-video">wiki-video</a></li>
+                        <li><a href="#wiki-fact">wiki-facts</a></li>
+                        <li><a href="#wiki-language-selector">wiki-language-selector</a></li>
+                        <li><a href="#wiki-machine-translation">wiki-machine-translation</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://github.com/santhoshtr/wiki-elements">Source code</a></li>
+            </ul>
+        </nav>
+        <article class="main">
+            <h2><a href="#install">Install</a></h2>
+
+            <h2 id="components"><a href="#components">Components</a></h2>
+            <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
+            <section  class="example">
+                <section class="code">
+                    &lt;wiki-wikitext&gt; [[Chordophone]]  &lt;/wiki-wikitext&gt;
+                    </pre>
+                </section>
+                <section class="rendering">
+                    <wiki-wikitext>
+                        [[Chordophone]]
+                    </wiki-wikitext>
+
+                </section>
+            </section>
+            <section  class="example">
+                <code class="code">
+                    &lt;wiki-wikitext&gt;
+                    == Violin ==
+
+
+                    The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is the
+                    smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin family]].
+                    Smaller violin-type instruments exist, including the [[violino piccolo]] and the [[pochette (musical
+                    instrument)|pochette]], but these are virtually unused.
+                    Most violins have a hollow wooden body, and commonly have four [[strings (music)|strings]]
+                    (sometimes [[five-string violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4,
+                    E5, and are most commonly played by drawing a [[bow (music)|bow]] across the strings.
+                    The violin can also be played by plucking the strings with the fingers ([[pizzicato]]) and, in
+                    specialized cases, by striking the strings with the wooden side of the bow ([[col legno]]).
+
+                    [[File:Gaudenzio Ferrari 002.jpg|thumb|right|The cupola of Madonna dei Miracoli in [[Saronno]],
+                    [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the earliest
+                    depictions of the violin family.]]
+
+                    &lt;/wiki-wikitext&gt;
+
+                </code>
+                <section class="rendering">
+                    <wiki-wikitext>
+                        == Violin ==
+
+
+                        The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is
+                        the smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin
+                        family]]. Smaller violin-type instruments exist, including the [[violino piccolo]] and the
+                        [[pochette (musical instrument)|pochette]], but these are virtually unused. Most violins have a
+                        hollow wooden body, and commonly have four [[strings (music)|strings]] (sometimes [[five-string
+                        violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4, E5, and are most
+                        commonly played by drawing a [[bow (music)|bow]] across the strings. The violin can also be
+                        played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
+                        striking the strings with the wooden side of the bow ([[col legno]]).
+
+                        [[File:Gaudenzio Ferrari 002.jpg|thumb|right|The cupola of Madonna dei Miracoli in [[Saronno]],
+                        [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the
+                        earliest depictions of the violin family.]]
+
+                    </wiki-wikitext>
+
+                </section>
+                </section>
+
+            <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-profile language="en" article="Barack Obama"&gt;&lt;/wiki-profile&gt;
+
+                </code>
+                <section class="rendering">
+                    <wiki-profile language="en" article="Barack Obama">
+                    </wiki-profile>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-profile language="en" article="Ethan Hawk"&gt;&lt;/wiki-profile&gt;
+                    &lt;wiki-profile language="en" article="Julia Roberts"&gt;&lt;/wiki-profile&gt;
+                    &lt;wiki-profile language="en" article="Mahershala Ali"&gt;&lt;/wiki-profile&gt;
+
+                </code>
+                <section class="rendering flex">
+                    <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+  <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+  <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+                </section>
+            </section>
+
+            <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="en" article="Osaka">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="en" article="Osaka"></wiki-article>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="ml" article="Kerala">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="ml" article="Kerala"></wiki-article>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="eu" article="Barcelona">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="eu" article="Barcelona"></wiki-article>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="he" article="קרלה">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="he" article="קרלה"></wiki-article>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="el" article="Αστρονομία">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="el" article="Αστρονομία"></wiki-article>
+                </section>
+            </section>
+
+            <section class="example">
+                <code class="code">
+                    &lt;wiki-article language="hi" article="बुलबुल">&lt;/wiki-article>
+                </code>
+                <section class="rendering">
+                    <wiki-article language="hi" article="बुलबुल"></wiki-article>
+                </section>
+            </section></section></code></section></code></section></code></section></code>
+        </article>
+        <footer class="footer">
+            <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
+        </footer>
+    </body>
+
+</html>

@@ -1,0 +1,41 @@
+wiki-profile {
+  --wiki-profile-size: 150px;
+  --wiki-border-radius: 1000px;
+  --wiki-border-color: CanvasText;
+
+  .wiki-profile {
+    display: grid;
+    grid-template-columns: var(--wiki-profile-size);
+    grid-template-rows: var(--wiki-profile-size) 1lh;
+    align-items: stretch;
+    gap: 8px;
+
+    margin: 8px;
+    padding: 0 10px;
+    height: 200px;
+    width: var(--wiki-profile-size);
+    overflow-y: auto;
+    container-type: inline-size;
+
+    .thumbnail {
+      width: auto;
+      aspect-ratio: 1;
+      height: var(--wiki-profile-size);
+      object-fit: cover;
+      border-radius: var(--wiki-border-radius);
+    }
+
+    .title-header {
+      font-size: 1.2em;
+      margin: 0.25em 0;
+      padding: 0;
+      text-align: center;
+      .title {
+        text-decoration: none;
+      }
+    }
+  }
+
+
+
+}

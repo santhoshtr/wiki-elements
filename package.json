@@ -1,0 +1,38 @@
+{
+  "name": "wiki-elements",
+  "version": "0.0.1",
+  "description": "A collection of WebComponents to share or interact with Wikipedia content",
+  "main": "wiki-elements.js",
+  "scripts": {
+    "test": "light-server --quiet --serve . --port 7000 -w '*.html, *.js, *.css, src/**'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/santhoshtr/wiki-elements.git"
+  },
+  "keywords": [
+    "WebComponents",
+    "CustomElements",
+    "wikitext-to-html",
+    "wikitext",
+    "Wikipedia",
+    "MediaWiki"
+  ],
+  "author": "Santhosh Thottingal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeaVerou/wiki-elements/issues"
+  },
+  "homepage": "https://https://santhoshtr.github.io/wiki-elements",
+  "devDependencies": {
+    "eslint": "^9.6.0",
+    "light-server": "^2.9.1"
+  },
+  "files": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "README.md",
+    "LICENSE"
+  ]
+}
