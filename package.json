@@ -33,6 +33,7 @@
     "src/**",
     "package.json",
     "package-lock.json",
+    "custom-elements.json",
     "README.md",
     "LICENSE"
   ]

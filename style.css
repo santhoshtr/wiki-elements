@@ -6,10 +6,19 @@
     --surface-2: light-dark(hsl(0, 0%, 96%), hsl(0, 0%, 20%));
     --text-1: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
     --text-2: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 80%));
+    color-scheme: light dark;
   }
 
-  html {
-    color-scheme: light dark;
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Dark mode */
+  [data-theme='dark'] {
+    color-scheme: dark;
+  }
+  [data-theme='light'] {
+    color-scheme: light;
   }
 
   body {
@@ -25,6 +34,8 @@
       'header header  header'
       'nav    main main'
       'footer footer footer';
+    /* dark / light mode toggle animation */
+    transition: background 0.2s ease-in, color 0.2s ease-in;
   }
   .header {
     grid-area: header;
@@ -42,6 +53,21 @@
     grid-area: main;
     padding: 1em;
     margin: 0 2vw;
+    > h2,
+    > h3 {
+      a {
+        text-decoration: none;
+        color: var(--text-1);
+      }
+      a:hover::before {
+        content: '§';
+        position: absolute;
+        padding: 0 0.2em;
+        margin-left: -1em;
+        border-radius: 0.2em;
+        color: var(--text-2);
+      }
+    }
   }
 
   .nav {
@@ -65,22 +91,6 @@
 
   .subheading {
     color: var(--text-2);
-  }
-
-  h2,
-  h3 {
-    a {
-      text-decoration: none;
-      color: var(--text-1);
-    }
-    a:hover::before {
-      content: '§';
-      position: absolute;
-      padding: 0 0.2em;
-      margin-left: -1em;
-      border-radius: 0.2em;
-      color: var(--text-2);
-    }
   }
 
   .example {

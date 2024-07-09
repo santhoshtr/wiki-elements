@@ -7,9 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
         <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml">
+        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content">
+        <meta name="supported-color-schemes" content="dark light">
+        <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="src/style.css">
         <script src="src/index.js" type="module"></script>
+        <script type="module" src="https://unpkg.com/dark-mode-toggle"></script>
     </head>
 
     <body>
@@ -35,10 +39,12 @@
                         <li><a href="#wiki-language-selector">wiki-language-selector</a></li>
                         <li><a href="#wiki-machine-translation">wiki-machine-translation</a></li>
                         <li><a href="#wiki-location">wiki-location</a></li>
+                        <li><a href="#wiki-pronounce">wiki-pronounce</a></li>
                     </ul>
                 </li>
                 <li><a href="https://github.com/santhoshtr/wiki-elements">Source code</a></li>
             </ul>
+            <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
         </nav>
         <article class="main">
             <h2><a href="#install">Install</a></h2>
@@ -62,7 +68,6 @@
                     &lt;wiki-wikitext&gt;
                     == Violin ==
 
-
                     The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is the
                     smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin family]].
                     Smaller violin-type instruments exist, including the [[violino piccolo]] and the [[pochette (musical
@@ -70,13 +75,14 @@
                     Most violins have a hollow wooden body, and commonly have four [[strings (music)|strings]]
                     (sometimes [[five-string violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4,
                     E5, and are most commonly played by drawing a [[bow (music)|bow]] across the strings.
-                    The violin can also be played by plucking the strings with the fingers ([[pizzicato]]) and, in
-                    specialized cases, by striking the strings with the wooden side of the bow ([[col legno]]).
 
-                    [[File:Gaudenzio Ferrari 002.jpg|thumb|right|The cupola of Madonna dei Miracoli in [[Saronno]],
+                    [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
                     [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the earliest
                     depictions of the violin family.]]
 
+                    The violin can also be
+                    played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
+                    striking the strings with the wooden side of the bow ([[col legno]]).
                     &lt;/wiki-wikitext&gt;
 
                 </code>
@@ -91,14 +97,15 @@
                         [[pochette (musical instrument)|pochette]], but these are virtually unused. Most violins have a
                         hollow wooden body, and commonly have four [[strings (music)|strings]] (sometimes [[five-string
                         violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4, E5, and are most
-                        commonly played by drawing a [[bow (music)|bow]] across the strings. The violin can also be
-                        played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
-                        striking the strings with the wooden side of the bow ([[col legno]]).
+                        commonly played by drawing a [[bow (music)|bow]] across the strings.
 
-                        [[File:Gaudenzio Ferrari 002.jpg|thumb|right|The cupola of Madonna dei Miracoli in [[Saronno]],
+                        [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
                         [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the
                         earliest depictions of the violin family.]]
 
+                        The violin can also be
+                        played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
+                        striking the strings with the wooden side of the bow ([[col legno]]).
                     </wiki-wikitext>
 
                 </section>
@@ -193,11 +200,39 @@
                 <section class="rendering">
                     <wiki-article language="hi" article="बुलबुल"></wiki-article>
                 </section>
-            </section></section></code></section></code></section></code></section></code>
+            </section>
+            <h3 id="wiki-profile"><a href="#wiki-machine-translation<">wiki-machine-translation</a></h3>
+            <section class="example">
+                <code>
+                    &lt;wiki-machine-translation source="hi" target="en"&gt;
+                    बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+                    &lt;/wiki-machine-translation&gt;
+
+                </code>
+                <section class="rendering">
+                    <wiki-machine-translation source="hi" target="en">
+                        <p>बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल  का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं। </p>
+                    </wiki-machine-translation>
+                </section>
+            </section>
         </article>
         <footer class="footer">
             <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
         </footer>
+
+        <script>
+            const toggle = document.querySelector('dark-mode-toggle');
+            const html = document.documentElement;
+
+            // Set or remove the `dark` data-theme attribute the first time.
+            toggle.mode === 'dark' ? html.setAttribute('data-theme', 'dark') : html.removeAttribute('data-theme');
+
+            // Listen for toggle changes (which includes `prefers-color-scheme` changes)
+            // and toggle the `dark` data-theme attribute accordingly.
+            toggle.addEventListener('colorschemechange', () => {
+                html.setAttribute('data-theme', toggle.mode === 'dark' ? 'dark' : 'light');
+            });
+        </script>
     </body>
 
 </html>
