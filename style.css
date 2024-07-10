@@ -1,11 +1,28 @@
+@import url('https://rsms.me/inter/inter.css');
+
 @layer demo {
   :root {
-    --primary-color: light-dark(hsl(212, 100%, 50%), hsl(212, 100%, 60%));
-    --border-color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 30%));
-    --surface-1: light-dark(hsl(0, 0%, 99%), hsl(0, 0%, 10%));
-    --surface-2: light-dark(hsl(0, 0%, 96%), hsl(0, 0%, 20%));
-    --text-1: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
-    --text-2: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 80%));
+    /* Nord Colors: https://www.nordtheme.com/docs/colors-and-palettes */
+    --nord-polar-night-1: hsl(220, 16%, 22%);
+    --nord-polar-night-2: hsl(222, 16%, 28%);
+    --nord-polar-night-3: hsl(220, 17%, 32%);
+    --nord-polar-night-4: hsl(220, 16%, 36%);
+
+    --nord-snow-storm-1: hsl(219, 28%, 88%);
+    --nord-snow-storm-2: hsl(218, 27%, 92%);
+    --nord-snow-storm-3: hsl(218, 27%, 94%);
+
+    --nord-frost-1: hsl(179, 25%, 65%);
+    --nord-frost-2: hsl(193, 43%, 67%);
+    --nord-frost-3: hsl(210, 34%, 63%);
+    --nord-frost-4: hsl(213, 32%, 52%);
+
+    --primary-color: light-dark(var(--nord-frost-4), var(--nord-snow-storm-3));
+    --border-color: light-dark(var(--nord-snow-storm-1), var(--nord-polar-night-4));
+    --surface-1: light-dark(var(--nord-snow-storm-3), var(--nord-polar-night-1));
+    --surface-2: light-dark(var(--nord-snow-storm-2), var(--nord-polar-night-2));
+    --text-1: light-dark(var(--nord-polar-night-1), var(--nord-snow-storm-3));
+    --text-2: light-dark(var(--nord-polar-night-2), var(--nord-snow-storm-2));
     color-scheme: light dark;
   }
 
@@ -22,7 +39,7 @@
   }
 
   body {
-    font-family: system-ui, sans-serif;
+    font-family: 'InterVariable', system-ui, sans-serif;
     line-height: 1.5;
     line-height: 1.5;
 
@@ -35,7 +52,7 @@
       'nav    main main'
       'footer footer footer';
     /* dark / light mode toggle animation */
-    transition: background 0.2s ease-in, color 0.2s ease-in;
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
   }
   .header {
     grid-area: header;
@@ -53,11 +70,14 @@
     grid-area: main;
     padding: 1em;
     margin: 0 2vw;
+
     > h2,
-    > h3 {
+    > h3,
+    > h4 {
+      color: var(--primary-color);
       a {
         text-decoration: none;
-        color: var(--text-1);
+        color: var(--primary-color);
       }
       a:hover::before {
         content: '§';
@@ -65,7 +85,7 @@
         padding: 0 0.2em;
         margin-left: -1em;
         border-radius: 0.2em;
-        color: var(--text-2);
+        color: var(--primary-color);
       }
     }
   }
@@ -78,39 +98,45 @@
     max-height: 100vh;
     font-size: 1.25em;
     line-height: 1.5;
-
-    ul {
-      list-style: none;
-      padding: 0 0.5em;
+    padding: 1em;
+    > * {
+      display: block;
+      color: var(--primary-color);
     }
     a {
       text-decoration: none;
+      font-weight: 500;
       color: var(--primary-color);
     }
   }
 
   .subheading {
     color: var(--text-2);
+    font-weight: 300;
   }
 
   .example {
     display: grid;
     grid-template-columns: repeat(2, minmax(50ch, 1fr));
     gap: 1em;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
 
     margin: 1em 0 2em 0;
-    padding: 0.5em;
 
-    background-color: var(--surface-2);
+
+    > * {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--surface-2);
+      padding: 0.5em;
+    }
+
     code {
       white-space: preserve-breaks;
-      max-inline-size: 70ch;
+
       font-size: 1.2em;
       font-family: monospace;
-      border-right: 1px solid var(--border-color);
-      padding: 0.5em;
+
+
     }
   }
 

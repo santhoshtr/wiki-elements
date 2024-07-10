@@ -1,7 +1,7 @@
 wiki-article {
   .wiki-article {
     --wiki-border-radius: 8px;
-    --wiki-border-color: oklch(95% 0 0 / 75%);
+    --wiki-border-color: light-dark(hsl(219, 28%, 88%),hsl(220, 16%, 36%));
     --wiki-image-height: 220px;
 
     display: grid;

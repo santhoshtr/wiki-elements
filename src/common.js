@@ -2,6 +2,10 @@
 * Add a <link rel={preload | preconnect} ...> to the head
 */
 function addPrefetch(kind, url, as) {
+    if ( document.querySelector(`link[rel="${kind}"][href="${url}"]`)) {
+        return; // Link already exists, no need to add it again
+    }
+
     const linkEl = document.createElement('link');
     linkEl.rel = kind;
     linkEl.href = url;

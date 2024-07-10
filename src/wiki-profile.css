@@ -11,7 +11,7 @@ wiki-profile {
     gap: 8px;
 
     margin: 8px;
-    padding: 0 10px;
+
     height: 200px;
     width: var(--wiki-profile-size);
     overflow-y: auto;

@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
         <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml">
-        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content">
+        <meta name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content">
         <meta name="supported-color-schemes" content="dark light">
         <meta name="color-scheme" content="dark light">
         <link rel="stylesheet" href="style.css">
@@ -17,32 +18,32 @@
     </head>
 
     <body>
-        <header class="header" >
+        <header class="header">
             <h1>wiki-elements</h1>
-            <h4 class="subheading" >A collection of WebComponents to share or interact with Wikipedia content</h4>
+            <h4 class="subheading">A collection of WebComponents to share or interact with Wikipedia content</h4>
 
         </header>
-        <nav class="nav" >
-            <ul>
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="#install">Install</a></li>
-                <li><details href="#components" open>
-                    <summary>Components</summary>
-                    <ul>
-                        <li><a href="#wiki-profile">wiki-profile</a></li>
-                        <li><a href="#wiki-article">wiki-article</a></li>
-                        <li><a href="#wiki-wikitext">wiki-wikitext</a></li>
-                        <li><a href="#wiki-image">wiki-image</a></li>
-                        <li><a href="#wiki-user">wiki-user</a></li>
-                        <li><a href="#wiki-video">wiki-video</a></li>
-                        <li><a href="#wiki-fact">wiki-facts</a></li>
-                        <li><a href="#wiki-language-selector">wiki-language-selector</a></li>
-                        <li><a href="#wiki-machine-translation">wiki-machine-translation</a></li>
-                        <li><a href="#wiki-location">wiki-location</a></li>
-                        <li><a href="#wiki-pronounce">wiki-pronounce</a></li>
-                    </ul>
-                </li>
-                <li><a href="https://github.com/santhoshtr/wiki-elements">Source code</a></li>
+        <nav class="nav">
+            <a href="#introduction">Introduction</a>
+            <a href="#install">Install</a>
+
+            <h3 href="#components">Components</h3>
+
+
+            <a href="#wiki-profile">wiki-profile</a>
+            <a href="#wiki-article">wiki-article</a>
+            <a href="#wiki-wikitext">wiki-wikitext</a>
+            <a href="#wiki-image">wiki-image</a>
+            <a href="#wiki-user">wiki-user</a>
+            <a href="#wiki-video">wiki-video</a>
+            <a href="#wiki-fact">wiki-facts</a>
+            <a href="#wiki-language-selector">wiki-language-selector</a>
+            <a href="#wiki-machine-translation">wiki-machine-translation</a>
+            <a href="#wiki-location">wiki-location</a>
+            <a href="#wiki-pronounce">wiki-pronounce</a>
+            <br>
+
+            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
             </ul>
             <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
         </nav>
@@ -51,7 +52,7 @@
 
             <h2 id="components"><a href="#components">Components</a></h2>
             <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
-            <section  class="example">
+            <section class="example">
                 <code>
                     &lt;wiki-wikitext&gt; [[Chordophone]]  &lt;/wiki-wikitext&gt;
                     </pre>
@@ -63,7 +64,7 @@
 
                 </section>
             </section>
-            <section  class="example">
+            <section class="example">
                 <code>
                     &lt;wiki-wikitext&gt;
                     == Violin ==
@@ -109,7 +110,7 @@
                     </wiki-wikitext>
 
                 </section>
-                </section>
+            </section>
 
             <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
             <section class="example">
@@ -136,8 +137,8 @@
                 </code>
                 <section class="rendering flex">
                     <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-  <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-  <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+                    <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+                    <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
                 </section>
             </section>
 
@@ -211,7 +212,10 @@
                 </code>
                 <section class="rendering">
                     <wiki-machine-translation source="hi" target="en">
-                        <p>बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल  का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं। </p>
+                        <p>बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल
+                            हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी
+                            अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+                        </p>
                     </wiki-machine-translation>
                 </section>
             </section>
