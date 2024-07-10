@@ -11,12 +11,15 @@ class WikiMap extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
-        this.longitude = this.getAttribute("longitude") || 8.4906
-        this.latitude = this.getAttribute("latitude") || 76.9545;
+    async connectedCallback() {
+        this.article= this.getAttribute("article");
+        this.longitude = this.getAttribute("longitude")
+        this.latitude = this.getAttribute("latitude")
+        this.language = this.getAttribute("language") || "en";
         this.zoom = this.getAttribute("zoom") || 12;
         this.render();
-        this.fetchMapData().then(mapData => this.renderMap(mapData));
+        const mapData = await this.fetchMapData()
+        this.renderMap(mapData);
     }
 
     async renderMap(mapData) {
@@ -25,9 +28,9 @@ class WikiMap extends HTMLElement {
             await addScript(URLs.leaflet);
             leaflet = window.L;
         }
-
+        console.log(mapData)
         const map = leaflet.map(this.querySelector('.wiki-map'))
-            .setView([mapData.longitude, mapData.latitude], mapData.zoom);
+            .setView([mapData.latitude, mapData.longitude], mapData.zoom);
         leaflet.tileLayer(
             'https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             id: 'map-01',
@@ -39,9 +42,21 @@ class WikiMap extends HTMLElement {
     }
 
     async fetchMapData() {
+        if (!this.longitude || !this.latitude){
+            if (!this.article) {
+                throw new Error("No article or coordinates provided");
+            }
+
+            const response = await fetch(`https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${this.article}?redirect=true`);
+            if (!response.ok) throw new Error("Network response was not ok");
+            const {coordinates} = await response.json();
+            this.longitude = coordinates.lon;
+            this.latitude = coordinates.lat;
+        }
+
         return {
-            longitude: this.longitude,
-            latitude: this.latitude,
+            longitude: parseFloat(this.longitude),
+            latitude: parseFloat(this.latitude),
             zoom: this.zoom,
         };
     }

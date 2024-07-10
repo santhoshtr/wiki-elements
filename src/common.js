@@ -38,8 +38,9 @@ function deIndent(text) {
  * @returns {Promise<void>} - A promise that resolves when the script is loaded successfully, or rejects if there is an error.
  */
 const addScript = async src => new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-        resolve();
+    const existingEl = document.querySelector(`script[src="${src}"]`);
+    if (existingEl) {
+        existingEl.addEventListener('load', resolve);
         return; // Script already exists, no need to add it again
     }
 
