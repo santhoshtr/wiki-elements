@@ -124,13 +124,14 @@
 
 
     > * {
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--surface-2);
+
       padding: 0.5em;
     }
 
     code {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--surface-2);
       white-space: preserve-breaks;
 
       font-size: 1.2em;
