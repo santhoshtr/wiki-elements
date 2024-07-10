@@ -32,4 +32,12 @@ function deIndent(text) {
     return text;
 }
 
-export { addPrefetch, deIndent };
+const addScript = async src => new Promise((resolve, reject) => {
+    const el = document.createElement('script');
+    el.src = src;
+    el.addEventListener('load', resolve);
+    el.addEventListener('error', reject);
+    document.body.append(el);
+});
+
+export { addPrefetch, deIndent,addScript };
