@@ -31,13 +31,14 @@
   }
 
   /* Dark mode */
-  [data-theme='dark'] {
-    color-scheme: dark;
+  @media screen {
+    [data-theme='dark'] {
+      color-scheme: dark;
+    }
+    [data-theme='light'] {
+      color-scheme: light;
+    }
   }
-  [data-theme='light'] {
-    color-scheme: light;
-  }
-
   body {
     font-family: 'InterVariable', system-ui, sans-serif;
     line-height: 1.5;
@@ -122,9 +123,7 @@
 
     margin: 1em 0 2em 0;
 
-
     > * {
-
       padding: 0.5em;
     }
 
@@ -136,15 +135,13 @@
 
       font-size: 1.2em;
       font-family: monospace;
-
-
     }
   }
 
   .flex {
     display: flex;
   }
-  .grid{
+  .grid {
     display: grid;
     .cols-2 {
       grid-column: span 2;
@@ -166,6 +163,10 @@
         'main'
         'footer';
     }
+    .main{
+      margin: 0;
+      padding: 0;
+    }
     .example {
       grid-template-columns: 1fr;
       code {
@@ -176,4 +177,6 @@
       position: static;
     }
   }
+
+
 }
