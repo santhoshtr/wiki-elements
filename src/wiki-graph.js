@@ -98,7 +98,6 @@ class WikiGraph extends HTMLElement {
     }
     async fetchGraphData() {
         try {
-            console.log(this.apiURL);
             const response = await fetch(this.apiURL);
             if (!response.ok) throw new Error("Network response was not ok");
             const data = await response.json();
