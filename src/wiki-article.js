@@ -57,20 +57,20 @@ class WikiArticle extends HTMLElement {
                   <picture class="thumbnail">
                    <source class="webp"  type="image/webp">
                    <source class="png" type="image/png">
-                   <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
+                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
                   </picture>
-                  <h2 class="title-header">
-                  <a class="title" href="" target="_blank"></a>
-                  </h2>
-                  <p class="description">Loading...</p>
-                  <div class="meta">
-                  <span class="logo"></span>
-
-                  <span class="moto">Wikipedia, The free encyclopedia</span>
-                  <a class="edit" href="" target="_blank">Edit</a>
-                  <a  class="history" href="" target="_blank">History</a>
-                    <a  class="talk" href="" target="_blank">Talk</a>
-                    <a href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License" class="cc"> </a>
+                  <div class="title-desc-container">
+                    <h2 class="title-header">
+                    <a class="title" href="" target="_blank"></a>
+                    </h2>
+                    <p class="description">Loading...</p>
+                    <div class="meta">
+                        <span class="logo">Wikipedia</span>
+                        <a class="edit" href="" target="_blank"></a>
+                        <a  class="history" href="" target="_blank"></a>
+                        <a  class="talk" href="" target="_blank"></a>
+                        <a href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License" class="cc"> </a>
+                    </div>
                   </div>
               </div>
           `;
