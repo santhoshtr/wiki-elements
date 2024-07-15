@@ -1,4 +1,3 @@
-
 import { deIndent, addPrefetch } from './common.js';
 
 class WikiMachineTranslation extends HTMLElement {
@@ -7,7 +6,7 @@ class WikiMachineTranslation extends HTMLElement {
         this.observer = new IntersectionObserver(this.onIntersection.bind(this), {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.1,
         });
     }
 
@@ -16,7 +15,7 @@ class WikiMachineTranslation extends HTMLElement {
      * @returns {string} - The value of the "rendered" attribute.
      */
     get rendered() {
-        return this.getAttribute("rendered");
+        return this.getAttribute('rendered');
     }
 
     /**
@@ -26,7 +25,6 @@ class WikiMachineTranslation extends HTMLElement {
     get htmlContent() {
         return this._htmlContent;
     }
-
 
     set htmlContent(html) {
         this._htmlContent = html.trim();
@@ -53,16 +51,14 @@ class WikiMachineTranslation extends HTMLElement {
         this.observer.unobserve(this);
     }
 
-
     onIntersection(entries) {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 this.observer.unobserve(this);
                 this.render();
             }
         });
     }
-
 
     async render() {
         if (!this.isConnected || this._htmlContent === undefined) {
@@ -75,11 +71,11 @@ class WikiMachineTranslation extends HTMLElement {
             const response = await fetch(api, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    html: `<div>${this._htmlContent}</div>`
-                })
+                    html: `<div>${this._htmlContent}</div>`,
+                }),
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -89,13 +85,12 @@ class WikiMachineTranslation extends HTMLElement {
         }
 
         // Fire event
-        const event = new CustomEvent("wikitext-render", { bubbles: true, composed: true });
+        const event = new CustomEvent('wikitext-render', { bubbles: true, composed: true });
         this.dispatchEvent(event);
     }
-
 }
 
 // Register custom element
 if (!customElements.get('wiki-machine-translation')) {
-    customElements.define('wiki-machine-translation', WikiMachineTranslation)
-};
+    customElements.define('wiki-machine-translation', WikiMachineTranslation);
+}

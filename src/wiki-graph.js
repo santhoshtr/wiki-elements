@@ -1,9 +1,8 @@
-import { addScript } from "./common.js";
+import { addScript } from './common.js';
 
 const URLs = {
-    echarts: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js",
-
-}
+    echarts: 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js',
+};
 
 let echarts = window.echarts;
 class WikiGraph extends HTMLElement {
@@ -12,18 +11,18 @@ class WikiGraph extends HTMLElement {
     }
 
     connectedCallback() {
-        this.source = this.getAttribute("source");
-        this.title = this.getAttribute("title");
+        this.source = this.getAttribute('source');
+        this.title = this.getAttribute('title');
         // Source example: "https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab"
         // from the source get the article name
         const url = new URL(this.source);
-        this.article = url.pathname.split("/wiki/").pop()
-        this.hostname = url.hostname
+        this.article = url.pathname.split('/wiki/').pop();
+        this.hostname = url.hostname;
         if (!this.title) {
-            this.title = this.article.split(".")[0].replace(/_/g, " ");
+            this.title = this.article.split('.')[0].replace(/_/g, ' ');
         }
         this.render();
-        this.fetchGraphData().then(graphData => this.renderGraph(graphData));
+        this.fetchGraphData().then((graphData) => this.renderGraph(graphData));
     }
 
     get apiURL() {
@@ -31,24 +30,19 @@ class WikiGraph extends HTMLElement {
     }
 
     async renderGraph(graphData) {
-
         if (!echarts) {
             await addScript(URLs.echarts);
             echarts = window.echarts;
         }
 
-        var wikigraph = echarts.init(this.querySelector(".wiki-graph"));
+        var wikigraph = echarts.init(this.querySelector('.wiki-graph'));
         let xAxisLabels = [];
         let yAxisLabels = [];
         for (let i = 0; i < graphData.schema.fields.length; i++) {
             if (i == 0) {
-                xAxisLabels.push(
-                    graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name
-                );
+                xAxisLabels.push(graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name);
             } else {
-                yAxisLabels.push(
-                    graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name
-                );
+                yAxisLabels.push(graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name);
             }
         }
         let xAxisData = [];
@@ -66,30 +60,28 @@ class WikiGraph extends HTMLElement {
             series.push({
                 name: yAxisLabels[i],
                 type: 'line',
-                data: ydata
+                data: ydata,
             });
         }
         // Specify the configuration items and data for the chart
         const option = {
             title: {
-                text: graphData.description?.en || this.title
+                text: graphData.description?.en || this.title,
             },
             tooltip: {},
             legend: {
                 data: yAxisLabels,
                 type: 'scroll',
                 orient: 'horizontal',
-                top: 'bottom'
+                top: 'bottom',
             },
 
             xAxis: {
-                data: xAxisData
+                data: xAxisData,
             },
-            yAxis: {
-            },
+            yAxis: {},
             series: series,
-            dataZoom: []
-
+            dataZoom: [],
         };
 
         // Display the chart using the configuration items and data just specified.
@@ -99,15 +91,13 @@ class WikiGraph extends HTMLElement {
     async fetchGraphData() {
         try {
             const response = await fetch(this.apiURL);
-            if (!response.ok) throw new Error("Network response was not ok");
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             return JSON.parse(data.query.pages[0]?.revisions[0]?.content);
         } catch (error) {
-
-            console.error("Fetch error:", error);
+            console.error('Fetch error:', error);
         }
     }
-
 
     render() {
         this.innerHTML = `
@@ -116,4 +106,4 @@ class WikiGraph extends HTMLElement {
     }
 }
 
-customElements.define("wiki-graph", WikiGraph);
+customElements.define('wiki-graph', WikiGraph);

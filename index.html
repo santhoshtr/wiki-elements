@@ -1,74 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+    />
+    <meta name="supported-color-schemes" content="dark light" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/style.css" />
+    <script src="src/index.js" type="module"></script>
+    <script type="module" src="https://unpkg.com/dark-mode-toggle"></script>
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml">
-        <meta name="description"
-            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content">
-        <meta name="supported-color-schemes" content="dark light">
-        <meta name="color-scheme" content="dark light">
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="src/style.css">
-        <script src="src/index.js" type="module"></script>
-        <script type="module" src="https://unpkg.com/dark-mode-toggle"></script>
-    </head>
+  <body>
+    <header class="header">
+      <h1>wiki-elements</h1>
+      <h4 class="subheading">A collection of WebComponents to share or interact with Wikipedia content</h4>
+    </header>
+    <nav class="nav">
+      <a href="#introduction">Introduction</a>
+      <a href="#install">Install</a>
 
-    <body>
-        <header class="header">
-            <h1>wiki-elements</h1>
-            <h4 class="subheading">A collection of WebComponents to share or interact with Wikipedia content</h4>
+      <h3 href="#components">Components</h3>
 
-        </header>
-        <nav class="nav">
-            <a href="#introduction">Introduction</a>
-            <a href="#install">Install</a>
+      <a href="#wiki-profile">wiki-profile</a>
+      <a href="#wiki-article">wiki-article</a>
+      <a href="#wiki-wikitext">wiki-wikitext</a>
+      <a href="#wiki-image">wiki-image</a>
+      <a href="#wiki-user">wiki-user</a>
+      <a href="#wiki-video">wiki-video</a>
+      <a href="#wiki-fact">wiki-facts</a>
+      <a href="#wiki-language-selector">wiki-language-selector</a>
+      <a href="#wiki-machine-translation">wiki-machine-translation</a>
+      <a href="#wiki-map">wiki-map</a>
+      <a href="#wiki-pronounce">wiki-pronounce</a>
+      <a href="#wiki-graph">wiki-graph</a>
+      <br />
 
-            <h3 href="#components">Components</h3>
+      <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
 
+      <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
+    </nav>
+    <article class="main">
+      <h2><a href="#install">Install</a></h2>
 
-            <a href="#wiki-profile">wiki-profile</a>
-            <a href="#wiki-article">wiki-article</a>
-            <a href="#wiki-wikitext">wiki-wikitext</a>
-            <a href="#wiki-image">wiki-image</a>
-            <a href="#wiki-user">wiki-user</a>
-            <a href="#wiki-video">wiki-video</a>
-            <a href="#wiki-fact">wiki-facts</a>
-            <a href="#wiki-language-selector">wiki-language-selector</a>
-            <a href="#wiki-machine-translation">wiki-machine-translation</a>
-            <a href="#wiki-map">wiki-map</a>
-            <a href="#wiki-pronounce">wiki-pronounce</a>
-            <a href="#wiki-graph">wiki-graph</a>
-            <br/>
-
-            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
-            </ul>
-            <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
-        </nav>
-        <article class="main">
-            <h2><a href="#install">Install</a></h2>
-
-            <h2 id="components"><a href="#components">Components</a></h2>
-            <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
-            <section class="example">
-                <pre><code class="language-html" >
+      <h2 id="components"><a href="#components">Components</a></h2>
+      <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-wikitext&gt;
                     [[Chordophone]]
                     &lt;/wiki-wikitext&gt;
 
                 </code></pre>
-                <section class="rendering">
-                    <wiki-wikitext>
-                        [[Chordophone]]
-                    </wiki-wikitext>
-
-                </section>
-            </section>
-            <section class="example">
-                <pre><code class="language-html" >
+        <section class="rendering">
+          <wiki-wikitext> [[Chordophone]] </wiki-wikitext>
+        </section>
+      </section>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-wikitext&gt;
                     == Violin ==
 
@@ -90,45 +86,36 @@
                     &lt;/wiki-wikitext&gt;
 
                 </code></pre>
-                <section class="rendering">
-                    <wiki-wikitext>
-                        == Violin ==
+        <section class="rendering">
+          <wiki-wikitext>
+            == Violin == The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is
+            the smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin family]].
+            Smaller violin-type instruments exist, including the [[violino piccolo]] and the [[pochette (musical
+            instrument)|pochette]], but these are virtually unused. Most violins have a hollow wooden body, and commonly
+            have four [[strings (music)|strings]] (sometimes [[five-string violin|five]]), usually tuned in [[perfect
+            fifth]]s with notes G3, D4, A4, E5, and are most commonly played by drawing a [[bow (music)|bow]] across the
+            strings. [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
+            [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the earliest
+            depictions of the violin family.]] The violin can also be played by plucking the strings with the fingers
+            ([[pizzicato]]) and, in specialized cases, by striking the strings with the wooden side of the bow ([[col
+            legno]]).
+          </wiki-wikitext>
+        </section>
+      </section>
 
-
-                        The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is
-                        the smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin
-                        family]]. Smaller violin-type instruments exist, including the [[violino piccolo]] and the
-                        [[pochette (musical instrument)|pochette]], but these are virtually unused. Most violins have a
-                        hollow wooden body, and commonly have four [[strings (music)|strings]] (sometimes [[five-string
-                        violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4, E5, and are most
-                        commonly played by drawing a [[bow (music)|bow]] across the strings.
-
-                        [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
-                        [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the
-                        earliest depictions of the violin family.]]
-
-                        The violin can also be
-                        played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
-                        striking the strings with the wooden side of the bow ([[col legno]]).
-                    </wiki-wikitext>
-
-                </section>
-            </section>
-
-            <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
-            <section class="example">
-                <pre><code class="language-html" >
+      <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Barack Obama"&gt;
                     &lt;/wiki-profile&gt;
                 </code></pre>
-                <section class="rendering">
-                    <wiki-profile language="en" article="Barack Obama">
-                    </wiki-profile>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
                     &lt;/wiki-profile&gt;
                     &lt;wiki-profile language="en" article="Julia Roberts"&gt;
@@ -137,171 +124,179 @@
                     &lt;/wiki-profile&gt;
 
                 </code></pre>
-                <section class="rendering flex">
-                    <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-                    <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-                    <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
-                </section>
-            </section>
+        <section class="rendering flex">
+          <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+          <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+          <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+        </section>
+      </section>
 
-            <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
-            <section class="example">
-                <pre><code class="language-html" >
+      <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="en" article="Osaka">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="en" article="Osaka"></wiki-article>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-article language="en" article="Osaka"></wiki-article>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="ml" article="Kerala">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="ml" article="Kerala"></wiki-article>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-article language="ml" article="Kerala"></wiki-article>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="eu" article="Barcelona">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="eu" article="Barcelona"></wiki-article>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-article language="eu" article="Barcelona"></wiki-article>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="he" article="קרלה">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="he" article="קרלה"></wiki-article>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-article language="he" article="קרלה"></wiki-article>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="el" article="Αστρονομία">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="el" article="Αστρονομία"></wiki-article>
-                </section>
-            </section>
+        <section class="rendering">
+          <wiki-article language="el" article="Αστρονομία"></wiki-article>
+        </section>
+      </section>
 
-            <section class="example">
-                <pre><code class="language-html" >
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-article language="hi" article="बुलबुल">
                     &lt;/wiki-article>
                 </code></pre>
-                <section class="rendering">
-                    <wiki-article language="hi" article="बुलबुल"></wiki-article>
-                </section>
-            </section>
-            <h3 id="wiki-map"><a href="#wiki-map">wiki-map</a></h3>
-            <section class="example">
-                <pre><code class="language-html" >
+        <section class="rendering">
+          <wiki-article language="hi" article="बुलबुल"></wiki-article>
+        </section>
+      </section>
+      <h3 id="wiki-map"><a href="#wiki-map">wiki-map</a></h3>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-map article="Banaras" language="en"&gt;
                     &lt;/wiki-map&gt;
                 </code></pre>
-                <section class="rendering">
-                    <wiki-map article="Banaras" language="en"></wiki-map>
-                </section>
-            </section>
-            <section class="example">
-                <pre><code class="language-html" >
+        <section class="rendering">
+          <wiki-map article="Banaras" language="en"></wiki-map>
+        </section>
+      </section>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-map longitude="76.9545" latitude="8.4906"&gt;
                     &lt;/wiki-map&gt;
 
                 </code></pre>
-                <section class="rendering">
-                    <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
-                </section>
-            </section>
-            <section class="example">
-                <pre><code class="language-html" >
+        <section class="rendering">
+          <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
+        </section>
+      </section>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"&gt;
                     &lt;/wiki-map&gt;
 
                 </code></pre>
-                <section class="rendering">
-                    <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
-                </section>
-            </section>
-            <h3 id="wiki-machine-translation"><a href="#wiki-machine-translation">wiki-machine-translation</a></h3>
-            <section class="example">
-                <pre><code class="language-html" >
+        <section class="rendering">
+          <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
+        </section>
+      </section>
+      <h3 id="wiki-machine-translation"><a href="#wiki-machine-translation">wiki-machine-translation</a></h3>
+      <section class="example">
+        <pre><code class="language-html" >
                     &lt;wiki-machine-translation source="hi" target="en"&gt;
                     बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
                     &lt;/wiki-machine-translation&gt;
 
                 </code></pre>
-                <section class="rendering">
-                    <wiki-machine-translation source="hi" target="en">
-                        <p>बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल
-                            हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी
-                            अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
-                        </p>
-                    </wiki-machine-translation>
-                </section>
-            </section>
-            <h3 id="wiki-graph"><a href="#wiki-graph<">wiki-graph</a></h3>
-            <section class="example grid">
-                <pre class="cols-2"><code class="language-html">
+        <section class="rendering">
+          <wiki-machine-translation source="hi" target="en">
+            <p>
+              बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम
+              भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि
+              लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+            </p>
+          </wiki-machine-translation>
+        </section>
+      </section>
+      <h3 id="wiki-graph"><a href="#wiki-graph<">wiki-graph</a></h3>
+      <section class="example grid">
+        <pre class="cols-2"><code class="language-html">
                     &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab" &gt;
                     &lt;/wiki-graph&gt;
 
                 </code></pre>
 
-                <section class="rendering cols-2">
-                    <wiki-graph
-                        source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab">
-                    </wiki-graph>
-                </section>
-                </section>
-                <section class="example grid">
-                <pre class="cols-2"><code class="language-html">
+        <section class="rendering cols-2">
+          <wiki-graph
+            source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab"
+          >
+          </wiki-graph>
+        </section>
+      </section>
+      <section class="example grid">
+        <pre class="cols-2"><code class="language-html">
                     &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"&gt;
                     &lt;/wiki-graph&gt;
 
                 </code></pre>
-                    <section class="rendering cols-2">
-                        <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab">
-                        </wiki-graph>
-                    </section>
-                </section>
-            </section>
+        <section class="rendering cols-2">
+          <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"> </wiki-graph>
+        </section>
+      </section>
+    </article>
+    <footer class="footer">
+      <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
+    </footer>
 
-        </article>
-        <footer class="footer">
-            <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
-        </footer>
+    <script>
+      const toggle = document.querySelector('dark-mode-toggle');
+      const html = document.documentElement;
 
-        <script>
-            const toggle = document.querySelector('dark-mode-toggle');
-            const html = document.documentElement;
+      // Set or remove the `dark` data-theme attribute the first time.
+      toggle.mode === 'dark' ? html.setAttribute('data-theme', 'dark') : html.removeAttribute('data-theme');
 
-            // Set or remove the `dark` data-theme attribute the first time.
-            toggle.mode === 'dark' ? html.setAttribute('data-theme', 'dark') : html.removeAttribute('data-theme');
+      // Listen for toggle changes (which includes `prefers-color-scheme` changes)
+      // and toggle the `dark` data-theme attribute accordingly.
+      toggle.addEventListener('colorschemechange', () => {
+        html.setAttribute('data-theme', toggle.mode === 'dark' ? 'dark' : 'light');
+      });
+    </script>
 
-            // Listen for toggle changes (which includes `prefers-color-scheme` changes)
-            // and toggle the `dark` data-theme attribute accordingly.
-            toggle.addEventListener('colorschemechange', () => {
-                html.setAttribute('data-theme', toggle.mode === 'dark' ? 'dark' : 'light');
-            });
-        </script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css"
+      media="screen and (prefers-color-scheme: light)"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css"
+      media="screen and (prefers-color-scheme: dark)"
+    />
 
-        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css" media="screen and (prefers-color-scheme: light)">
-        <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css" media="screen and (prefers-color-scheme: dark)">
-
-        <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script>
-    </body>
-
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+  </body>
 </html>

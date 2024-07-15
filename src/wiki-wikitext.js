@@ -1,4 +1,3 @@
-
 import { deIndent, addPrefetch } from './common.js';
 /**
  * Represents a custom HTML element for rendering wiki content as HTML.
@@ -9,7 +8,7 @@ class WikiWikiText extends HTMLElement {
         this.observer = new IntersectionObserver(this.onIntersection.bind(this), {
             root: null,
             rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.1,
         });
     }
 
@@ -18,7 +17,7 @@ class WikiWikiText extends HTMLElement {
      * @returns {string} - The value of the "rendered" attribute.
      */
     get rendered() {
-        return this.getAttribute("rendered");
+        return this.getAttribute('rendered');
     }
 
     /**
@@ -41,26 +40,31 @@ class WikiWikiText extends HTMLElement {
     }
 
     isWikiText(text) {
-        return text.includes("{") || text.includes("[")
-            || text.includes("* ") || text.includes("# ") || text.includes("==") || text.includes("<")
+        return (
+            text.includes('{') ||
+            text.includes('[') ||
+            text.includes('* ') ||
+            text.includes('# ') ||
+            text.includes('==') ||
+            text.includes('<')
+        );
     }
 
-
     isWikiInternalLink(text) {
-        text=text.trim();
-        return text.startsWith("[[") && text.endsWith("]]") && !this.isWikiText(text.substring(2, text.length - 2));
+        text = text.trim();
+        return text.startsWith('[[') && text.endsWith(']]') && !this.isWikiText(text.substring(2, text.length - 2));
     }
 
     isWikiExternalLink(text) {
-        text=text.trim();
-        return text.startsWith("[") && text.endsWith("]") && !this.isWikiText(text.substring(1, text.length - 1));
+        text = text.trim();
+        return text.startsWith('[') && text.endsWith(']') && !this.isWikiText(text.substring(1, text.length - 1));
     }
 
     /**
      * Called when the element is connected to the DOM.
      */
     connectedCallback() {
-        this.language = this.getAttribute('language')|| 'en';
+        this.language = this.getAttribute('language') || 'en';
         this.article = this.getAttribute('article');
 
         this.observer.observe(this);
@@ -77,9 +81,8 @@ class WikiWikiText extends HTMLElement {
         this.observer.unobserve(this);
     }
 
-
     onIntersection(entries) {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 this.observer.unobserve(this);
                 this.render();
@@ -90,7 +93,7 @@ class WikiWikiText extends HTMLElement {
     renderWikiInternalLink() {
         let linkLabel;
         var title = this._wikitextContent.trim().substring(2, this.textContent.length - 2);
-        var linkParts = title.split("|");
+        var linkParts = title.split('|');
         if (linkParts.length > 0) {
             title = linkParts[0];
         }
@@ -99,13 +102,13 @@ class WikiWikiText extends HTMLElement {
         }
 
         this.innerHTML = `<a href="./${title}" title="${title}" rel="mw:WikiLink">${linkLabel || title}</a>`;
-        return
+        return;
     }
 
     renderWikiExternalLink() {
         let linkLabel;
         var href = this._wikitextContent.trim().substring(1, this.textContent.length - 1);
-        var linkParts = title.split(" ");
+        var linkParts = title.split(' ');
         if (linkParts.length > 0) {
             href = linkParts[0];
         }
@@ -140,25 +143,24 @@ class WikiWikiText extends HTMLElement {
             const response = await fetch(api, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     wikitext: this._wikitextContent,
-                    "body_only": true,
-                })
+                    body_only: true,
+                }),
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
-            this.innerHTML = await response.text();;
+            this.innerHTML = await response.text();
         } catch (error) {
             console.error(`Error while converting wikitext ${this._wikitextContent} error:${error}`);
         }
 
         // Fire event
-        const event = new CustomEvent("wikitext-render", { bubbles: true, composed: true });
+        const event = new CustomEvent('wikitext-render', { bubbles: true, composed: true });
         this.dispatchEvent(event);
     }
-
 }
 
 // Register custom element

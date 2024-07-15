@@ -53,7 +53,9 @@
       'nav    main main'
       'footer footer footer';
     /* dark / light mode toggle animation */
-    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition:
+      background 0.2s ease-in-out,
+      color 0.2s ease-in-out;
   }
   .header {
     grid-area: header;
@@ -163,7 +165,7 @@
         'main'
         'footer';
     }
-    .main{
+    .main {
       margin: 0;
       padding: 0;
     }
@@ -177,6 +179,4 @@
       position: static;
     }
   }
-
-
 }
