@@ -26,7 +26,7 @@ class WikiArticle extends HTMLElement {
     }
 
     updateArticle(data) {
-        const { title, extract, thumbnail, lang, dir, content_urls } = data;
+        const { title, description, extract, thumbnail, lang, dir, content_urls } = data;
         this.lang = lang | this.language;
         this.dir = dir;
         this.querySelector('.title').innerText = title;
@@ -34,7 +34,8 @@ class WikiArticle extends HTMLElement {
         this.querySelector('.edit').href = content_urls.desktop.edit;
         this.querySelector('.history').href = content_urls.desktop.revisions;
         this.querySelector('.talk').href = content_urls.desktop.talk;
-        this.querySelector('.description').innerText = extract;
+        this.querySelector('.description').innerText = description;
+        this.querySelector('.extract').innerText = extract;
         if (thumbnail && thumbnail.source) {
             if (thumbnail.source.includes('/wikipedia/')) {
                 // not a commons image. local wiki image
@@ -64,6 +65,7 @@ class WikiArticle extends HTMLElement {
                     <a class="title" href="" target="_blank"></a>
                     </h2>
                     <p class="description">Loading...</p>
+                    <p class="extract">Loading...</p>
                     <div class="meta">
                         <span class="logo">Wikipedia</span>
                         <a class="edit" href="" target="_blank"></a>

@@ -121,6 +121,7 @@
   .example {
     display: grid;
     grid-template-columns: repeat(2, minmax(50ch, 1fr));
+    grid-template-rows: minmax(250px, 1fr);
     gap: 1em;
 
     margin: 1em 0 2em 0;
@@ -138,6 +139,10 @@
 
       font-size: 1.2em;
       font-family: monospace;
+    }
+    .rendering{
+      resize: both;
+      overflow: auto;
     }
   }
 
