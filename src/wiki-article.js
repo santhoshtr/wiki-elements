@@ -55,7 +55,7 @@ class WikiArticle extends HTMLElement {
         this.innerHTML = `
               <div class="wiki-article">
                   <picture class="thumbnail">
-                   <source class="webp"  type="image/webp">
+                   <source class="webp" type="image/webp">
                    <source class="png" type="image/png">
                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
                   </picture>

@@ -36,6 +36,7 @@ wiki-article {
       grid-template-columns: auto;
       grid-template-rows: 2lh 6lh 1lh;
       overflow: hidden;
+      padding: 0 0.5em;
 
       .title-header {
         font-size: 1.5em;
@@ -112,6 +113,9 @@ wiki-article {
     .wiki-article {
       display: grid;
       grid-template-columns: auto auto;
+      .title-desc-container {
+        padding: 0;
+      }
       .thumbnail {
         img{
           width: auto;
