@@ -27,7 +27,7 @@ class WikiMachineTranslation extends HTMLElement {
     }
 
     set htmlContent(html) {
-        this._htmlContent = html.trim();
+        this._htmlContent = deIndent(html.trim());
         this.render();
     }
 
@@ -37,14 +37,14 @@ class WikiMachineTranslation extends HTMLElement {
     connectedCallback() {
         this.source = this.getAttribute('source');
         this.target = this.getAttribute('target');
-
+        this.translation = null;
         this.observer.observe(this);
         addPrefetch('preconnect', 'https://cxserver.wikimedia.org');
+
         if (this._htmlContent === undefined) {
             this._htmlContent = deIndent(this.innerHTML);
         }
 
-        this.render();
     }
 
     disconnectedCallback() {
@@ -64,9 +64,9 @@ class WikiMachineTranslation extends HTMLElement {
         if (!this.isConnected || this._htmlContent === undefined) {
             return;
         }
-
-        var api = `https://cxserver.wikimedia.org/v2/translate/${this.source}/${this.target}/MinT`;
-
+        const MTProvider = 'MinT';
+        const api = `https://cxserver.wikimedia.org/v2/translate/${this.source}/${this.target}/${MTProvider}`;
+        this.innerHTML = '<progress style="width:100%;height: 2px;"></progress>';
         try {
             const response = await fetch(api, {
                 method: 'POST',
@@ -79,13 +79,23 @@ class WikiMachineTranslation extends HTMLElement {
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
-            this.innerHTML = (await response.json()).contents;
+            this.translation = (await response.json()).contents;
+            this.innerHTML = this.translation
         } catch (error) {
-            console.error(`Error while converting wikitext ${this._htmlContent} error:${error}`);
+            const errormsg = `Failed to load translation: ${error}`;
+            this.innerHTML = errormsg;
+            console.error(errormsg);
         }
 
         // Fire event
-        const event = new CustomEvent('wikitext-render', { bubbles: true, composed: true });
+        const event = new CustomEvent('wiki-machine-translation-ready', {
+            detail: {
+                source: this.source,
+                target: this.target,
+                originalContent: this._htmlContent,
+                translation: this.translation,
+            },
+        });
         this.dispatchEvent(event);
     }
 }
