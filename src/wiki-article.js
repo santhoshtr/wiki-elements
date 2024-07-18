@@ -55,22 +55,22 @@ class WikiArticle extends HTMLElement {
     render() {
         this.innerHTML = `
               <div class="wiki-article">
-                  <picture class="thumbnail">
+                  <picture class="wiki-article-thumbnail">
                    <source class="webp" type="image/webp">
                    <source class="png" type="image/png">
                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
                   </picture>
-                  <div class="title-desc-container">
+                  <div class="wiki-article-title-desc-container">
                     <h2 class="title-header">
                     <a class="title" href="" target="_blank"></a>
                     </h2>
                     <p class="description">Loading...</p>
                     <p class="extract">Loading...</p>
-                    <div class="meta">
+                    <div class="wiki-article-meta">
                         <span class="logo">Wikipedia</span>
                         <a class="edit" href="" target="_blank"></a>
-                        <a  class="history" href="" target="_blank"></a>
-                        <a  class="talk" href="" target="_blank"></a>
+                        <a class="history" href="" target="_blank"></a>
+                        <a class="talk" href="" target="_blank"></a>
                         <a href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License" class="cc"> </a>
                     </div>
                   </div>

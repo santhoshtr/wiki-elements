@@ -19,7 +19,7 @@ wiki-article {
 
     overflow: hidden;
 
-    .thumbnail {
+    .wiki-article-thumbnail {
       flex: 0 0 var(--wiki-image-height);
       border-start-end-radius: var(--wiki-border-radius);
       border-end-end-radius: var(--wiki-border-radius);
@@ -27,7 +27,7 @@ wiki-article {
         object-fit: cover;
       }
     }
-    .title-desc-container {
+    .wiki-article-title-desc-container {
       display: grid;
       overflow: hidden;
       padding: 0 0.5em;
@@ -59,7 +59,7 @@ wiki-article {
         scrollbar-width: none;
         text-overflow: ellipsis;
       }
-      .meta {
+      .wiki-article-meta {
         gap: 4px;
         display: grid;
         grid-template-columns: 50% auto auto auto auto;
@@ -119,7 +119,7 @@ wiki-article {
       grid-template-rows: 50cqi 50cqi;
       grid-template-columns: auto;
 
-      .title-desc-container {
+      .wiki-article-title-desc-container {
         grid-template-columns: auto;
         grid-template-rows: auto auto 5cqi;
         .description {
@@ -127,7 +127,7 @@ wiki-article {
         }
       }
 
-      .thumbnail {
+      .wiki-article-thumbnail {
         img {
           width: 100%;
           height: 50cqi;
@@ -142,7 +142,7 @@ wiki-article {
       display: grid;
       grid-template-columns: 40cqi 60cqi;
       min-height: 40cqi;
-      .title-desc-container {
+      .wiki-article-title-desc-container {
         grid-template-rows: auto auto 5cqi;
         padding: 0;
         height: 40cqi;
@@ -150,7 +150,7 @@ wiki-article {
           display: none;
         }
       }
-      .thumbnail {
+      .wiki-article-thumbnail {
         img {
           width: 40cqi;
           aspect-ratio: 1;
@@ -169,7 +169,7 @@ wiki-article {
       min-height: clamp(250px, 100cqi, 500px);
       min-width: 250px;
       gap: 0;
-      .title-desc-container {
+      .wiki-article-title-desc-container {
         .title-header {
           font-size: 1em;
           line-height: 1;
@@ -185,7 +185,7 @@ wiki-article {
           font-size: x-small;
         }
       }
-      .thumbnail {
+      .wiki-article-thumbnail {
         img {
           width: clamp(250px,100cqi, 300px);
           height: 70cqi;
