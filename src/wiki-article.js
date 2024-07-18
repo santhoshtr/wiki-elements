@@ -1,4 +1,5 @@
 import './common.js';
+import { editIcon, historyIcon, talkIcon } from './icons.js'; './icons.js';
 
 class WikiArticle extends HTMLElement {
     constructor() {
@@ -68,10 +69,11 @@ class WikiArticle extends HTMLElement {
                     <p class="extract">Loading...</p>
                     <div class="wiki-article-meta">
                         <span class="logo">Wikipedia</span>
-                        <a class="edit" href="" target="_blank"></a>
-                        <a class="history" href="" target="_blank"></a>
-                        <a class="talk" href="" target="_blank"></a>
-                        <a href="https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License" class="cc"> </a>
+                        <a class="edit icon" href="" target="_blank">${editIcon}
+                        </a>
+                        <a class="history icon" href="" target="_blank">${historyIcon}</a>
+                        <a class="talk icon" href="" target="_blank">${talkIcon}</a>
+
                     </div>
                   </div>
               </div>
