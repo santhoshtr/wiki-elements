@@ -39,16 +39,16 @@ class WikiArticle extends HTMLElement {
         if (thumbnail && thumbnail.source) {
             if (thumbnail.source.includes('/wikipedia/')) {
                 // not a commons image. local wiki image
-                this.querySelector('.thumbnail > .webp').remove();
-                this.querySelector('.thumbnail > .png').remove();
+                this.querySelector('.wiki-article-thumbnail > .webp').remove();
+                this.querySelector('.wiki-article-thumbnail > .png').remove();
             } else {
-                this.querySelector('.thumbnail > .webp').srcset = thumbnail.source.replace(
+                this.querySelector('.wiki-article-thumbnail > .webp').srcset = thumbnail.source.replace(
                     /\.(jpg|png|jpeg)$/,
                     '.webp',
                 );
-                this.querySelector('.thumbnail > .png').srcset = thumbnail.source.replace(/\.(jpg|webp|jpeg)$/, '.png');
+                this.querySelector('.wiki-article-thumbnail > .png').srcset = thumbnail.source.replace(/\.(jpg|webp|jpeg)$/, '.png');
             }
-            this.querySelector('.thumbnail > img').src = thumbnail.source;
+            this.querySelector('.wiki-article-thumbnail > img').src = thumbnail.source;
         }
     }
 
