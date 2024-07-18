@@ -75,4 +75,45 @@ const addStyle = async (src) =>
         document.head.append(el);
     });
 
-export { addPrefetch, deIndent, addScript, addStyle };
+/**
+ * Detects the language of the given text using the langid API.
+ * @param {string} text - The text to detect the language for.
+ * @param {number} [threshold=0.4] - The threshold score for language detection. If the score is below the threshold, the fallback language will be used.
+ * @param {string} [fallback="en"] - The fallback language to use if the detected language score is below the threshold.
+ * @returns {Promise<string>} A promise that resolves to the detected language code.
+ */
+const detectLanguage = async (text, threshold = 0.4, fallback = "en") => {
+    const API_URL =
+        "https://api.wikimedia.org/service/lw/inference/v1/models/langid:predict";
+
+    // langid api expects a single line of text.
+    const firstline = text.split("\n")[0];
+    return fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            text: firstline
+        })
+    })
+        .then((response) => response.json())
+        .then((result) => result.score < threshold ? fallback : result.wikicode);
+}
+
+async function sha256(inputString) {
+    if (!window.crypto.subtle) {
+        // Only available in secure contexts (HTTPS)
+        return null
+    }
+    const msgUint8 = new TextEncoder().encode(inputString); // encode as (utf-8) Uint8Array
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); // hash the message
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+    const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join(""); // convert bytes to hex string
+    return hashHex;
+}
+
+
+export { addPrefetch, deIndent, addScript, addStyle, detectLanguage, sha256 };

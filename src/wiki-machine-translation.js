@@ -1,13 +1,14 @@
-import { deIndent, addPrefetch } from './common.js';
+import { deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
 
 class WikiMachineTranslation extends HTMLElement {
     constructor() {
         super();
-        this.observer = new IntersectionObserver(this.onIntersection.bind(this), {
+        this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this), {
             root: null,
             rootMargin: '0px',
             threshold: 0.1,
         });
+
     }
 
     /**
@@ -38,23 +39,33 @@ class WikiMachineTranslation extends HTMLElement {
         this.source = this.getAttribute('source');
         this.target = this.getAttribute('target');
         this.translation = null;
-        this.observer.observe(this);
+        this.intersectionObserver.observe(this);
         addPrefetch('preconnect', 'https://cxserver.wikimedia.org');
+        addPrefetch('preconnect', 'https://api.wikimedia.org');
 
         if (this._htmlContent === undefined) {
             this._htmlContent = deIndent(this.innerHTML);
         }
 
+        // Create a mutation observer to watch for changes in attributes and innerHTML
+        const mutationObserver = new MutationObserver(() => {
+            this.source = this.getAttribute('source');
+            this.target = this.getAttribute('target');
+            this.render();
+        });
+
+        // Observe changes in attributes
+        mutationObserver.observe(this, { attributes: true });
     }
 
     disconnectedCallback() {
-        this.observer.unobserve(this);
+        this.intersectionObserver.unobserve(this);
     }
 
     onIntersection(entries) {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                this.observer.unobserve(this);
+                this.intersectionObserver.unobserve(this);
                 this.render();
             }
         });
@@ -65,22 +76,46 @@ class WikiMachineTranslation extends HTMLElement {
             return;
         }
         const MTProvider = 'MinT';
-        const api = `https://cxserver.wikimedia.org/v2/translate/${this.source}/${this.target}/${MTProvider}`;
-        this.innerHTML = '<progress style="width:100%;height: 2px;"></progress>';
-        try {
-            const response = await fetch(api, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    html: `<div>${this._htmlContent}</div>`,
-                }),
-            });
 
-            if (!response.ok) throw new Error('Network response was not ok');
-            this.translation = (await response.json()).contents;
-            this.innerHTML = this.translation
+        this.innerHTML = '<progress style="width:100%;height:2px;"></progress>';
+        if (this.source === this.target) {
+            this.innerHTML = this._htmlContent;
+            return;
+        }
+        if (!this.source) {
+            this.source = await detectLanguage(this.innerText);
+        }
+        const api = `https://cxserver.wikimedia.org/v2/translate/${this.source}/${this.target}/${MTProvider}`;
+        try {
+            const hash = await sha256(`${this.source}-${this.target}-${this.translation}`);
+            // check if translation is in localstorage
+            const cachedTranslation = hash && localStorage.getItem(hash);
+            if (cachedTranslation) {
+                this.translation = cachedTranslation;
+                this.innerHTML = this.translation;
+            }
+            else {
+                const payload = JSON.stringify({
+                    html: `<div>${this._htmlContent}</div>`,
+                });
+
+                const response = await fetch(api, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: payload
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+                this.translation = (await response.json()).contents;
+                this.innerHTML = this.translation
+                // store in localstorage
+                if (hash) {
+                    localStorage.setItem(hash, this.translation);
+                }
+            }
+
         } catch (error) {
             const errormsg = `Failed to load translation: ${error}`;
             this.innerHTML = errormsg;
