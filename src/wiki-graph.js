@@ -5,24 +5,66 @@ const URLs = {
 };
 
 let echarts = window.echarts;
+
+const template = `
+<div class="wiki-graph" style="width: 100%;height:100%;min-height:500px;"></div>
+`
 class WikiGraph extends HTMLElement {
     constructor() {
         super();
+        this.attachShadow({ mode: 'open' }).innerHTML = template;
+        this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this), {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+        });
     }
 
-    connectedCallback() {
-        this.source = this.getAttribute('source');
-        this.title = this.getAttribute('title');
+    static get observedAttributes() {
+        return ['source'];
+    }
+
+    attributeChangedCallback(attrName, oldValue, newValue) {
+        if (newValue && oldValue && newValue !== oldValue) {
+            console.log('attributeChangedCallback', attrName, newValue, oldValue);
+            this[attrName] = newValue;
+            this.init();
+            this.render();
+        }
+    }
+
+    onIntersection(entries) {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                this.intersectionObserver.unobserve(this);
+                this.init();
+                this.render();
+            }
+        });
+    }
+
+    disconnectedCallback() {
+        this.intersectionObserver.unobserve(this);
+    }
+
+    init() {
         // Source example: "https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab"
         // from the source get the article name
         const url = new URL(this.source);
         this.article = url.pathname.split('/wiki/').pop();
         this.hostname = url.hostname;
-        if (!this.title) {
-            this.title = this.article.split('.')[0].replace(/_/g, ' ');
-        }
-        this.render();
+
+        this.title = this.article.split('.')[0].replace(/_/g, ' ');
+    }
+
+    render() {
         this.fetchGraphData().then((graphData) => this.renderGraph(graphData));
+    }
+
+    connectedCallback() {
+        this.source = this.getAttribute('source');
+        this.init();
+        this.intersectionObserver.observe(this);
     }
 
     get apiURL() {
@@ -35,7 +77,7 @@ class WikiGraph extends HTMLElement {
             echarts = window.echarts;
         }
 
-        var wikigraph = echarts.init(this.querySelector('.wiki-graph'));
+        var wikigraph = echarts.init(this.shadowRoot.querySelector('.wiki-graph'));
         let xAxisLabels = [];
         let yAxisLabels = [];
         for (let i = 0; i < graphData.schema.fields.length; i++) {
@@ -99,11 +141,6 @@ class WikiGraph extends HTMLElement {
         }
     }
 
-    render() {
-        this.innerHTML = `
-            <div class="wiki-graph" style="width: 100%;height:100%;min-height:500px;"></div>
-          `;
-    }
 }
 
 customElements.define('wiki-graph', WikiGraph);
