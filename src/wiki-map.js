@@ -5,22 +5,52 @@ const URLs = {
     leafletcss: 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
 };
 
+const template = `
+<div class="wiki-map"
+    style="width: 100%;height:100%;min-height:500px;"
+></div>
+`
+
 let leaflet = window.L;
 class WikiMap extends HTMLElement {
     constructor() {
         super();
+        this.innerHTML = template;
+        this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this), {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+        });
     }
 
-    async connectedCallback() {
+
+    onIntersection(entries) {
+        entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+                this.intersectionObserver.unobserve(this);
+                this.init();
+                await this.render();
+            }
+        });
+    }
+
+    init() {
         this.article = this.getAttribute('article');
         this.source = this.getAttribute('source');
         this.longitude = this.getAttribute('longitude');
         this.latitude = this.getAttribute('latitude');
         this.language = this.getAttribute('language') || 'en';
         this.zoom = this.getAttribute('zoom') || 12;
-        this.render();
+    }
+
+    async render() {
         const mapData = await this.fetchMapData();
         this.renderMap(mapData);
+    }
+
+    async connectedCallback() {
+        this.init()
+        this.intersectionObserver.observe(this);
     }
 
     async renderMap(mapData) {
@@ -29,7 +59,6 @@ class WikiMap extends HTMLElement {
             await addScript(URLs.leaflet);
             leaflet = window.L;
         }
-
         const map = leaflet.map(this.querySelector('.wiki-map'), {
             center: [mapData.latitude, mapData.longitude],
             zoom: mapData.zoom,
@@ -92,10 +121,6 @@ class WikiMap extends HTMLElement {
             latitude: parseFloat(this.latitude),
             zoom: this.zoom,
         };
-    }
-
-    render() {
-        this.innerHTML = `<div class="wiki-map" style="width: 100%;height:100%;min-height:500px;"></div>`;
     }
 }
 
