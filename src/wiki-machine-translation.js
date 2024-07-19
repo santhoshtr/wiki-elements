@@ -1,6 +1,7 @@
 import { deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
 
 class WikiMachineTranslation extends HTMLElement {
+
     constructor() {
         super();
         this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this), {
@@ -9,6 +10,10 @@ class WikiMachineTranslation extends HTMLElement {
             threshold: 0.1,
         });
 
+    }
+
+    static get observedAttributes() {
+        return ['source', 'target'];
     }
 
     /**
@@ -47,15 +52,13 @@ class WikiMachineTranslation extends HTMLElement {
             this._htmlContent = deIndent(this.innerHTML);
         }
 
-        // Create a mutation observer to watch for changes in attributes and innerHTML
-        const mutationObserver = new MutationObserver(() => {
-            this.source = this.getAttribute('source');
-            this.target = this.getAttribute('target');
-            this.render();
-        });
+    }
 
-        // Observe changes in attributes
-        mutationObserver.observe(this, { attributes: true });
+    attributeChangedCallback(attrName, oldValue, newValue) {
+        if (newValue !== oldValue) {
+            this[attrName] = newValue;
+            this.render();
+        }
     }
 
     disconnectedCallback() {
