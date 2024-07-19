@@ -94,11 +94,7 @@ class WikiArticle extends HTMLElement {
         }
     }
 
-    render() {
-        this.shadowRoot.innerHTML = `
 
-          `;
-    }
 }
 
 customElements.define('wiki-article', WikiArticle);

@@ -1,28 +1,32 @@
-wiki-profile {
+@layer wiki-elements.wiki-profile {
+  :host {
   --wiki-profile-size: 150px;
-  --wiki-border-radius: 1000px;
-  --wiki-border-color: CanvasText;
+  --wiki-border-radius: 50%;
+  --wiki-border-color: light-dark(hsl(219, 28%, 88%), hsl(220, 16%, 36%));
+   display: block;
+   width: 100%;
+  }
 
   .wiki-profile {
     display: grid;
-    grid-template-columns: var(--wiki-profile-size);
-    grid-template-rows: var(--wiki-profile-size) 1lh;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     align-items: stretch;
     gap: 8px;
 
-    margin: 8px;
-
-    height: 200px;
-    width: var(--wiki-profile-size);
-    overflow-y: auto;
-    container-type: inline-size;
-
     .thumbnail {
-      width: auto;
-      aspect-ratio: 1;
-      height: var(--wiki-profile-size);
-      object-fit: cover;
+      overflow: hidden;
       border-radius: var(--wiki-border-radius);
+      img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+
+        transition: transform .5s ease;
+        &:hover {
+          transform: scale(1.5);
+        }
+      }
     }
 
     .title-header {

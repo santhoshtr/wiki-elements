@@ -148,6 +148,7 @@
 
   .flex {
     display: flex;
+    gap: 1em;
   }
   .grid {
     display: grid;
