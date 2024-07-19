@@ -302,7 +302,28 @@
 
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
     <script>
-      hljs.highlightAll();
+                              hljs.highlightAll();
     </script>
+    <script>
+      const snippets = document.getElementsByTagName('pre');
+      const numberOfSnippets = snippets.length;
+      for (var i = 0; i < numberOfSnippets; i++) {
+        code = snippets[i].getElementsByTagName('code')[0].innerText;
+        snippets[i].classList.add('hljs'); // append copy button to pre tag
+        snippets[i].innerHTML = '<button class="hljs-copy">📋</button>' + snippets[i].innerHTML; // append copy button
+        snippets[i].getElementsByClassName('hljs-copy')[0].addEventListener("click", function () {
+          navigator.clipboard?.writeText(code);
+        });
+      }
+    </script>
+    <style>
+      .hljs-copy {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        width: 30px;
+        left: -30px;
+      }
+    </style>
   </body>
 </html>
