@@ -1,184 +1,121 @@
-@layer wiki-elements.wiki-article.reset {
-  wiki-article {
-    all: initial;
-    color: inherit;
-  }
-}
-
-@layer wiki-elements.wiki-article.component {
-  wiki-article {
+@layer wiki-elements.wiki-article {
+  :host {
+    --wiki-image-height: 220px;
+    --wiki-border-radius: 8px;
+    --wiki-border-color: light-dark(hsl(219, 28%, 88%), hsl(220, 16%, 36%));
     display: block;
+    border: 1px solid var(--wiki-border-color);
+    border-radius: var(--wiki-border-radius);
     container-type: inline-size;
+  }
 
-    .wiki-article {
+  .wiki-article {
+    width: 100%;
+    max-width: 100%;
 
-      --wiki-border-radius: 8px;
-      --wiki-border-color: light-dark(hsl(219, 28%, 88%), hsl(220, 16%, 36%));
+    align-items: stretch;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: var(--wiki-image-height);
 
-      width: 100cqi;
-      max-width: 100vw;
+    overflow: hidden;
 
-      align-items: stretch;
-      gap: 10px;
+    .thumbnail {
+      img {
+        border-radius: 0;
+        border-start-start-radius: var(--wiki-border-radius);
+        border-end-start-radius: var(--wiki-border-radius);
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .title-desc-container {
       display: grid;
-
-      border: 1px solid var(--wiki-border-color);
-      border-radius: var(--wiki-border-radius);
-
+      grid-template-rows: auto auto 1.2lh;
       overflow: hidden;
+      padding: 0 0.5em;
 
-      .wiki-article-thumbnail {
-        flex: 0 0 var(--wiki-image-height);
-        border-start-end-radius: var(--wiki-border-radius);
-        border-end-end-radius: var(--wiki-border-radius);
-        img {
-          object-fit: cover;
+      .title-header {
+        font-size: 1.5em;
+        margin: 0.25em 0;
+        padding: 0;
+        line-height: 1.1;
+        .title {
+          text-decoration: none;
+          text-wrap: balance;
         }
       }
-      .wiki-article-title-desc-container {
+      .extract {
+        font-size: 1em;
+        line-height: 1.5;
+        padding: 0;
+        margin: 0;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        text-wrap: pretty;
+        text-overflow: ellipsis;
+      }
+      .description {
+        font-size: 1em;
+        padding: 0;
+        margin: 0;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        text-overflow: ellipsis;
+        display: none;
+      }
+      .meta {
+        gap: 4px;
         display: grid;
+        grid-template-columns: 60% auto auto auto;
+
+        align-items: center;
+        align-content: center;
+        font-size: small;
+        border-top: 1px solid var(--wiki-border-color);
         overflow: hidden;
-        padding: 0 0.5em;
 
-        .title-header {
-          font-size: 1.5em;
-          margin: 0.25em 0;
-          padding: 0;
-          line-height: 1.1;
-          .title {
-            text-decoration: none;
+        .logo {
+          background-image: url('https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg');
+          background-size: 16px;
+          background-repeat: no-repeat;
+          background-position-inline: start;
+          white-space: nowrap;
+          padding-inline-start: 20px;
+        }
+
+        .icon {
+          width: 1lh;
+          height: 1lh;
+
+          svg {
+            fill: currentColor;
           }
         }
-        .extract {
-          font-size: 1em;
-          line-height: 1.5;
-          padding: 0;
-          margin: 0;
-          overflow-y: scroll;
-          scrollbar-width: none;
-          text-overflow: ellipsis;
-        }
-        .description {
-          font-size: 1em;
-          padding: 0;
-          margin: 0;
-          overflow-y: scroll;
-          scrollbar-width: none;
-          text-overflow: ellipsis;
-        }
-        .wiki-article-meta {
-          gap: 4px;
-          display: grid;
-          grid-template-columns: 60% auto auto auto;
-          align-items: center;
-          align-content: center;
-          font-size: small;
-          border-top: 1px solid var(--wiki-border-color);
-          overflow: hidden;
 
-          .logo {
-            background-image: url('https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg');
-            background-size: 16px;
-            background-repeat: no-repeat;
-            background-position-inline: start;
-            white-space: nowrap;
-            padding-inline-start: 20px;
-          }
-
-          .icon {
-            width: 1lh;
-            height: 1lh;
-
-            svg {
-              fill: currentColor;
-            }
-          }
-
-          a {
-            text-decoration: none;
-          }
+        a {
+          text-decoration: none;
         }
       }
     }
+  }
 
-    /* Responsive design */
-    /* Single column layout */
-    @container (250px <= width<=500px) {
-      .wiki-article {
-        grid-template-rows: 50cqi 50cqi;
-        grid-template-columns: auto;
-
-        .wiki-article-title-desc-container {
-          grid-template-columns: auto;
-          grid-template-rows: auto auto 1.5lh;
-          .description {
-            display: none;
-          }
-        }
-
-        .wiki-article-thumbnail {
-          img {
-            width: 100%;
-            height: 50cqi;
-          }
-        }
+  @container (width<=600px) {
+    .wiki-article {
+      .thumbnail,
+      .title-desc-container {
+        grid-column: span 2;
+        height: var(--wiki-image-height);
       }
-    }
-
-    /* two column layout */
-    @container (width>= 500px) {
-      .wiki-article {
-        display: grid;
-        grid-template-columns: 40cqi 60cqi;
-        min-height: 40cqi;
-        .wiki-article-title-desc-container {
-          grid-template-rows: auto auto 1.5lh;
-          padding: 0;
-          height: 40cqi;
-          .description {
-            display: none;
-          }
-        }
-        .wiki-article-thumbnail {
-          img {
-            width: 40cqi;
-            aspect-ratio: 1;
-            height: 100%;
-          }
-        }
-      }
-    }
-
-    /* Narrow width, vertical layout */
-    @container (width <= 250px) {
-      .wiki-article {
-        display: grid;
-        grid-template-columns: 100cqi;
-        grid-template-rows: 70cqi 30cqi;
-        min-height: clamp(250px, 100cqi, 500px);
-        min-width: 250px;
-        gap: 0;
-        .wiki-article-title-desc-container {
-          .title-header {
-            font-size: 1em;
-            line-height: 1;
-          }
-          .extract {
-            display: none;
-          }
-          .description {
-            display: block;
-            font-size: small;
-          }
-          .meta {
-            font-size: x-small;
-          }
-        }
-        .wiki-article-thumbnail {
-          img {
-            width: clamp(250px, 100cqi, 300px);
-            height: 70cqi;
-          }
+      .thumbnail {
+        img {
+          border-radius: 0;
+          border-start-start-radius: var(--wiki-border-radius);
+          border-start-end-radius: var(--wiki-border-radius);
+          width: 100%;
+          height: 100%;
         }
       }
     }
