@@ -1,4 +1,4 @@
-@layer wiki-elements.wiki-image {
+@layer wiki-elements.wiki-video {
   :host {
     display: block;
     width: 100%;
@@ -13,17 +13,20 @@
     width: 100%;
     max-width: 100vw;
     position: relative;
-    img {
+    video {
+      display: block;
+      margin: 0;
+      padding: 0;
       width: 100%;
-
-      height: auto;
-      object-fit: cover;
+      max-width: 100vw;
+      position: relative;
+      object-fit: contain;
     }
 
     figcaption {
       font-size: x-small;
       position: absolute;
-      bottom: 4px;
+      top: 4px;
       right: 0;
       margin: 0;
       overflow: scroll;
@@ -35,4 +38,6 @@
       }
     }
   }
+
+
 }

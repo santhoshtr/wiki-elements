@@ -1,11 +1,18 @@
 
 import { addPrefetch, getSourceSetFromCommonsUrl, addScript } from './common.js';
 
-const template = `
-<video controls width="100%" height="100%" style="object-fit: cover;" autoplay muted loop>
-    <source src="" type="video/ogg">
-</video>
+const styleURL = new URL('./wiki-video.css', import.meta.url)
 
+const template = `
+<figure>
+<video controls autoplay muted loop>
+</video>
+<figcaption></figcaption>
+</figure>
+<style>
+
+@import url(${styleURL});
+</style>
 `
 
 class WikiVideo extends HTMLElement {
@@ -20,9 +27,7 @@ class WikiVideo extends HTMLElement {
 
     connectedCallback() {
         addPrefetch('preconnect', 'https://commons.wikimedia.org');
-
         this.render();
-
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -38,8 +43,8 @@ class WikiVideo extends HTMLElement {
         if (source.startsWith('http://') || source.startsWith('https://')) {
             const sourceUrl = new URL(source);
             videoTitle = sourceUrl.pathname.split('/').pop();
-
         }
+
         try {
             const videoData = await this.fetchVideoData(videoTitle);
             this.preparePlayer(videoData);
@@ -60,8 +65,19 @@ class WikiVideo extends HTMLElement {
 
     preparePlayer(videoData) {
         const player = this.shadowRoot.querySelector('video');
-        const source = player.querySelector('source');
-        source.setAttribute('src', videoData.url);
+        const attribution = this.shadowRoot.querySelector('figcaption');
+        const commonsUrl = videoData.descriptionurl;
+        const source_el = document.createElement('source');
+        source_el.setAttribute('src', videoData.url);
+        player.appendChild(source_el);
+
+
+        // Set attribution
+        const author = videoData.user;
+        const description = videoData.extmetadata.ImageDescription.value;
+        const license = videoData.extmetadata.LicenseShortName.value;
+        attribution.innerHTML = `${description} | ${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
+        player.setAttribute('alt', attribution.textContent);
     }
 }
 
