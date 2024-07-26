@@ -1,11 +1,12 @@
 
-import { addPrefetch, getSourceSetFromCommonsUrl, addScript } from './common.js';
+import { addPrefetch } from './common.js';
 
 const styleURL = new URL('./wiki-video.css', import.meta.url)
 
 const template = `
 <figure>
-<video controls autoplay muted loop>
+<video controls preload="metadata">
+   Your browser does not support the video tag.
 </video>
 <figcaption></figcaption>
 </figure>
@@ -68,9 +69,14 @@ class WikiVideo extends HTMLElement {
         const attribution = this.shadowRoot.querySelector('figcaption');
         const commonsUrl = videoData.descriptionurl;
         const source_el = document.createElement('source');
-        source_el.setAttribute('src', videoData.url);
-        player.appendChild(source_el);
 
+        source_el.setAttribute('src', videoData.url);
+
+        const video_file_name = videoData.url.split('/').pop();
+        const poster = `${videoData.url.replace("/commons", "/commons/thumb")}/640px-${video_file_name}.webp`;
+
+        player.setAttribute('poster', poster);
+        player.appendChild(source_el);
 
         // Set attribution
         const author = videoData.user;
