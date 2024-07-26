@@ -126,7 +126,7 @@
 
     margin: 1em 0 2em 0;
     max-width: 100vw;
-    overflow-x: auto;
+    overflow:hidden;
     > * {
       padding: 0.5em;
     }
@@ -136,9 +136,10 @@
       border-radius: 4px;
       background-color: var(--surface-2);
       white-space: preserve-breaks;
-
+      overflow: auto;
       font-size: 1.2em;
       font-family: monospace;
+      scrollbar-width: thin;
     }
     .rendering{
       resize: both;

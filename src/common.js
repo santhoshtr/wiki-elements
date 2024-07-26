@@ -116,4 +116,37 @@ async function sha256(inputString) {
 }
 
 
-export { addPrefetch, deIndent, addScript, addStyle, detectLanguage, sha256 };
+const getSourceSetFromCommonsUrl = (url) => {
+    // Refer https://phabricator.wikimedia.org/T360589 for most used sizes
+    const sizes = [220, 440, 640, 960, 1024, 1280, 1920];
+    let urlPrefix, srcsetImgName;
+
+    if (!url.includes("thumb")) {
+        const urlParts = url.split("/");
+        urlPrefix = urlParts.slice(0, -1).join("/").replace("/commons/", "/commons/thumb/");
+        srcsetImgName = urlParts[urlParts.length - 1];
+    } else {
+        const urlParts = url.split("/");
+        urlPrefix = urlParts.slice(0, -2).join("/");
+        srcsetImgName = urlParts[urlParts.length - 2];
+    }
+
+    if (urlPrefix.startsWith("//")) {
+        urlPrefix = `https:${urlPrefix}`;
+    }
+
+    let filename = srcsetImgName;
+    if (filename.endsWith("svg") || filename.endsWith("tif") || filename.endsWith("pdf")) {
+        filename += ".webp";
+    }
+    // replace jpg, png, jpeg with webp
+    filename = filename.replace(/\.(jpg|png|jpeg)$/, ".webp");
+
+    const srcset = sizes.map(width =>
+        `${urlPrefix}/${srcsetImgName}/${width}px-${filename} ${width}w`
+    );
+
+    return srcset;
+}
+
+export { addPrefetch, deIndent, addScript, addStyle, detectLanguage, sha256, getSourceSetFromCommonsUrl };
