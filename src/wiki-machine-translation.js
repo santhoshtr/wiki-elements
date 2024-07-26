@@ -1,15 +1,11 @@
 import { deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
+import LazyLoadMixin from './mixins/LazyLoadMixin.js';
 
-class WikiMachineTranslation extends HTMLElement {
+
+class WikiMachineTranslation extends LazyLoadMixin(HTMLElement) {
 
     constructor() {
         super();
-        this.intersectionObserver = new IntersectionObserver(this.onIntersection.bind(this), {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1,
-        });
-
     }
 
     static get observedAttributes() {
@@ -24,65 +20,48 @@ class WikiMachineTranslation extends HTMLElement {
         return this.getAttribute('rendered');
     }
 
-    /**
-     * Gets the wikitext content of the element.
-     * @returns {string} - The wikitext content.
-     */
-    get htmlContent() {
-        return this._htmlContent;
-    }
 
-    set htmlContent(html) {
-        this._htmlContent = deIndent(html.trim());
-        this.render();
-    }
 
     /**
      * Called when the element is connected to the DOM.
      */
     connectedCallback() {
+        if (super.connectedCallback) {
+            super.connectedCallback();
+        }
         this.source = this.getAttribute('source');
         this.target = this.getAttribute('target');
+        this.source_html = deIndent(this.innerHTML).trim();
+        this.source_text = deIndent(this.innerText).trim();
         this.translation = null;
-        this.intersectionObserver.observe(this);
+
         addPrefetch('preconnect', 'https://cxserver.wikimedia.org');
         addPrefetch('preconnect', 'https://api.wikimedia.org');
-
-        if (this._htmlContent === undefined) {
-            this._htmlContent = deIndent(this.innerHTML);
-        }
-
     }
 
     attributeChangedCallback(attrName, oldValue, newValue) {
+        let has_changed = false;
         if (newValue !== oldValue) {
-            this[attrName] = newValue;
+            if (attrName in this) {
+                this[attrName] = newValue;
+                has_changed = true;
+            }
+
+        }
+        if (has_changed) {
             this.render();
         }
     }
 
-    disconnectedCallback() {
-        this.intersectionObserver.unobserve(this);
-    }
-
-    onIntersection(entries) {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                this.intersectionObserver.unobserve(this);
-                this.render();
-            }
-        });
-    }
-
     async render() {
-        if (!this.isConnected || this._htmlContent === undefined) {
+        if (!this.isConnected || this.source_html === undefined || !this.target) {
             return;
         }
         const MTProvider = 'MinT';
 
         this.innerHTML = '<progress style="width:100%;height:2px;"></progress>';
         if (this.source === this.target) {
-            this.innerHTML = this._htmlContent;
+            this.innerHTML = this.source_html;
             return;
         }
         if (!this.source) {
@@ -90,7 +69,7 @@ class WikiMachineTranslation extends HTMLElement {
         }
         const api = `https://cxserver.wikimedia.org/v2/translate/${this.source}/${this.target}/${MTProvider}`;
         try {
-            const hash = await sha256(`${this.source}-${this.target}-${this.translation}`);
+            const hash = await sha256(`${this.source}-${this.target}-${this.source_html}`);
             // check if translation is in localstorage
             const cachedTranslation = hash && localStorage.getItem(hash);
             if (cachedTranslation) {
@@ -99,7 +78,8 @@ class WikiMachineTranslation extends HTMLElement {
             }
             else {
                 const payload = JSON.stringify({
-                    html: `<div>${this._htmlContent}</div>`,
+                    html: `<div>${this.source_html}</div>`,
+                    cache: true
                 });
 
                 const response = await fetch(api, {
