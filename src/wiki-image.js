@@ -1,45 +1,56 @@
 
-import { addPrefetch, getSourceSetFromCommonsUrl } from './common.js';
-
+import { html, addPrefetch, getSourceSetFromCommonsUrl } from './common.js';
+import WikiElement from './wiki-element.js';
+import LazyLoadMixin from './mixins/LazyLoadMixin.js';
 
 const styleURL = new URL('./wiki-image.css', import.meta.url)
-const template = `
-<figure>
-    <img alt="Wikimedia Commons image" loading="lazy">
-    <figcaption></figcaption>
-</figure>
-<style>
-@import url(${styleURL});
-</style>
-`
 
-class WikiImage extends HTMLElement {
+class WikiImage extends LazyLoadMixin(WikiElement) {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' }).innerHTML = template;
     }
 
-    static get observedAttributes() {
-        return ['source'];
+    static get template() {
+        return html`
+       <figure>
+           <img alt="Wikimedia Commons image" loading="lazy">
+           <figcaption></figcaption>
+       </figure>
+       <style>
+       @import url(${styleURL});
+       </style>
+       `
+    }
+
+    static get defaultState() {
+        return {
+            ...super.defaultState,
+        };
+    }
+
+    static get properties() {
+        return {
+            source: {
+                type: String
+            }
+        }
     }
 
     connectedCallback() {
+        super.connectedCallback();
         addPrefetch('preconnect', 'https://commons.wikimedia.org');
         this.render();
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'source' && oldValue !== newValue) {
-            this.render();
-        }
+    propertyChangedCallback(name, oldValue, newValue) {
+        this.render();
     }
 
     async render() {
-        const source = this.getAttribute('source');
-        if (!source) return;
-        var imageTitle = source;
-        if (source.startsWith('http://') || source.startsWith('https://')) {
-            const sourceUrl = new URL(source);
+        if (!this.source) return;
+        var imageTitle = this.source;
+        if (this.source.startsWith('http://') || this.source.startsWith('https://')) {
+            const sourceUrl = new URL(this.source);
             imageTitle = sourceUrl.pathname.split('/').pop();
 
         }

@@ -149,4 +149,39 @@ const getSourceSetFromCommonsUrl = (url) => {
     return srcset;
 }
 
-export { addPrefetch, deIndent, addScript, addStyle, detectLanguage, sha256, getSourceSetFromCommonsUrl };
+/**
+ * A template literal tag 'html' that creates an HTML <template> element from the contents of the string,
+ *
+ * - It's efficient: The browser doesn't render the content of a <template> element until it's used.
+ * - It's reusable: You can clone the template's content multiple times.
+ *  - It's safe: The content is parsed as HTML, so you don't need to worry about XSS attacks from the  interpolated values.
+ * @param {Array<string>} strings - An array of strings representing the HTML template.
+ * @param {...any} values - The dynamic values to be inserted into the HTML template.
+ * @returns {HTMLTemplateElement} The template element created from the HTML string.
+ */
+function html(strings, ...values) {
+    // Combine the strings and values
+    const rawHTML = strings.reduce((result, string, i) => {
+        return result + string + (values[i] || '');
+    }, '');
+
+    // Create a template element
+    const template = document.createElement('template');
+
+    // Set the innerHTML of the template
+    template.innerHTML = rawHTML.trim();
+
+    // Return the template element
+    return template;
+}
+
+export {
+    html,
+    addPrefetch,
+    deIndent,
+    addScript,
+    addStyle,
+    detectLanguage,
+    sha256,
+    getSourceSetFromCommonsUrl
+};

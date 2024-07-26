@@ -1,25 +1,29 @@
 import { deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
 import LazyLoadMixin from './mixins/LazyLoadMixin.js';
+import WikiElement from './wiki-element.js';
 
-
-class WikiMachineTranslation extends LazyLoadMixin(HTMLElement) {
+class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
 
     constructor() {
         super();
     }
 
-    static get observedAttributes() {
-        return ['source', 'target'];
+    static get properties() {
+        return {
+            source: {
+                type: String
+            },
+            target: {
+                type: String
+            },
+            source_html: {
+                type: String
+            },
+            source_text: {
+                type: String
+            }
+        }
     }
-
-    /**
-     * Gets the value of the "rendered" attribute.
-     * @returns {string} - The value of the "rendered" attribute.
-     */
-    get rendered() {
-        return this.getAttribute('rendered');
-    }
-
 
 
     /**
@@ -29,8 +33,7 @@ class WikiMachineTranslation extends LazyLoadMixin(HTMLElement) {
         if (super.connectedCallback) {
             super.connectedCallback();
         }
-        this.source = this.getAttribute('source');
-        this.target = this.getAttribute('target');
+
         this.source_html = deIndent(this.innerHTML).trim();
         this.source_text = deIndent(this.innerText).trim();
         this.translation = null;
@@ -39,19 +42,11 @@ class WikiMachineTranslation extends LazyLoadMixin(HTMLElement) {
         addPrefetch('preconnect', 'https://api.wikimedia.org');
     }
 
-    attributeChangedCallback(attrName, oldValue, newValue) {
-        let has_changed = false;
-        if (newValue !== oldValue) {
-            if (attrName in this) {
-                this[attrName] = newValue;
-                has_changed = true;
-            }
 
-        }
-        if (has_changed) {
-            this.render();
-        }
+    propertyChangedCallback(name, oldValue, newValue) {
+        this.render();
     }
+
 
     async render() {
         if (!this.isConnected || this.source_html === undefined || !this.target) {
@@ -79,7 +74,7 @@ class WikiMachineTranslation extends LazyLoadMixin(HTMLElement) {
             else {
                 const payload = JSON.stringify({
                     html: `<div>${this.source_html}</div>`,
-                    cache: true
+                    //cache: true
                 });
 
                 const response = await fetch(api, {
