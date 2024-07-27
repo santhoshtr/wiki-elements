@@ -32,7 +32,7 @@ const LazyLoadMixin = (superClass) => class extends superClass {
     _setupIntersectionObserver() {
         const options = {
             root: null,
-            rootMargin: '0px',
+            rootMargin: '200px',
             threshold: 0.1
         };
 
