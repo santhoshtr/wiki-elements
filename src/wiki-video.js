@@ -1,41 +1,42 @@
 
-import { addPrefetch } from './common.js';
-
+import { html, addPrefetch } from './common.js';
+import WikiElement from './wiki-element.js';
+import LazyLoadMixin from './mixins/LazyLoadMixin.js';
 const styleURL = new URL('./wiki-video.css', import.meta.url)
 
-const template = `
-<figure>
-<video controls preload="metadata">
-   Your browser does not support the video tag.
-</video>
-<figcaption></figcaption>
-</figure>
-<style>
 
-@import url(${styleURL});
-</style>
-`
-
-class WikiVideo extends HTMLElement {
+class WikiVideo extends LazyLoadMixin(WikiElement) {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' }).innerHTML = template;
+    }
+    static get properties() {
+        return {
+            source: {
+                type: String
+            }
+        }
     }
 
-    static get observedAttributes() {
-        return ['source'];
+    static get template() {
+        return html`
+            <figure>
+            <video controls preload="metadata">
+            Your browser does not support the video tag.
+            </video>
+            <figcaption></figcaption>
+            </figure>
+            <style>
+
+            @import url(${styleURL});
+            </style>
+            `
     }
 
     connectedCallback() {
+        super.connectedCallback();
         addPrefetch('preconnect', 'https://commons.wikimedia.org');
-        this.render();
     }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'source' && oldValue !== newValue) {
-            this.render();
-        }
-    }
 
     async render() {
         const source = this.getAttribute('source');

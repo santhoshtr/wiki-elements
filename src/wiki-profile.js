@@ -1,3 +1,7 @@
+import { html } from './common.js';
+import LazyLoadMixin from './mixins/LazyLoadMixin.js';
+import WikiElement from './wiki-element.js';
+
 const styleURL = new URL('./wiki-profile.css', import.meta.url)
 const template = `
 <div class="wiki-profile">
@@ -15,28 +19,47 @@ const template = `
 </style>
 `
 
-class WikiProfile extends HTMLElement {
+class WikiProfile extends LazyLoadMixin(WikiElement) {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' }).innerHTML = template;
     }
 
-    static get observedAttributes() {
-        return ['article', 'language'];
-    }
-
-
-    attributeChangedCallback(attrName, oldValue, newValue) {
-        if (newValue && newValue !== oldValue) {
-            this[attrName] = newValue;
-            this.fetchArticleData();
+    static get properties() {
+        return {
+            article: {
+                type: String
+            },
+            language: {
+                type: String
+            }
         }
     }
 
+    static get template() {
+        return html`
+        <div class="wiki-profile">
+            <picture class="thumbnail">
+                <source class="webp" type="image/webp">
+                <source class="png" type="image/png">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
+            </picture>
+            <h2 class="title-header">
+            <a class="title" href="" target="_blank"></a>
+            </h2>
+        </div>
+        <style>
+        @import url(${styleURL});
+        </style>
+        `
+    }
+
     connectedCallback() {
-        this.article = this.getAttribute('article');
-        this.language = this.getAttribute('language', 'en');
-        this.fetchArticleData();
+        super.connectedCallback();
+    }
+
+    async render() {
+        const articleData = await this.fetchArticleData();
+        this.updateArticle(articleData);
     }
 
     async fetchArticleData() {
@@ -44,8 +67,7 @@ class WikiProfile extends HTMLElement {
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            this.updateArticle(data);
+            return await response.json();
         } catch (error) {
             this.querySelector('.description').innerText = 'Failed to load article.';
             console.error('Fetch error:', error);

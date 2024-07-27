@@ -1,4 +1,4 @@
-import { deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
+import { html, deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
 import LazyLoadMixin from './mixins/LazyLoadMixin.js';
 import WikiElement from './wiki-element.js';
 
@@ -26,6 +26,33 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
     }
 
 
+    static get template() {
+        return html`
+            <progress></progress>
+            <div class="translation"></div>
+            <style>
+            :host {
+                display: block;
+                min-height: 1em;
+                progress {
+                    display: none;
+                    width: 100%;
+                    height: 5px;
+                }
+            }
+            :host:state(progress) {
+                cursor: wait;
+            }
+            :host:state(error) > progress {
+                display: none;
+            }
+            :host:state(progress) > progress {
+                display: block;
+            }
+            </style>
+        `
+    }
+
     /**
      * Called when the element is connected to the DOM.
      */
@@ -52,13 +79,14 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
         if (!this.isConnected || this.source_html === undefined || !this.target) {
             return;
         }
+        const resultContainer = this.shadowRoot.querySelector('.translation');
         const MTProvider = 'MinT';
 
-        this.innerHTML = '<progress style="width:100%;height:2px;"></progress>';
         if (this.source === this.target) {
-            this.innerHTML = this.source_html;
+            resultContainer.innerHTML = this.source_html;
             return;
         }
+        this.internals.states.add('progress');
         if (!this.source) {
             this.source = await detectLanguage(this.innerText);
         }
@@ -69,11 +97,11 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
             const cachedTranslation = hash && localStorage.getItem(hash);
             if (cachedTranslation) {
                 this.translation = cachedTranslation;
-                this.innerHTML = this.translation;
+                resultContainer.innerHTML = this.translation;
             }
             else {
                 const payload = JSON.stringify({
-                    html: `<div>${this.source_html}</div>`,
+                    html: this.source_html,
                     //cache: true
                 });
 
@@ -87,16 +115,18 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
 
                 if (!response.ok) throw new Error('Network response was not ok');
                 this.translation = (await response.json()).contents;
-                this.innerHTML = this.translation
+                resultContainer.innerHTML = this.translation
                 // store in localstorage
                 if (hash) {
                     localStorage.setItem(hash, this.translation);
                 }
             }
-
+            this.internals.states.delete('progress');
         } catch (error) {
+            this.internals.states.add('error');
+            this.internals.states.delete('progress');
             const errormsg = `Failed to load translation: ${error}`;
-            this.innerHTML = errormsg;
+            resultContainer.innerHTML = errormsg;
             console.error(errormsg);
         }
 

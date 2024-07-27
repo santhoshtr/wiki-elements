@@ -2,16 +2,14 @@ class WikiElement extends HTMLElement {
 
     constructor() {
         super();
+        this.internals = this.attachInternals();
+
         this.initializeProperties();
-        this.initializeState();
+
         this.attachShadow({ mode: 'open' });
         if (this.constructor.template) {
             this.shadowRoot.innerHTML = this.constructor.template.innerHTML;
         }
-    }
-
-    initializeState() {
-        this._state = { ...this.constructor.defaultState };
     }
 
     initializeProperties() {
@@ -25,7 +23,7 @@ class WikiElement extends HTMLElement {
     }
 
     convertValue(value, type) {
-        if (value === null) return value;
+        if (value === null) { return value };
         switch (type) {
             case String:
                 return value;
@@ -42,6 +40,7 @@ class WikiElement extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        const hasChanges = false;
         if (oldValue !== newValue) {
             const props = this.constructor.properties;
             if (name in props) {
@@ -49,10 +48,17 @@ class WikiElement extends HTMLElement {
                 this.propertyChangedCallback(name, oldValue, this[name]);
             }
         }
+        if (hasChanges) {
+            this.render();
+        }
     }
 
     propertyChangedCallback(name, oldValue, newValue) {
         // This method can be overridden in subclasses to react to property changes
+    }
+
+    connectedCallback() {
+
     }
 
     static get observedAttributes() {
@@ -64,36 +70,14 @@ class WikiElement extends HTMLElement {
         // return html`<p>${this.greeting}</p>`;
     }
 
-    static get defaultState() {
-        return {
-            rendered: false,
-            rendering: false
-        };
-    }
+
 
     static get properties() {
         return {};
     }
 
-    setState(newState) {
-        const oldState = { ...this._state };
-        const changedKeys = Object.keys(newState).filter(key => this._state[key] !== newState[key]);
-
-        Object.assign(this._state, newState);
-
-        changedKeys.forEach(key => {
-            this.stateChangedCallback(key, oldState[key], this._state[key]);
-        });
-    }
 
 
-    stateChangedCallback(key, oldValue, newValue) {
-        // This method can be overridden in subclasses to react to state changes
-    }
-
-    getState(key) {
-        return key ? this._state[key] : { ...this._state };
-    }
 }
 
 export default WikiElement;

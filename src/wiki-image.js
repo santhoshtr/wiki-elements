@@ -22,11 +22,6 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
        `
     }
 
-    static get defaultState() {
-        return {
-            ...super.defaultState,
-        };
-    }
 
     static get properties() {
         return {
@@ -39,11 +34,6 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
     connectedCallback() {
         super.connectedCallback();
         addPrefetch('preconnect', 'https://commons.wikimedia.org');
-        this.render();
-    }
-
-    propertyChangedCallback(name, oldValue, newValue) {
-        this.render();
     }
 
     async render() {
@@ -55,18 +45,25 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
 
         }
         try {
+            this.internals.states.delete('error');
+            this.internals.states.add('progress');
             const imageData = await this.fetchImageData(imageTitle);
+            this.internals.states.delete('progress');
             this.updateImage(imageData);
         } catch (error) {
+            this.internals.states.delete('progress');
+            this.internals.states.add('error');
             console.error('Error fetching image data:', error);
         }
     }
 
     async fetchImageData(filename) {
+
         const apiUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(filename)}&prop=imageinfo&iiprop=url|user|extmetadata&format=json&origin=*`;
         const response = await fetch(apiUrl);
         const data = await response.json();
         const page = Object.values(data.query.pages)[0];
+
         return page.imageinfo[0];
     }
 
@@ -89,6 +86,7 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
         const license = imageData.extmetadata.LicenseShortName.value;
         attribution.innerHTML = `${description} | ${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
         img.setAttribute('alt', attribution.textContent);
+
     }
 }
 

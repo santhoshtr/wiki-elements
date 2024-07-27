@@ -175,8 +175,25 @@ function html(strings, ...values) {
     return template;
 }
 
+function css(strings, ...values) {
+    // Combine the strings and values
+    const rawCSS = strings.reduce((result, string, i) => {
+        return result + string + (values[i] || '');
+    }, '');
+
+    // Create a style element
+    const style = document.createElement('style');
+
+    // Set the innerHTML of the style
+    style.innerHTML = rawCSS.trim();
+
+    // Return the style element
+    return style;
+}
+
 export {
     html,
+    css,
     addPrefetch,
     deIndent,
     addScript,
