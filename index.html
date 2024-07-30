@@ -19,8 +19,14 @@
 
   <body>
     <header class="header">
+      <span class="logo"></span>
       <h1>wiki-elements</h1>
-      <h4 class="subheading">A collection of WebComponents to share or interact with Wikipedia content</h4>
+<input type="checkbox" style="display: none;" id="menu-toggle">
+<label for="menu-toggle" class="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</label>
     </header>
     <nav class="nav">
       <a href="#introduction">Introduction</a>
@@ -47,6 +53,7 @@
       <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
     </nav>
     <article class="main">
+      <h4 class="subheading">A collection of WebComponents to share or interact with Wikipedia content</h4>
       <h2><a href="#install">Install</a></h2>
 
       <h2 id="components"><a href="#components">Components</a></h2>
@@ -365,5 +372,15 @@
         left: -30px;
       }
     </style>
+    <script>
+      window.addEventListener(
+        "hashchange",
+        () => {
+          // uncheck the menu toggle
+          document.getElementById("menu-toggle").checked = false;
+        },
+        false,
+      );
+    </script>
   </body>
 </html>
