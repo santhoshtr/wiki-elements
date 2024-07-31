@@ -2,27 +2,12 @@
 
 @layer demo {
   :root {
-    /* Nord Colors: https://www.nordtheme.com/docs/colors-and-palettes */
-    --nord-polar-night-1: hsl(220, 16%, 22%);
-    --nord-polar-night-2: hsl(222, 16%, 28%);
-    --nord-polar-night-3: hsl(220, 17%, 32%);
-    --nord-polar-night-4: hsl(220, 16%, 36%);
-
-    --nord-snow-storm-1: hsl(219, 28%, 88%);
-    --nord-snow-storm-2: hsl(218, 27%, 92%);
-    --nord-snow-storm-3: hsl(218, 27%, 94%);
-
-    --nord-frost-1: hsl(179, 25%, 65%);
-    --nord-frost-2: hsl(193, 43%, 67%);
-    --nord-frost-3: hsl(210, 34%, 63%);
-    --nord-frost-4: hsl(213, 32%, 52%);
-
-    --primary-color: light-dark(var(--nord-frost-4), var(--nord-snow-storm-3));
-    --border-color: light-dark(var(--nord-snow-storm-1), var(--nord-polar-night-4));
-    --surface-1: light-dark(var(--nord-snow-storm-3), var(--nord-polar-night-1));
-    --surface-2: light-dark(var(--nord-snow-storm-2), var(--nord-polar-night-2));
-    --text-1: light-dark(var(--nord-polar-night-1), var(--nord-snow-storm-3));
-    --text-2: light-dark(var(--nord-polar-night-2), var(--nord-snow-storm-2));
+    --primary-color: light-dark(hsl(201, 96%, 32%), hsl(198, 93%, 60%));
+    --border-color: light-dark(hsl(214, 32%, 91%), hsl(217, 33%, 17%));
+    --surface-1: light-dark(hsl(210, 40%, 98%), hsl(229, 84%, 5%));
+    --surface-2: light-dark(hsl(210, 40%, 96%), hsl(222, 47%, 7%));
+    --text-1: light-dark(hsl(229, 84%, 11%), hsl(210, 40%, 96%));
+    --text-2: light-dark(hsl(214, 32%, 17%), hsl(217, 33%, 90%));
     color-scheme: light dark;
   }
 
@@ -45,6 +30,7 @@
     line-height: 1.5;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     accent-color: var(--primary-color);
     color: var(--text-1);
     background-color: var(--surface-1);
@@ -97,7 +83,7 @@
       color: var(--primary-color);
       a {
         text-decoration: none;
-        color: var(--primary-color);
+        color: var(--text-1);
       }
       a:hover::before {
         content: '§';
@@ -113,7 +99,7 @@
   .nav {
     grid-area: nav;
     border-right: 1px solid var(--border-color);
-    background-color: var(--surface-2);
+    background-color: var(--surface-1);
     position: sticky;
     top: 0;
     z-index: 3;
@@ -128,7 +114,7 @@
     a {
       text-decoration: none;
       font-weight: 500;
-      color: var(--primary-color);
+      color: var(--text-1);
     }
   }
 
