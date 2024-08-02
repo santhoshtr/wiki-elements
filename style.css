@@ -16,29 +16,34 @@
   }
 
   /* Dark mode */
-  @media screen {
-    [data-theme='dark'] {
-      color-scheme: dark;
-    }
-    [data-theme='light'] {
+  @media screen  {
+    :root {
       color-scheme: light;
-    }
+
+      &:has(#theme-toggle:checked) {
+        color-scheme: dark;
+      }
   }
+
+
   body {
     font-family: 'InterVariable', system-ui, sans-serif;
     line-height: 1.5;
     line-height: 1.5;
-    margin: 0;
+    width: min(100vw, 120ch);
+    margin: auto;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x: scroll;
     accent-color: var(--primary-color);
     color: var(--text-1);
     background-color: var(--surface-1);
+
     display: grid;
+    grid-template-columns: 1fr 2fr;
     grid-template-areas:
-      'header header  header'
-      'nav    main main'
-      'footer footer footer';
+      'header header'
+      'nav    main'
+      'footer footer';
     /* dark / light mode toggle animation */
     transition:
       background 0.2s ease-in-out,
@@ -47,12 +52,13 @@
   .header {
     grid-area: header;
     display: grid;
-    grid-template-columns: 50px auto auto;
+    grid-template-columns: 50px auto 50px 50px;
+    gap: 1em;
     background-color: var(--surface-2);
     align-items: center;
     justify-items: stretch;
     height: 3lh;
-    width: 100vw;
+    width: 100%;
     padding: 0.5em;
     border-bottom: 1px solid var(--border-color);
 
@@ -113,6 +119,7 @@
     }
     a {
       text-decoration: none;
+      text-wrap: nowrap;
       font-weight: 500;
       color: var(--text-1);
     }
@@ -125,8 +132,8 @@
 
   .example {
     display: grid;
-    grid-template-columns: repeat(2, minmax(50ch, 1fr));
-    grid-template-rows: minmax(250px, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 1em;
 
     margin: 1em 0 2em 0;
@@ -209,13 +216,22 @@
         'nav'
         'main'
         'footer';
+      &:has(#menu-toggle:checked) {
+          overflow: hidden;
+          .nav {
+            height: 100%;
+            right: 0;
+            left: 0;
+            top: 72px;
+            z-index: 1024;
+          }
+      }
     }
     .main {
       margin: 0;
       padding: 0.5em;
     }
     .example {
-      grid-template-columns: 1fr;
       code {
         border: none;
       }
@@ -223,8 +239,7 @@
     .header {
       position: sticky;
       top: 0;
-      z-index: 2;
-
+      z-index: 1024;
     }
     .nav {
       position: fixed;
@@ -234,15 +249,7 @@
       padding: 2rem;
       box-sizing: border-box;
     }
-    &:has(#menu-toggle:checked) {
-      overflow: hidden;
-      .nav {
-        height: 100%;
-        right: 0;
-        left: 0;
-        top: 72px;
-      }
-    }
+
     .hamburger {
       display: block;
     }

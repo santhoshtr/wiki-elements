@@ -14,19 +14,22 @@
     <meta name="color-scheme" content="dark light" />
     <link rel="stylesheet" href="style.css" />
     <script src="src/index.js" type="module"></script>
-    <script type="module" src="https://unpkg.com/dark-mode-toggle"></script>
   </head>
 
   <body>
     <header class="header">
       <span class="logo"></span>
       <h1>wiki-elements</h1>
-<input type="checkbox" style="display: none;" id="menu-toggle">
-<label for="menu-toggle" class="hamburger">
-  <span></span>
-  <span></span>
-  <span></span>
-</label>
+      <span class="theme-selector">
+        <input type="checkbox" style="display: none;" id="theme-toggle">
+        <label for="theme-toggle" style="cursor: pointer;float:right;">☀️</label>
+      </span>
+      <input type="checkbox" style="display: none;" id="menu-toggle">
+      <label for="menu-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
     </header>
     <nav class="nav">
       <a href="#introduction">Introduction</a>
@@ -122,7 +125,7 @@
                     &lt;wiki-profile language="en" article="Barack Obama"&gt;
                     &lt;/wiki-profile&gt;
                 </code></pre>
-        <section class="rendering">
+        <section class="rendering" style="width: 300px;">
           <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
         </section>
       </section>
@@ -322,19 +325,6 @@
       <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
     </footer>
 
-    <script>
-      const toggle = document.querySelector('dark-mode-toggle');
-      const html = document.documentElement;
-
-      // Set or remove the `dark` data-theme attribute the first time.
-      toggle.mode === 'dark' ? html.setAttribute('data-theme', 'dark') : html.removeAttribute('data-theme');
-
-      // Listen for toggle changes (which includes `prefers-color-scheme` changes)
-      // and toggle the `dark` data-theme attribute accordingly.
-      toggle.addEventListener('colorschemechange', () => {
-        html.setAttribute('data-theme', toggle.mode === 'dark' ? 'dark' : 'light');
-      });
-    </script>
 
     <link
       rel="stylesheet"
