@@ -102,7 +102,7 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
             else {
                 const payload = JSON.stringify({
                     html: this.source_html,
-                    //cache: true
+                    stash: true
                 });
 
                 const response = await fetch(api, {
