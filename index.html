@@ -31,6 +31,7 @@
         <span></span>
       </label>
     </header>
+    <main>
     <nav class="nav">
       <a href="#introduction">Introduction</a>
       <a href="#install">Install</a>
@@ -119,19 +120,108 @@
         </section>
       </section>
 
-      <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
-      <section class="example">
-        <pre><code class="language-html" >
+<h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
+<section class="wiki-article example">
+  <pre><code class="language-html" >
+                    &lt;wiki-article language="en" article="Alan Turing">
+                    &lt;/wiki-article>
+                </code></pre>
+  <section class="rendering">
+    <wiki-article language="en" article="Alan Turing"></wiki-article>
+  </section>
+</section>
+<style>
+  form.wiki-article-selector {
+    width: min(100%, 60ch);
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    .form-item {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 5px;
+    }
+
+    label {
+      font-size: 1em;
+    }
+
+    input,
+    button,
+    select {
+      padding: 5px;
+      font-size: 1em;
+    }
+
+    button {
+      grid-row: 2;
+    }
+  }
+</style>
+<script>
+  function updateArticle(event) {
+    const language = document.getElementById('language').value;
+    const article = document.getElementById('article').value;
+    const wikiArticle = document.querySelector('wiki-article');
+    const wikiArticleCode = document.querySelector('.wiki-article code');
+    wikiArticle.setAttribute('language', language);
+    wikiArticle.setAttribute('article', article);
+    wikiArticle.render();
+    wikiArticleCode.innerHTML = `&lt;wiki-article language="${language}" article="${article}"&gt;&lt;/wiki-article>`;
+    wikiArticleCode.removeAttribute('data-highlighted');
+    hljs.highlightElement(wikiArticleCode);
+    return false;
+  }
+</script>
+<form class="wiki-article-selector" onsubmit="event.preventDefault(); updateArticle();">
+  <div class="form-item">
+    <label for="language">Language</label>
+    <select id="language">
+      <option value="en">English</option>
+      <option value="de">German</option>
+      <option value="fr">French</option>
+      <option value="es">Spanish</option>
+      <option value="it">Italian</option>
+      <option value="pt">Portuguese</option>
+      <option value="ru">Russian</option>
+      <option value="ja">Japanese</option>
+      <option value="zh">Chinese</option>
+      <option value="ar">Arabic</option>
+      <option value="hi">Hindi</option>
+      <option value="bn">Bengali</option>
+      <option value="pa">Punjabi</option>
+      <option value="te">Telugu</option>
+      <option value="ta">Tamil</option>
+      <option value="ml">Malayalam</option>
+      <option value="eu">Basque</option>
+      <option value="he">Hebrew</option>
+      <option value="el">Greek</option>
+    </select>
+  </div>
+  <div class="form-item">
+    <label for="article">Article</label>
+    <input type="text" id="article" placeholder="Article name" value="Alan Turing" />
+  </div>
+  <div class="form-item">
+    <button type="submit">Go</button>
+  </div>
+</form>
+
+<h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
+<section class="example">
+  <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Barack Obama"&gt;
                     &lt;/wiki-profile&gt;
                 </code></pre>
-        <section class="rendering" style="width: 300px;">
-          <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
-        </section>
-      </section>
+  <section class="rendering" style="width: 300px;">
+    <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
+  </section>
+  </section>
 
-      <section class="example">
-        <pre><code class="language-html" >
+<section class="example">
+  <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
                     &lt;/wiki-profile&gt;
                     &lt;wiki-profile language="en" article="Julia Roberts"&gt;
@@ -140,73 +230,13 @@
                     &lt;/wiki-profile&gt;
 
                 </code></pre>
-        <section class="rendering flex">
-          <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-          <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-          <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
-        </section>
-      </section>
+  <section class="rendering flex">
+    <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+    <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+    <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+  </section>
+  </section>
 
-      <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="en" article="Osaka">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="en" article="Osaka"></wiki-article>
-        </section>
-      </section>
-
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="ml" article="Kerala">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="ml" article="Kerala"></wiki-article>
-        </section>
-      </section>
-
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="eu" article="Barcelona">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="eu" article="Barcelona"></wiki-article>
-        </section>
-      </section>
-
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="he" article="קרלה">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="he" article="קרלה"></wiki-article>
-        </section>
-      </section>
-
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="el" article="Αστρονομία">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="el" article="Αστρονομία"></wiki-article>
-        </section>
-      </section>
-
-      <section class="example">
-        <pre><code class="language-html" >
-                    &lt;wiki-article language="hi" article="बुलबुल">
-                    &lt;/wiki-article>
-                </code></pre>
-        <section class="rendering">
-          <wiki-article language="hi" article="बुलबुल"></wiki-article>
-        </section>
-      </section>
       <h3 id="wiki-map"><a href="#wiki-map">wiki-map</a></h3>
       <section class="example">
         <pre><code class="language-html" >
@@ -320,10 +350,13 @@
           <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"> </wiki-graph>
         </section>
       </section>
+      <footer class="footer">
+        <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
+      </footer>
     </article>
-    <footer class="footer">
-      <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
-    </footer>
+    
+    </main>
+
 
 
     <link

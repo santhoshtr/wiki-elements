@@ -1,123 +1,179 @@
 @layer wiki-elements.wiki-article {
   :host {
-    --wiki-image-height: 220px;
-    --wiki-border-radius: 8px;
-    --wiki-border-color: light-dark(hsl(219, 28%, 88%), hsl(220, 16%, 36%));
+
+    --wiki-article-border-radius: 0.5rem;
+    --dominant-color: var(--wiki-article-background-color);
     display: block;
-    border: 1px solid var(--wiki-border-color);
-    border-radius: var(--wiki-border-radius);
+
     container-type: inline-size;
+    max-width: 720px;
+    min-width: 500px;
+    height: 300px;
+    box-sizing: border-box;
+    * {
+      box-sizing: border-box;
+    }
   }
 
   .wiki-article {
-    width: 100%;
-    max-width: 100%;
 
-    align-items: stretch;
-    gap: 10px;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: var(--wiki-image-height);
+    --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
+    --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
+    --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
+    --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
 
+    &:has(.image.dark){
+    --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
+    --wiki-article-text-color: oklch(from var(--dominant-color) 0.99 c h);
+    --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.95 c h);
+    --wiki-article-border-color: oklch(from var(--dominant-color) 0.7 c h);
+    }
+
+    &:has(.image.light){
+      --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
+      --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
+      --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
+      --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
+    }
+
+    --image-scale: calc(300/var(--image-height) );
+    width: 100cqi;
+    height: 100%;
+    display: flex;
     overflow: hidden;
+    position: relative;
 
-    .thumbnail {
+    background-color: var(--wiki-article-background-color);
+    border: 1px solid var(--wiki-article-border-color);
+    border-radius: var(--wiki-article-border-radius);
+
+    color: var(--wiki-article-text-color);
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+
+
+    .image {
       img {
-        border-radius: 0;
-        border-start-start-radius: var(--wiki-border-radius);
-        border-end-start-radius: var(--wiki-border-radius);
-        object-fit: cover;
-        width: 100%;
+        position: absolute;
+        inset-block-start: 0;
+      inset-inline-end: 0;
         height: 100%;
+        object-fit: contain;
+        z-index: 1;
+        transform: scale(2);
+        animation: scaledown 1s ease-in-out forwards;
+      }
+      &.empty {
+        display: none;
       }
     }
-    .title-desc-container {
-      display: grid;
-      grid-template-rows: auto auto 1.2lh;
-      overflow: hidden;
-      padding: 0 0.5em;
 
+    &:has(.image.empty) .overlay,
+    &:has(.image.portrait) .overlay{
+      display: none;
+    }
+
+    &:has(.image.landscape) .overlay {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        var(--dominant-color) calc(100cqi - (var(--image-scale)*var(--image-width)) * 1px),
+        transparent
+      );
+
+      z-index: 2;
+    }
+
+    &:has(.image.landscape)[dir='rtl'] .overlay {
+      background: linear-gradient(
+        to left,
+        var(--dominant-color) calc(100cqi - (var(--image-scale)*var(--image-width)) * 1px),
+        transparent
+      );
+    }
+
+    .content {
+      width: 100cqi;
+      max-height: 100%;
+      display: grid;
+      grid-template-rows: repeat(auto-fill, minmax(1em, auto));
+      overflow: hidden;
+      padding: 1em;
+      z-index: 2;
       .title-header {
         font-size: 1.5em;
         margin: 0.25em 0;
         padding: 0;
         line-height: 1.1;
+
         .title {
           text-decoration: none;
           text-wrap: balance;
+          color: var(--wiki-article-text-color);
         }
       }
       .extract {
-        font-size: 1em;
-        line-height: 1.5;
-        padding: 0;
-        margin: 0;
-        overflow-y: scroll;
-        scrollbar-width: none;
+        margin-top: 10px;
+        font-size: 1.1em;
         text-wrap: pretty;
-        text-overflow: ellipsis;
+        text-align: start;
+        overflow: auto;
+        max-height: 7lh;
+        max-width: clamp(20ch, 100cqi, 50ch);
+        scrollbar-width: none;
+        line-height: 1.5;
       }
       .description {
-        font-size: 1em;
-        padding: 0;
-        margin: 0;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        text-overflow: ellipsis;
+        margin-top: 10px;
+        font-size: 1.1em;
+        text-align: pretty;
+        overflow: auto;
+        max-height: 7lh;
         display: none;
+        max-width: clamp(20ch, 100cqi, 50ch);
+        scrollbar-width: none;
+        line-height: 1.5;
       }
       .meta {
         gap: 4px;
-        display: grid;
-        grid-template-columns: 60% auto auto auto;
-
+        display: flex;
+        color: var(--wiki-article-text-secondary-color);
         align-items: center;
         align-content: center;
-        font-size: small;
-        border-top: 1px solid var(--wiki-border-color);
+        font-size: 1em;
+        margin: 0;
         overflow: hidden;
-
-        .logo {
-          background-image: url('https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg');
-          background-size: 16px;
-          background-repeat: no-repeat;
-          background-position-inline: start;
-          white-space: nowrap;
-          padding-inline-start: 20px;
-        }
+        font-weight: 400;
 
         .icon {
-          width: 1lh;
-          height: 1lh;
-
           svg {
-            fill: currentColor;
+            width: 12px;
+            height: 12px;
+            fill: var(--wiki-article-text-secondary-color);
           }
         }
 
         a {
           text-decoration: none;
+          color: var(--wiki-article-text-secondary-color);
         }
       }
     }
+
   }
 
-  @container (width<=600px) {
-    .wiki-article {
-      .thumbnail,
-      .title-desc-container {
-        grid-column: span 2;
-        height: var(--wiki-image-height);
-      }
-      .thumbnail {
-        img {
-          border-radius: 0;
-          border-start-start-radius: var(--wiki-border-radius);
-          border-start-end-radius: var(--wiki-border-radius);
-          width: 100%;
-          height: 100%;
-        }
-      }
+  @keyframes scaledown {
+    from {
+      transform: scale(2);
+    }
+
+    to {
+      transform: scale(1);
     }
   }
 }

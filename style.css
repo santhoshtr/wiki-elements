@@ -30,27 +30,23 @@
     font-family: 'InterVariable', system-ui, sans-serif;
     line-height: 1.5;
     line-height: 1.5;
-    width: min(100vw, 120ch);
+    width: 100vw;
+    height: 100vh;
     margin: auto;
     padding: 0;
-    overflow-x: scroll;
+    overflow-x: hidden;
     accent-color: var(--primary-color);
     color: var(--text-1);
     background-color: var(--surface-1);
 
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-areas:
-      'header header'
-      'nav    main'
-      'footer footer';
+    grid-template-columns: auto;
     /* dark / light mode toggle animation */
     transition:
       background 0.2s ease-in-out,
       color 0.2s ease-in-out;
   }
   .header {
-    grid-area: header;
     display: grid;
     grid-template-columns: 50px auto 50px 50px;
     gap: 1em;
@@ -60,6 +56,8 @@
     height: 3lh;
     width: 100%;
     padding: 0.5em;
+    position: sticky;
+    top: 0;
     border-bottom: 1px solid var(--border-color);
 
     color: var(--primary-color);
@@ -77,11 +75,19 @@
       margin: 0.5em;
     }
   }
+ main {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  width: 100%;
+  overflow-x: hidden;
+ }
 
-  .main {
-    grid-area: main;
-    padding: 1em;
-    margin: 0 2vw;
+  article {
+    padding: 4em;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 100%;
 
     > h2,
     > h3,
@@ -103,7 +109,6 @@
   }
 
   .nav {
-    grid-area: nav;
     border-right: 1px solid var(--border-color);
     background-color: var(--surface-1);
     position: sticky;
@@ -137,8 +142,8 @@
     gap: 1em;
 
     margin: 1em 0 2em 0;
-    max-width: 100vw;
     overflow: hidden;
+
     > * {
       padding: 0.5em;
     }
@@ -173,7 +178,7 @@
     padding: 1em;
     border-top: 1px solid var(--border-color);
     background-color: var(--surface-2);
-    grid-area: footer;
+    width: 100% ;
     z-index: 2;
   }
 
@@ -211,12 +216,7 @@
 
   @media (max-width: 100ch) {
     body {
-      grid-template-areas:
-        'header'
-        'nav'
-        'main'
-        'footer';
-      &:has(#menu-toggle:checked) {
+    &:has(#menu-toggle:checked) {
           overflow: hidden;
           .nav {
             height: 100%;
@@ -227,7 +227,10 @@
           }
       }
     }
-    .main {
+    main{
+      grid-template-columns: 1fr;
+    }
+    article {
       margin: 0;
       padding: 0.5em;
     }

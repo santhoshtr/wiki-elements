@@ -2,6 +2,7 @@
   "name": "wiki-elements",
   "version": "0.0.1",
   "description": "A collection of WebComponents to share or interact with Wikipedia content",
+  "type": "module",
   "main": "src/index.js",
   "style": "src/style.css",
   "scripts": {
