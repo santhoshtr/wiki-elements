@@ -76,9 +76,9 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         picture.classList.remove('dark');
         picture.classList.remove('portrait');
         picture.classList.remove('landscape');
-        const srcset = getSourceSetFromCommonsUrl(imageData.source);
-        if (imageData && imageData.source) {
 
+        if (imageData && imageData.source) {
+            const srcset = getSourceSetFromCommonsUrl(imageData.source);
             picture.src = imageData.source;
             picture.srcset = srcset;
             picture.sizes = '(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw';
