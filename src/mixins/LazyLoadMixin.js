@@ -6,10 +6,7 @@ const LazyLoadMixin = (superClass) => class extends superClass {
     }
 
     connectedCallback() {
-
-        if (super.connectedCallback) {
-            super.connectedCallback();
-        }
+        this.connected = true;
         this._setupIntersectionObserver();
     }
 
@@ -24,6 +21,7 @@ const LazyLoadMixin = (superClass) => class extends superClass {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 this.render();
+                this.rendered = true;
                 this._teardownIntersectionObserver();
             }
         });
