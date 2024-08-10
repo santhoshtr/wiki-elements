@@ -1,4 +1,4 @@
-import { html } from './common.js';
+import { html, getSourceSetFromCommonsUrl } from './common.js';
 import { editIcon, historyIcon, talkIcon } from './icons.js';
 import { getContinuousColor, getColorTheme } from './utils/color.js';
 import LazyLoadMixin from './mixins/LazyLoadMixin.js';
@@ -26,11 +26,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
     static get template() {
         return html`
         <div class="wiki-article">
-            <picture class="image">
-                <source class="webp" type="image/webp">
-                <source class="png" type="image/png">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
-            </picture>
+            <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp" alt="" />
             <div class="overlay"></div>
             <div class="content">
                 <h2 class="title-header">
@@ -50,11 +46,6 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         @import url(${styleURL});
         </style>
         `
-    }
-
-
-    connectedCallback() {
-        super.connectedCallback();
     }
 
     async render() {
@@ -77,6 +68,43 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         }
     }
 
+    async updateImage(imageData) {
+        const picture = this.shadowRoot.querySelector('.image')
+        // resets
+        picture.classList.add('empty');
+        picture.classList.remove('light');
+        picture.classList.remove('dark');
+        picture.classList.remove('portrait');
+        picture.classList.remove('landscape');
+        const srcset = getSourceSetFromCommonsUrl(imageData.source);
+        if (imageData && imageData.source) {
+
+            picture.src = imageData.source;
+            picture.srcset = srcset;
+            picture.sizes = '(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw';
+
+            const dominantColor = await getContinuousColor(imageData.source);
+            const rgb = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
+            const colorTheme = getColorTheme(rgb);
+            this.style.setProperty('--dominant-color', `oklch(from ${rgb} l c h)`);
+
+            const isPortrait = imageData.height / imageData.width > 1.2;
+
+            picture.classList.remove('empty');
+            if (isPortrait) {
+                picture.classList.add('portrait');
+            } else {
+                picture.classList.add('landscape');
+            }
+            this.style.setProperty('--image-width', imageData.width);
+            this.style.setProperty('--image-height', imageData.height);
+            picture.classList.add(colorTheme);
+        } else {
+            this.style.setProperty('--dominant-color', '#f1f5f9');
+            picture.classList.remove('light');
+        }
+    }
+
     async updateArticle(data) {
         const { title, description, extract, thumbnail, lang, dir, content_urls } = data;
         this.lang = lang || this.language;
@@ -89,52 +117,12 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         this.shadowRoot.querySelector('.talk').href = content_urls.desktop.talk;
         this.shadowRoot.querySelector('.description').innerText = description;
         this.shadowRoot.querySelector('.extract').innerText = extract;
-        // resets
-        this.shadowRoot.querySelector('.image').classList.add('empty');
-        this.shadowRoot.querySelector('.image').classList.remove('light');
-        this.shadowRoot.querySelector('.image').classList.remove('dark');
-        this.shadowRoot.querySelector('.image').classList.remove('portrait');
-        this.shadowRoot.querySelector('.image').classList.remove('landscape');
-        if (thumbnail && thumbnail.source) {
-            if (!thumbnail.source.includes('/wikipedia/commons')) {
-                // not a commons image. local wiki image
-                this.shadowRoot.querySelector('.image > .webp').srcset = thumbnail.source;
-                this.shadowRoot.querySelector('.image > .png').srcset = thumbnail.source;
-                this.shadowRoot.querySelector('.image > img').src = thumbnail.source;
-            } else {
-                this.shadowRoot.querySelector('.image > .webp').srcset = thumbnail.source.replace(
-                    /\.(jpg|png|jpeg)$/,
-                    '.webp',
-                );
-                this.shadowRoot.querySelector('.image > .png').srcset = thumbnail.source.replace(/\.(jpg|webp|jpeg)$/, '.png');
-                this.shadowRoot.querySelector('.image > img').src = thumbnail.source;
-            }
 
-
-            const dominantColor = await getContinuousColor(thumbnail.source);
-            const rgb = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
-            const colorTheme = getColorTheme(rgb);
-            this.style.setProperty('--dominant-color', `oklch(from ${rgb} l c h)`);
-
-            const isPortrait = thumbnail.height / thumbnail.width > 1.2;
-
-            this.shadowRoot.querySelector('.image').classList.remove('empty');
-            if (isPortrait) {
-                this.shadowRoot.querySelector('.image').classList.add('portrait');
-            } else {
-                this.shadowRoot.querySelector('.image').classList.add('landscape');
-            }
-            this.style.setProperty('--image-width', thumbnail.width);
-            this.style.setProperty('--image-height', thumbnail.height);
-            this.shadowRoot.querySelector('.image').classList.add(colorTheme);
-        } else {
-            this.style.setProperty('--dominant-color', '#f1f5f9');
-            this.shadowRoot.querySelector('.image').classList.remove('light');
-        }
-
+        await this.updateImage(data.thumbnail, data.original);
     }
-
-
 }
 
-customElements.define('wiki-article', WikiArticle);
+if (!customElements.get('wiki-article')) {
+    customElements.define('wiki-article', WikiArticle);
+}
+

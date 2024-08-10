@@ -118,7 +118,7 @@ async function sha256(inputString) {
 
 const getSourceSetFromCommonsUrl = (url) => {
     // Refer https://phabricator.wikimedia.org/T360589 for most used sizes
-    const sizes = [220, 440, 640, 960, 1024, 1280, 1920];
+    const sizes = [440, 640, 960, 1024, 1280, 1920];
     let urlPrefix, srcsetImgName;
 
     if (!url.includes("thumb")) {

@@ -111,7 +111,7 @@ function getColorTheme(bgColor) {
 
     const whiteContrast = getContrastRatio(bgLuminance, whiteLuminance);
     const blackContrast = getContrastRatio(bgLuminance, blackLuminance);
-    console.log({ bgLuminance, whiteLuminance, blackLuminance, whiteContrast, blackContrast });
+    // console.log({ bgLuminance, whiteLuminance, blackLuminance, whiteContrast, blackContrast });
 
     return whiteContrast > blackContrast ? "dark" : "light";
 }
@@ -147,7 +147,6 @@ const getContinuousColor = async (imageUrl) => {
     const imageData = await getImageData(imageUrl, region);
     // check if imageData is same color
     if (isSameColor(imageData)) {
-        console.log('imageData is same color');
         return [imageData[0], imageData[1], imageData[2], imageData[3]]
     }
     return await getProminentColor(imageData)[0]

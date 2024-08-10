@@ -90,4 +90,6 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
     }
 }
 
-customElements.define('wiki-image', WikiImage);
+if (!customElements.get('wiki-article')) {
+    customElements.define('wiki-image', WikiImage);
+}

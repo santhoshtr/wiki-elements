@@ -168,7 +168,7 @@
     const wikiArticleCode = document.querySelector('.wiki-article code');
     wikiArticle.setAttribute('language', language);
     wikiArticle.setAttribute('article', article);
-    wikiArticle.render();
+    //wikiArticle.render();
     wikiArticleCode.innerHTML = `&lt;wiki-article language="${language}" article="${article}"&gt;&lt;/wiki-article>`;
     wikiArticleCode.removeAttribute('data-highlighted');
     hljs.highlightElement(wikiArticleCode);
@@ -354,7 +354,7 @@
         <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
       </footer>
     </article>
-    
+
     </main>
 
 

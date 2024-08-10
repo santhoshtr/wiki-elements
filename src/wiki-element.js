@@ -3,7 +3,8 @@ class WikiElement extends HTMLElement {
     constructor() {
         super();
         this.internals = this.attachInternals();
-
+        this.connected = false;
+        this.rendered = false;
         this.initializeProperties();
 
         this.attachShadow({ mode: 'open' });
@@ -40,7 +41,6 @@ class WikiElement extends HTMLElement {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        const hasChanges = false;
         if (oldValue !== newValue) {
             const props = this.constructor.properties;
             if (name in props) {
@@ -48,17 +48,19 @@ class WikiElement extends HTMLElement {
                 this.propertyChangedCallback(name, oldValue, this[name]);
             }
         }
-        if (hasChanges) {
-            this.render();
-        }
     }
 
     propertyChangedCallback(name, oldValue, newValue) {
+        if (!this.rendered) { return; }
+        console.log(`Property ${name} changed from ${oldValue} to ${newValue}`);
         // This method can be overridden in subclasses to react to property changes
+        this.render();
     }
 
     connectedCallback() {
-
+        this.connected = true;
+        this.render();
+        this.rendered = true;
     }
 
     static get observedAttributes() {

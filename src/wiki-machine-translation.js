@@ -70,11 +70,6 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
     }
 
 
-    propertyChangedCallback(name, oldValue, newValue) {
-        this.render();
-    }
-
-
     async render() {
         if (!this.isConnected || this.source_html === undefined || !this.target) {
             return;

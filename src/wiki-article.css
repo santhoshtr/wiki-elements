@@ -54,16 +54,13 @@
 
 
     .image {
-      img {
         position: absolute;
         inset-block-start: 0;
-      inset-inline-end: 0;
+        inset-inline-end: 0;
         height: 100%;
         object-fit: contain;
         z-index: 1;
-        transform: scale(2);
-        animation: scaledown 1s ease-in-out forwards;
-      }
+
       &.empty {
         display: none;
       }
@@ -163,17 +160,6 @@
           color: var(--wiki-article-text-secondary-color);
         }
       }
-    }
-
-  }
-
-  @keyframes scaledown {
-    from {
-      transform: scale(2);
-    }
-
-    to {
-      transform: scale(1);
     }
   }
 }
