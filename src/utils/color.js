@@ -8,7 +8,13 @@ function getImageData(imageUrl, region = { x: 0, y: 0, width: 0, height: 0 }) {
             canvas.height = img.height
             canvas.width = img.width
             context.drawImage(img, 0, 0)
-            const { x, y, width, height } = region
+            let { x, y, width, height } = region
+            if (x < 0) {
+                x = img.width + x
+            }
+            if (y < 0) {
+                y = img.height + y
+            }
             const data = context.getImageData(
                 x, y, width || img.width, height || img.height,
                 { colorSpace: "display-p3" }).data
@@ -139,12 +145,25 @@ const prominent = (imageUrl) => {
     });
 }
 
-const getContinuousColor = async (imageUrl) => {
+const getContinuousColor = async (imageUrl, at = 'left') => {
     if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
         throw new Error('Invalid image URL');
     }
-    let region = { x: 0, y: 0, width: 2, height: 0 }
-    const imageData = await getImageData(imageUrl, region);
+    let region;
+    if (at === 'left') {
+        region = { x: 0, y: 0, width: 2, height: 0 }
+    }
+    if (at === 'right') {
+        region = { x: -2, y: 0, width: 2, height: 0 }
+    }
+    if (at === 'bottom') {
+        region = { x: 0, y: -2, width: 0, height: 2 }
+    }
+    if (at === 'top') {
+        region = { x: 0, y: 0, width: 0, height: 2 }
+    }
+
+    let imageData = await getImageData(imageUrl, region);
     // check if imageData is same color
     if (isSameColor(imageData)) {
         return [imageData[0], imageData[1], imageData[2], imageData[3]]

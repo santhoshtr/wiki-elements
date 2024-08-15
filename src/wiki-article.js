@@ -2,14 +2,16 @@ import { html, getSourceSetFromCommonsUrl } from './common.js';
 import { editIcon, historyIcon, talkIcon } from './icons.js';
 import { getContinuousColor, getColorTheme } from './utils/color.js';
 import LazyLoadMixin from './mixins/LazyLoadMixin.js';
+import ResizeMixin from './mixins/ResizeMixin.js';
 import WikiElement from './wiki-element.js';
 
 const styleURL = new URL('./wiki-article.css', import.meta.url)
 
 
-class WikiArticle extends LazyLoadMixin(WikiElement) {
+class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
     constructor() {
         super();
+        this.articleData = null;
     }
 
     static get properties() {
@@ -49,8 +51,9 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
     }
 
     async render() {
-        const articleData = await this.fetchArticleData();
-        this.updateArticle(articleData);
+        this.articleData = await this.fetchArticleData();
+        this.orientation = null;
+        await this.updateArticle();
     }
 
     async fetchArticleData() {
@@ -68,7 +71,17 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         }
     }
 
-    async updateImage(imageData) {
+    isOrientationChanged(containerDimension) {
+        if (containerDimension && containerDimension.width <= 640) {
+            return this.orientation !== 'portrait';
+        } else {
+            return this.orientation !== 'landscape';
+        }
+    }
+
+    async updateImage(containerDimension) {
+        const imageData = this.articleData.thumbnail;
+
         const picture = this.shadowRoot.querySelector('.image')
         // resets
         picture.classList.add('empty');
@@ -83,7 +96,20 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
             picture.srcset = srcset;
             picture.sizes = '(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw';
 
-            const dominantColor = await getContinuousColor(imageData.source);
+            let dominantColor;
+            if (!containerDimension) {
+                containerDimension = { width: this.offsetWidth, height: this.offsetHeight };
+            }
+
+            if (containerDimension && containerDimension.width <= 640) {
+                this.orientation = 'portrait';
+                dominantColor = await getContinuousColor(imageData.source, 'bottom');
+
+            } else {
+                this.orientation = 'landscape';
+                dominantColor = await getContinuousColor(imageData.source, 'left');
+            }
+
             const rgb = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
             const colorTheme = getColorTheme(rgb);
             this.style.setProperty('--dominant-color', `oklch(from ${rgb} l c h)`);
@@ -105,8 +131,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         }
     }
 
-    async updateArticle(data) {
-        const { title, description, extract, thumbnail, lang, dir, content_urls } = data;
+    async updateArticle() {
+        const { title, description, extract, thumbnail, lang, dir, content_urls } = this.articleData;
         this.lang = lang || this.language;
         this.dir = dir;
         this.shadowRoot.querySelector('.wiki-article').dir = dir;
@@ -118,7 +144,16 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         this.shadowRoot.querySelector('.description').innerText = description;
         this.shadowRoot.querySelector('.extract').innerText = extract;
 
-        await this.updateImage(data.thumbnail, data.original);
+        await this.updateImage();
+    }
+
+    updateDimensions(width, height) {
+        // console.log('updateDimensions', width, height);
+        if (this.articleData && this.articleData.thumbnail) {
+            if (this.isOrientationChanged({ width, height })) {
+                this.updateImage({ width, height });
+            }
+        }
     }
 }
 

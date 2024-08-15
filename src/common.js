@@ -191,14 +191,27 @@ function css(strings, ...values) {
     return style;
 }
 
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 export {
-    html,
-    css,
     addPrefetch,
-    deIndent,
     addScript,
     addStyle,
+    css,
+    debounce,
+    deIndent,
     detectLanguage,
+    getSourceSetFromCommonsUrl,
+    html,
     sha256,
-    getSourceSetFromCommonsUrl
 };

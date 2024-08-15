@@ -1,42 +1,97 @@
 @layer wiki-elements.wiki-article {
   :host {
-
     --wiki-article-border-radius: 0.5rem;
     --dominant-color: var(--wiki-article-background-color);
     display: block;
 
-    container-type: inline-size;
-    max-width: 720px;
-    min-width: 500px;
-    height: 300px;
+    container: wikiarticle / inline-size;
+    max-width: 1000px;
     box-sizing: border-box;
     * {
       box-sizing: border-box;
     }
   }
 
-  .wiki-article {
+  @container wikiarticle (width > 640px) {
+    /* Horizontal */
+    .wiki-article {
+      width: 100cqi;
+      --image-scale: calc(300 / var(--image-height));
+      height: auto;
+      .image {
+        height: 100%;
+        width: auto;
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-end: 0;
+      }
+      .overlay {
+        background: linear-gradient(
+          to right,
+          var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width)) * 1px),
+          transparent
+        );
+      }
+      .content {
+        align-content: start;
+      }
+    }
+  }
 
+  @container wikiarticle (width < 640px) {
+    .wiki-article {
+      --image-scale: calc(100cqi / var(--image-width));
+      width: 100cqi;
+      min-height: calc(var(--image-scale) * var(--image-height) + 8lh);
+      .image {
+        width: 100%;
+        height: auto;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+      }
+
+      &:has(.image.empty)   {
+        min-height: 5lh;
+      }
+
+      .overlay {
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--dominant-color) calc(var(--image-scale) * var(--image-height))
+        );
+      }
+      .content {
+        align-self: end;
+        align-content: end;
+      }
+
+    }
+  }
+
+  .wiki-article {
+    --font-size-title: clamp(1.25rem, 5cqi, 2rem);
+    --font-size-meta: clamp(0.9rem, 2cqi, 1rem);
+    --font-size-body: clamp(1rem, 3cqi, 1.2rem);
     --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
     --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
     --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
     --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
 
-    &:has(.image.dark){
-    --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
-    --wiki-article-text-color: oklch(from var(--dominant-color) 0.99 c h);
-    --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.95 c h);
-    --wiki-article-border-color: oklch(from var(--dominant-color) 0.7 c h);
+    &:has(.image.dark) {
+      --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
+      --wiki-article-text-color: oklch(from var(--dominant-color) 0.99 c h);
+      --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.95 c h);
+      --wiki-article-border-color: oklch(from var(--dominant-color) 0.7 c h);
     }
 
-    &:has(.image.light){
+    &:has(.image.light) {
       --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
       --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
       --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
       --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
     }
 
-    --image-scale: calc(300/var(--image-height) );
     width: 100cqi;
     height: 100%;
     display: flex;
@@ -49,25 +104,31 @@
 
     color: var(--wiki-article-text-color);
     align-items: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-
-
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
 
     .image {
-        position: absolute;
-        inset-block-start: 0;
-        inset-inline-end: 0;
-        height: 100%;
-        object-fit: contain;
-        z-index: 1;
+      position: absolute;
+      object-fit: contain;
+      z-index: 1;
 
       &.empty {
         display: none;
       }
     }
 
-    &:has(.image.empty) .overlay,
-    &:has(.image.portrait) .overlay{
+    .overlay {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 100%;
+
+      z-index: 2;
+    }
+
+    &:has(.image.empty) .overlay {
       display: none;
     }
 
@@ -77,11 +138,6 @@
       inset-inline-end: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        to right,
-        var(--dominant-color) calc(100cqi - (var(--image-scale)*var(--image-width)) * 1px),
-        transparent
-      );
 
       z-index: 2;
     }
@@ -89,21 +145,22 @@
     &:has(.image.landscape)[dir='rtl'] .overlay {
       background: linear-gradient(
         to left,
-        var(--dominant-color) calc(100cqi - (var(--image-scale)*var(--image-width)) * 1px),
+        var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width)) * 1px),
         transparent
       );
     }
 
     .content {
       width: 100cqi;
+      height: 100%;
       max-height: 100%;
       display: grid;
-      grid-template-rows: repeat(auto-fill, minmax(1em, auto));
+      grid-template-rows: auto;
       overflow: hidden;
-      padding: 1em;
+      padding: clamp(0.8em, 2cqi, 1em);
       z-index: 2;
       .title-header {
-        font-size: 1.5em;
+        font-size: var(--font-size-title);
         margin: 0.25em 0;
         padding: 0;
         line-height: 1.1;
@@ -116,7 +173,7 @@
       }
       .extract {
         margin-top: 10px;
-        font-size: 1.1em;
+        font-size: var(--font-size-body);
         text-wrap: pretty;
         text-align: start;
         overflow: auto;
@@ -142,7 +199,7 @@
         color: var(--wiki-article-text-secondary-color);
         align-items: center;
         align-content: center;
-        font-size: 1em;
+        font-size: var(--font-size-meta);
         margin: 0;
         overflow: hidden;
         font-weight: 400;
