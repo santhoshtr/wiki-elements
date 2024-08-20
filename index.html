@@ -134,7 +134,7 @@
   form.wiki-article-selector {
     width: min(100%, 60ch);
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
 
@@ -159,17 +159,24 @@
       grid-row: 2;
     }
   }
+  @media (max-width: 600px) {
+    form.wiki-article-selector {
+      grid-template-columns: auto;
+    }
+  }
 </style>
 <script>
   function updateArticle(event) {
     const language = document.getElementById('language').value;
     const article = document.getElementById('article').value;
+    const layout = document.getElementById('layout').value;
     const wikiArticle = document.querySelector('wiki-article');
     const wikiArticleCode = document.querySelector('.wiki-article code');
     wikiArticle.setAttribute('language', language);
     wikiArticle.setAttribute('article', article);
+    wikiArticle.setAttribute('layout', layout);
     //wikiArticle.render();
-    wikiArticleCode.innerHTML = `&lt;wiki-article language="${language}" article="${article}"&gt;&lt;/wiki-article>`;
+    wikiArticleCode.innerHTML = `&lt;wiki-article language="${language}" article="${article}" layout="${layout}"&gt;&lt;/wiki-article>`;
     wikiArticleCode.removeAttribute('data-highlighted');
     hljs.highlightElement(wikiArticleCode);
     return false;
@@ -203,6 +210,14 @@
   <div class="form-item">
     <label for="article">Article</label>
     <input type="text" id="article" placeholder="Article name" value="Alan Turing" />
+  </div>
+  <div class="form-item">
+    <select id="layout">
+      <option value="card">Card</option>
+      <option value="compact">Compact</option>
+      <option value="simple">Simple</option>
+    </select>
+
   </div>
   <div class="form-item">
     <button type="submit">Go</button>

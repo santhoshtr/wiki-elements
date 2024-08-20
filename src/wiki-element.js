@@ -18,6 +18,10 @@ class WikiElement extends HTMLElement {
         for (const [name, config] of Object.entries(props)) {
             if (!this.hasOwnProperty(name)) {
                 const value = this.getAttribute(name) || config.default;
+                if (config.options && !config.options.includes(value)) {
+                    console.warn(`Invalid value ${value} for property ${name}. Valid options are ${config.options}`);
+                    continue;
+                }
                 this[name] = this.convertValue(value, config.type);
             }
         }
