@@ -34,17 +34,11 @@
       margin: 0;
     }
 
+    .editcount-wrapper,
+    .wikicount-wrapper,
     .registration-wrapper {
       font-size: 1em;
-      .registration {
-        padding: 0.5em;
-        font-weight: bold;
-      }
-    }
-    .editcount-wrapper {
-      font-size: 1em;
-
-      .editcount {
+      span {
         padding: 0.5em;
         font-weight: bold;
       }

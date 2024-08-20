@@ -6,3 +6,4 @@ import './wiki-wikitext.js';
 import './wiki-machine-translation.js';
 import './wiki-graph.js';
 import './wiki-map.js';
+import './wiki-user.js';

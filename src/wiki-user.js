@@ -17,7 +17,10 @@ class WikiUser extends LazyLoadMixin(WikiElement) {
 
         <span class="user-label">Wikipedia User</span>
         <h1 class="username">Wiki User</h1>
-        <div class="editcount-wrapper"><span class="editcount"></span></span>Edits</div>
+        <div class="editcount-wrapper"><span class="editcount"></span></
+        span>Edits</div>
+        <div class="wikicount-wrapper">In <span class="wikicount"></span></
+        span>Wiki projects</div>
         <div  class="registration-wrapper">Since<span class="registration"><span></div>
         <style>
             @import url(${styleURL});
@@ -61,28 +64,48 @@ class WikiUser extends LazyLoadMixin(WikiElement) {
 
     async fetchUserData() {
         if (!this.username) return;
-        const url = `https://en.wikipedia.org/w/api.php?action=query&list=users&ususers=${this.username}&usprop=groups|editcount|gender|registration&format=json&origin=*`;
+        const url = `https://en.wikipedia.org/w/api.php?action=query&guiprop=groups|merged|unattached&guiuser=${this.username}&meta=globaluserinfo&format=json&origin=*`;
         try {
             const response = await fetch(url);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
-            return data.query.users[0];
+            return data.query.globaluserinfo;
         } catch (error) {
             this.shadowRoot.querySelector('.description').innerText = 'Failed to load article.';
             console.error('Fetch error:', error);
         }
     }
 
+    getTotalEditCount(userData) {
+        const wikiedits = userData.merged;
+        let editcount = 0;
+        for (const wiki of wikiedits) {
+            editcount += wiki.editcount;
+        }
+        return editcount;
+    }
+
+    getTotalWikis(userData) {
+        const wikiedits = userData.merged;
+        let wikicount = 0;
+        for (const wiki of wikiedits) {
+            if (wiki.editcount > 0) {
+                wikicount++;
+            }
+        }
+        return wikicount;
+    }
+
 
     updateUser(userData) {
         this.shadowRoot.querySelector('.username').textContent = userData.name;
-        this.shadowRoot.querySelector('.editcount').textContent = userData.editcount;
+        this.shadowRoot.querySelector('.editcount').textContent = this.getTotalEditCount(userData);
+        this.shadowRoot.querySelector('.wikicount').textContent = this.getTotalWikis(userData);
         const registrationDate = new Date(userData.registration);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = registrationDate.toLocaleDateString(undefined, options);
+        // FIXME. Get first registration date in any wiki
         this.shadowRoot.querySelector('.registration').textContent = formattedDate;
-
-
     }
 }
 
