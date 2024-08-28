@@ -1,4 +1,37 @@
-function getImageData(imageUrl, region = { x: 0, y: 0, width: 0, height: 0 }) {
+function extractSideRegions(imageData) {
+    const { width, height, data } = imageData;
+
+    const sideRegionMap = {
+        left: { x: 0, y: 0, width: 2, height: height },
+        right: { x: width - 2, y: 0, width: 2, height: height },
+        bottom: { x: 0, y: height - 2, width: width, height: 2 },
+        top: { x: 0, y: 0, width: width, height: 2 },
+    };
+
+    const result = {};
+
+    for (const [side, region] of Object.entries(sideRegionMap)) {
+        const sideImageData = new ImageData(region.width, region.height);
+
+        for (let y = 0; y < region.height; y++) {
+            for (let x = 0; x < region.width; x++) {
+                const sourceIndex = ((region.y + y) * width + (region.x + x)) * 4;
+                const targetIndex = (y * region.width + x) * 4;
+
+                sideImageData.data[targetIndex] = data[sourceIndex];         // Red
+                sideImageData.data[targetIndex + 1] = data[sourceIndex + 1]; // Green
+                sideImageData.data[targetIndex + 2] = data[sourceIndex + 2]; // Blue
+                sideImageData.data[targetIndex + 3] = data[sourceIndex + 3]; // Alpha
+            }
+        }
+
+        result[side] = sideImageData;
+    }
+
+    return result;
+}
+
+function getImageData(imageUrl) {
     return new Promise((resolve, reject) => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
@@ -8,18 +41,12 @@ function getImageData(imageUrl, region = { x: 0, y: 0, width: 0, height: 0 }) {
             canvas.height = img.height
             canvas.width = img.width
             context.drawImage(img, 0, 0)
-            let { x, y, width, height } = region
-            if (x < 0) {
-                x = img.width + x
-            }
-            if (y < 0) {
-                y = img.height + y
-            }
+
             const data = context.getImageData(
-                x, y, width || img.width, height || img.height,
+                0, 0, img.width, img.height,
                 { colorSpace: "display-p3" }).data
 
-            resolve(data)
+            resolve({ width: img.width, height: img.height, data })
         }
         img.onerror = () => reject(Error(`Failed to load image at ${imageUrl}`));
 
@@ -44,14 +71,14 @@ function getAverageColor(data, sample = 1) {
     ]
 }
 
-function isSameColor(data) {
+function isSameColor(data, groupby = 20) {
     let prevr, prevg, prevb;
 
     const gap = 4;
     for (let i = 0; i < data.length; i += gap) {
-        const r = data[i]
-        const g = data[i + 1];
-        const b = data[i + 2];
+        const r = group(data[i], groupby);
+        const g = group(data[i + 1], groupby);
+        const b = group(data[i + 2], groupby);
         if (prevr !== undefined && prevg !== undefined && prevb !== undefined) {
             if (prevr !== r || prevg !== g || prevb !== b) {
                 return false;
@@ -72,7 +99,7 @@ const group = (number, grouping) => {
 }
 
 
-function getProminentColor(data, sample = 1, amount = 1, groupby = 3) {
+function getProminentColor(data, sample = 1, amount = 1, groupby = 20) {
     const gap = 4 * sample
     const colors = {}
 
@@ -150,26 +177,30 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
         throw new Error('Invalid image URL');
     }
     let region;
-    if (at === 'left') {
-        region = { x: 0, y: 0, width: 2, height: 0 }
-    }
-    if (at === 'right') {
-        region = { x: -2, y: 0, width: 2, height: 0 }
-    }
-    if (at === 'bottom') {
-        region = { x: 0, y: -2, width: 0, height: 2 }
-    }
-    if (at === 'top') {
-        region = { x: 0, y: 0, width: 0, height: 2 }
+    let colorStatus = {}
+
+    let imageData = await getImageData(imageUrl);
+    const sideRegions = extractSideRegions(imageData);
+    let side;
+    for (side in sideRegions) {
+        let regionImageData = sideRegions[side].data;
+        // check if imageData is same color
+        if (isSameColor(regionImageData)) {
+            colorStatus[side] = {
+                continuous: true,
+                color: [regionImageData[0], regionImageData[1], regionImageData[2], regionImageData[3]]
+            }
+        } else {
+            colorStatus[side] = {
+                continuous: false,
+                color: await getProminentColor(imageData.data)[0]
+            }
+        }
     }
 
-    let imageData = await getImageData(imageUrl, region);
-    // check if imageData is same color
-    if (isSameColor(imageData)) {
-        return [imageData[0], imageData[1], imageData[2], imageData[3]]
-    }
-    return await getProminentColor(imageData)[0]
-    // return await getAverageColor(imageData)
+
+    // console.log(colorStatus);
+    return colorStatus[at].color
 }
 
 export {
