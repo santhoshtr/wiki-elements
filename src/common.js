@@ -137,10 +137,11 @@ const getSourceSetFromCommonsUrl = (url) => {
 
     let filename = srcsetImgName;
     if (filename.endsWith("svg") || filename.endsWith("tif") || filename.endsWith("pdf")) {
-        filename += ".webp";
+        filename += ".jpg";
     }
     // replace jpg, png, jpeg with webp
-    filename = filename.replace(/\.(jpg|png|jpeg)$/, ".webp");
+    // When webp is widely supported, we can use this
+    // filename = filename.replace(/\.(jpg|png|jpeg)$/, ".webp");
 
     const srcset = sizes.map(width =>
         `${urlPrefix}/${srcsetImgName}/${width}px-${filename} ${width}w`

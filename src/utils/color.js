@@ -188,7 +188,7 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
         if (isSameColor(regionImageData)) {
             colorStatus[side] = {
                 continuous: true,
-                color: [regionImageData[0], regionImageData[1], regionImageData[2], regionImageData[3]]
+                color: Array.from(regionImageData.slice(0, 4))
             }
         } else {
             colorStatus[side] = {
@@ -199,7 +199,7 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
     }
 
 
-    // console.log(colorStatus);
+    console.log(colorStatus);
     return colorStatus[at].color
 }
 

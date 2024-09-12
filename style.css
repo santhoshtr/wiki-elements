@@ -137,7 +137,7 @@
 
   .example {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     gap: 1em;
 
@@ -235,6 +235,7 @@
       padding: 0.5em;
     }
     .example {
+      grid-template-columns: 1fr;
       code {
         border: none;
       }

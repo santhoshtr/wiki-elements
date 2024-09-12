@@ -2,13 +2,13 @@ import { html, getSourceSetFromCommonsUrl } from './common.js';
 import { editIcon, historyIcon, talkIcon } from './icons.js';
 import { getContinuousColor, getColorTheme } from './utils/color.js';
 import LazyLoadMixin from './mixins/LazyLoadMixin.js';
-import ResizeMixin from './mixins/ResizeMixin.js';
+
 import WikiElement from './wiki-element.js';
 
 const styleURL = new URL('./wiki-article.css', import.meta.url)
 
 
-class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
+class WikiArticle extends LazyLoadMixin(WikiElement) {
     constructor() {
         super();
         this.articleData = null;
@@ -76,38 +76,20 @@ class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
         }
     }
 
-    isOrientationChanged(containerDimension) {
-        if (containerDimension && containerDimension.width <= 640) {
-            return this.orientation !== 'portrait';
-        } else {
-            return this.orientation !== 'landscape';
-        }
-    }
 
-    async updateImage(containerDimension) {
+    async updateImage() {
         const imageData = this.articleData.thumbnail;
 
         const picture = this.shadowRoot.querySelector('.image')
         const wikiarticleEl = this.shadowRoot.querySelector('.wiki-article');
+
         // resets
+        picture.src = null;
         picture.classList.add('empty');
-        picture.classList.remove('light');
-        picture.classList.remove('dark');
-        picture.classList.remove('portrait');
-        picture.classList.remove('landscape');
-        picture.classList.remove('vertical');
-        wikiarticleEl.classList.remove('portrait');
-        wikiarticleEl.classList.remove('landscape');
-        wikiarticleEl.classList.remove('card');
-        wikiarticleEl.classList.remove('simple');
-        wikiarticleEl.classList.remove('compact');
+        picture.classList.remove('portrait', 'landscape', 'tall', 'wide');
+        wikiarticleEl.classList.remove('card', 'simple', 'compact');
         wikiarticleEl.classList.add(this.layout);
 
-        if (!containerDimension) {
-            containerDimension = { width: this.offsetWidth, height: this.offsetHeight };
-            this.style.setProperty('--container-width', containerDimension.width + 'px');
-            this.style.setProperty('--container-height', containerDimension.height + 'px');
-        }
         if (imageData && imageData.source) {
             picture.classList.remove('empty');
             const srcset = getSourceSetFromCommonsUrl(imageData.source);
@@ -115,31 +97,16 @@ class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
             picture.srcset = srcset;
             picture.sizes = '(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw';
 
-
-            let dominantColor;
-
-
-            if (containerDimension && containerDimension.width <= 640) {
-                this.orientation = 'portrait';
-                wikiarticleEl.classList.add('portrait');
-                dominantColor = await getContinuousColor(imageData.source, 'bottom');
-
-            } else {
-                this.orientation = 'landscape';
-                wikiarticleEl.classList.add('landscape');
-                dominantColor = await getContinuousColor(imageData.source, 'left');
-            }
             if (this.layout === 'card') {
-                const rgb = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
-                const colorTheme = getColorTheme(rgb);
-                this.style.setProperty('--dominant-color', `oklch(from ${rgb} l c h)`);
-
                 const isPortrait = imageData.height / imageData.width > 1.2;
+                const isWide = imageData.width / imageData.height >= 16 / 9;
+                const isTall = imageData.height / imageData.width >= 16 / 9;
 
-                const imageAspectRatio = imageData.width / imageData.height;
-
-                if (imageAspectRatio < 0.8) {
-                    picture.classList.add('vertical');
+                if (isTall) {
+                    picture.classList.add('tall');
+                }
+                if (isWide) {
+                    picture.classList.add('wide');
                 }
                 if (isPortrait) {
                     picture.classList.add('portrait');
@@ -148,11 +115,14 @@ class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
                 }
                 this.style.setProperty('--image-width', imageData.width);
                 this.style.setProperty('--image-height', imageData.height);
-                picture.classList.add(colorTheme);
+
+                // Set the color themes
+                const bottomDominantColor = await getContinuousColor(imageData.source, 'bottom')
+                const leftDominantColor = await getContinuousColor(imageData.source, 'left')
+                this.style.setProperty('--continuous-color-bottom', `rgba(${bottomDominantColor.join(',')})`);
+                this.style.setProperty('--continuous-color-left', `rgba(${leftDominantColor.join(',')})`);
+
             }
-        } else {
-            this.style.setProperty('--dominant-color', '#f1f5f9');
-            picture.classList.remove('light');
         }
     }
 
@@ -172,17 +142,7 @@ class WikiArticle extends ResizeMixin(LazyLoadMixin(WikiElement)) {
         await this.updateImage();
     }
 
-    updateDimensions(width, height) {
-        // console.log('updateDimensions', width, height);
-        if (this.articleData && this.articleData.thumbnail) {
-            if (this.isOrientationChanged({ width, height })) {
-                this.updateImage({ width, height });
 
-            }
-        }
-        this.style.setProperty('--container-width', parseInt(width) + 'px');
-        this.style.setProperty('--container-height', parseInt(height) + 'px');
-    }
 }
 
 if (!customElements.get('wiki-article')) {

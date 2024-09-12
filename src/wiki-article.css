@@ -1,20 +1,56 @@
 @layer wiki-elements.wiki-article {
-  @property --container-width {
-    syntax: '<length>';
+  @property --image-width {
+    syntax: '<number>';
     inherits: false;
-    initial-value: 500px;
+    initial-value: 500;
+  }
+
+  @property --image-height {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 320;
   }
 
   @property --container-height {
-    syntax: '<length>';
+    syntax: '<number>';
     inherits: false;
-    initial-value: 320px;
+    initial-value: 300;
+  }
+
+  @property --image-scale {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+
+  @property --l {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+
+  @property --l-threshold {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0.66;
   }
 
   @property --dominant-color {
     syntax: '<color>';
     inherits: false;
-    initial-value: #fff;
+    initial-value: transparent;
+  }
+
+  @property --continuous-color-bottom {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: transparent;
+  }
+
+  @property --continuous-color-left {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: transparent;
   }
 
   :host {
@@ -25,6 +61,9 @@
     max-height: 800px;
     box-sizing: border-box;
 
+    container-type: inline-size;
+    container-name: wiki-article;
+
     * {
       box-sizing: border-box;
     }
@@ -34,27 +73,35 @@
     --font-size-title: 1.4em;
     --font-size-meta: 1em;
     --font-size-body: 1.1em;
+    --container-height: 300;
+    --dominant-color: var(--continuous-color-left);
+    --l-threshold: 0.7;
+
+    @container wiki-article (max-width: 720px) {
+      --dominant-color: var(--continuous-color-bottom);
+      --container-height: 600;
+    }
+
     --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
     --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
-    --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
+
     --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
 
-    &:has(.image.dark) {
-      --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
-      --wiki-article-text-color: oklch(from var(--dominant-color) 0.99 c h);
-      --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.95 c h);
-      --wiki-article-border-color: oklch(from var(--dominant-color) 0.7 c h);
+    @supports (color: oklch(from red l c h)) {
+      /* Thanks to https://lea.verou.me/blog/2024/contrast-color/ */
+      --l: clamp(0, (var(--l-threshold) / l - 1) * infinity, 1);
+      --wiki-article-text-color: oklch(from var(--dominant-color) var(--l) 0 h);
     }
 
-    &:has(.image.light) {
-      --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
-      --wiki-article-text-color: oklch(from var(--dominant-color) 0.01 c h);
-      --wiki-article-text-secondary-color: oklch(from var(--dominant-color) 0.05 c h);
-      --wiki-article-border-color: oklch(from var(--dominant-color) 0.8 c h);
+    @supports (color: contrast-color(red)) {
+      --wiki-article-text-color: contrast-color(var(--dominant-color));
     }
 
-    width: var(--container-width);
-    height: 100%;
+    --wiki-article-text-secondary-color: oklch(from var(--wiki-article-text-color) calc(l + 0.04) c h);
+    --image-scale: calc(var(--container-height) / var(--image-height));
+
+    width: 100cqi;
+    height: calc(var(--container-height) * 1px);
     display: flex;
     overflow: hidden;
     position: relative;
@@ -62,8 +109,8 @@
     background-color: var(--wiki-article-background-color);
     border: 1px solid var(--wiki-article-border-color);
     border-radius: var(--wiki-article-border-radius);
-
     color: var(--wiki-article-text-color);
+
     align-items: center;
     transition:
       background-color 0.3s ease,
@@ -72,10 +119,20 @@
     .image {
       position: absolute;
       object-fit: contain;
+      height: 100%;
+      width: auto;
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 0;
       z-index: 1;
 
       &.empty {
         display: none;
+      }
+
+      @container wiki-article (max-width: 720px) {
+        height: auto;
+        width: 100%;
       }
     }
 
@@ -83,10 +140,28 @@
       position: absolute;
       inset-block-start: 0;
       inset-inline-start: 0;
-      width: 100%;
+      width: 100cqi;
       height: 100%;
-
+      background: linear-gradient(
+        to right,
+        oklch(from var(--dominant-color) calc(l - 0.1) c h),
+        var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width) * 1px)),
+        transparent 90%
+      );
       z-index: 2;
+
+      @container wiki-article (max-width: 720px) {
+        --image-scale: calc(100cqi / var(--image-width));
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--dominant-color) calc(var(--image-scale) * var(--image-height))
+        );
+      }
+    }
+
+    .image.tall + .overlay {
+      display: none;
     }
 
     &:has(.image.empty) .overlay {
@@ -106,22 +181,28 @@
     &:has(.image.landscape)[dir='rtl'] .overlay {
       background: linear-gradient(
         to left,
-        var(--dominant-color) calc(var(--container-width) - (var(--image-scale) * var(--image-width)) * 1px),
+        oklch(from var(--dominant-color) calc(l - 0.1) c h),
+        var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width)) * 1px),
         transparent 90%
       );
     }
 
     .content {
-      width: var(--container-width);
+      width: 100cqi;
       height: 100%;
       max-height: 100%;
       display: grid;
       grid-template-rows: auto;
       overflow: hidden;
-      padding: clamp(0.8em, var(--container-width), 1em);
+      padding: clamp(0.8em, 100cqi, 1em);
       z-index: 2;
       align-self: start;
       color: var(--wiki-article-text-color);
+
+      @container wiki-article (max-width: 720px) {
+        align-self: end;
+        align-content: end;
+      }
 
       .title-header {
         font-size: var(--font-size-title);
@@ -142,7 +223,7 @@
         text-align: start;
         overflow: auto;
         max-height: 7lh;
-        max-width: clamp(20ch, var(--container-width), 50ch);
+        max-width: clamp(20ch, 100cqi, 50ch);
         scrollbar-width: none;
         line-height: 1.5;
       }
@@ -153,7 +234,7 @@
         overflow: auto;
         max-height: 7lh;
         display: none;
-        max-width: clamp(20ch, var(--container-width), 50ch);
+        max-width: clamp(20ch, 100cqi, 50ch);
         scrollbar-width: none;
         line-height: 1.5;
       }
@@ -182,65 +263,6 @@
           color: var(--wiki-article-text-secondary-color);
         }
       }
-    }
-  }
-
-  /* Horizontal */
-  .wiki-article.landscape {
-    width: 100%;
-    min-width: 600px;
-    min-height: 320px;
-    --image-scale: calc(var(--container-height) / var(--image-height));
-
-    .image {
-      height: 100%;
-      width: auto;
-      position: absolute;
-      inset-block-start: 0;
-      inset-inline-end: 0;
-    }
-    .image.vertical + .overlay {
-      display: none;
-    }
-    .overlay {
-      background: linear-gradient(
-        to right,
-        oklch(from var(--dominant-color) calc(l - 0.1) c h),
-        var(--dominant-color) calc(var(--container-width) - (var(--image-scale) * var(--image-width))),
-        transparent 90%
-      );
-    }
-    .content {
-      align-content: start;
-    }
-  }
-
-  .wiki-article.portrait {
-    --image-scale: calc(var(--container-width) / var(--image-width));
-    width: 100%;
-    min-height: 600px;
-    min-height: calc(var(--image-scale) * var(--image-height) + 5lh);
-    .image {
-      width: 100%;
-      height: auto;
-      inset-block-start: 0;
-      inset-inline-start: 0;
-    }
-
-    &:has(.image.empty) {
-      min-height: 5lh;
-    }
-
-    .overlay {
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        var(--dominant-color) calc(var(--image-scale) * var(--image-height))
-      );
-    }
-    .content {
-      align-self: end;
-      align-content: end;
     }
   }
 
@@ -295,7 +317,6 @@
       color: currentColor;
       padding: 0.25em;
       .title-header {
-
         font-size: 1.1em;
         padding: 0.25em;
       }
@@ -319,9 +340,8 @@
     .extract {
       display: none;
     }
-    .meta{
+    .meta {
       display: none;
     }
-
   }
 }
