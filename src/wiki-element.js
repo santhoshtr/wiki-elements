@@ -7,7 +7,7 @@ class WikiElement extends HTMLElement {
         this.rendered = false;
         this.initializeProperties();
 
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: "open" });
         if (this.constructor.template) {
             this.shadowRoot.innerHTML = this.constructor.template.innerHTML;
         }
@@ -28,14 +28,16 @@ class WikiElement extends HTMLElement {
     }
 
     convertValue(value, type) {
-        if (value === null) { return value };
+        if (value === null) {
+ return value; 
+};
         switch (type) {
             case String:
                 return value;
             case Number:
                 return Number(value);
             case Boolean:
-                return value !== null && value !== 'false';
+                return value !== null && value !== "false";
             case Array:
             case Object:
                 return JSON.parse(value);
@@ -55,7 +57,9 @@ class WikiElement extends HTMLElement {
     }
 
     propertyChangedCallback(name, oldValue, newValue) {
-        if (!this.rendered) { return; }
+        if (!this.rendered) {
+ return; 
+}
         console.log(`Property ${name} changed from ${oldValue} to ${newValue}`);
         // This method can be overridden in subclasses to react to property changes
         this.render();
@@ -72,7 +76,7 @@ class WikiElement extends HTMLElement {
     }
 
     static get template() {
-        return '';
+        return "";
         // return html`<p>${this.greeting}</p>`;
     }
 

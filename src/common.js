@@ -6,7 +6,7 @@ function addPrefetch(kind, url, as) {
         return; // Link already exists, no need to add it again
     }
 
-    const linkEl = document.createElement('link');
+    const linkEl = document.createElement("link");
     linkEl.rel = kind;
     linkEl.href = url;
     if (as) {
@@ -26,7 +26,7 @@ function deIndent(text) {
     if (indent) {
         indent = indent[1];
 
-        text = text.replace(RegExp('^' + indent, 'gm'), '');
+        text = text.replace(RegExp("^" + indent, "gm"), "");
     }
 
     return text;
@@ -41,15 +41,15 @@ const addScript = async (src) =>
     new Promise((resolve, reject) => {
         const existingEl = document.querySelector(`script[src="${src}"]`);
         if (existingEl) {
-            existingEl.addEventListener('load', resolve);
+            existingEl.addEventListener("load", resolve);
             return; // Script already exists, no need to add it again
         }
 
-        const el = document.createElement('script');
+        const el = document.createElement("script");
         el.src = src;
-        el.crossorigin = '';
-        el.addEventListener('load', resolve);
-        el.addEventListener('error', reject);
+        el.crossorigin = "";
+        el.addEventListener("load", resolve);
+        el.addEventListener("error", reject);
         document.body.append(el);
     });
 
@@ -66,12 +66,12 @@ const addStyle = async (src) =>
             return; // Style already exists, no need to add it again
         }
 
-        const el = document.createElement('link');
-        el.rel = 'stylesheet';
+        const el = document.createElement("link");
+        el.rel = "stylesheet";
         el.href = src;
-        el.crossorigin = '';
-        el.addEventListener('load', resolve);
-        el.addEventListener('error', reject);
+        el.crossorigin = "";
+        el.addEventListener("load", resolve);
+        el.addEventListener("error", reject);
         document.head.append(el);
     });
 
@@ -99,12 +99,12 @@ const detectLanguage = async (text, threshold = 0.4, fallback = "en") => {
     })
         .then((response) => response.json())
         .then((result) => result.score < threshold ? fallback : result.wikicode);
-}
+};
 
 async function sha256(inputString) {
     if (!window.crypto.subtle) {
         // Only available in secure contexts (HTTPS)
-        return null
+        return null;
     }
     const msgUint8 = new TextEncoder().encode(inputString); // encode as (utf-8) Uint8Array
     const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); // hash the message
@@ -125,7 +125,8 @@ const getSourceSetFromCommonsUrl = (url) => {
         const urlParts = url.split("/");
         urlPrefix = urlParts.slice(0, -1).join("/").replace("/commons/", "/commons/thumb/");
         srcsetImgName = urlParts[urlParts.length - 1];
-    } else {
+    }
+ else {
         const urlParts = url.split("/");
         urlPrefix = urlParts.slice(0, -2).join("/");
         srcsetImgName = urlParts[urlParts.length - 2];
@@ -148,7 +149,7 @@ const getSourceSetFromCommonsUrl = (url) => {
     );
 
     return srcset;
-}
+};
 
 /**
  * A template literal tag 'html' that creates an HTML <template> element from the contents of the string,
@@ -163,11 +164,11 @@ const getSourceSetFromCommonsUrl = (url) => {
 function html(strings, ...values) {
     // Combine the strings and values
     const rawHTML = strings.reduce((result, string, i) => {
-        return result + string + (values[i] || '');
-    }, '');
+        return result + string + (values[i] || "");
+    }, "");
 
     // Create a template element
-    const template = document.createElement('template');
+    const template = document.createElement("template");
 
     // Set the innerHTML of the template
     template.innerHTML = rawHTML.trim();
@@ -179,11 +180,11 @@ function html(strings, ...values) {
 function css(strings, ...values) {
     // Combine the strings and values
     const rawCSS = strings.reduce((result, string, i) => {
-        return result + string + (values[i] || '');
-    }, '');
+        return result + string + (values[i] || "");
+    }, "");
 
     // Create a style element
-    const style = document.createElement('style');
+    const style = document.createElement("style");
 
     // Set the innerHTML of the style
     style.innerHTML = rawCSS.trim();

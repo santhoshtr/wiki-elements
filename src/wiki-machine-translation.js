@@ -1,6 +1,6 @@
-import { html, deIndent, addPrefetch, detectLanguage, sha256 } from './common.js';
-import LazyLoadMixin from './mixins/LazyLoadMixin.js';
-import WikiElement from './wiki-element.js';
+import { html, deIndent, addPrefetch, detectLanguage, sha256 } from "./common.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
 class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
 
@@ -22,7 +22,7 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
             source_text: {
                 type: String
             }
-        }
+        };
     }
 
 
@@ -50,7 +50,7 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
                 display: block;
             }
             </style>
-        `
+        `;
     }
 
     /**
@@ -65,8 +65,8 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
         this.source_text = deIndent(this.innerText).trim();
         this.translation = null;
 
-        addPrefetch('preconnect', 'https://cxserver.wikimedia.org');
-        addPrefetch('preconnect', 'https://api.wikimedia.org');
+        addPrefetch("preconnect", "https://cxserver.wikimedia.org");
+        addPrefetch("preconnect", "https://api.wikimedia.org");
     }
 
 
@@ -74,14 +74,14 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
         if (!this.isConnected || this.source_html === undefined || !this.target) {
             return;
         }
-        const resultContainer = this.shadowRoot.querySelector('.translation');
-        const MTProvider = 'MinT';
+        const resultContainer = this.shadowRoot.querySelector(".translation");
+        const MTProvider = "MinT";
 
         if (this.source === this.target) {
             resultContainer.innerHTML = this.source_html;
             return;
         }
-        this.internals.states.add('progress');
+        this.internals.states.add("progress");
         if (!this.source) {
             this.source = await detectLanguage(this.innerText);
         }
@@ -101,32 +101,35 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
                 });
 
                 const response = await fetch(api, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                     body: payload
                 });
 
-                if (!response.ok) throw new Error('Network response was not ok');
+                if (!response.ok) {
+throw new Error("Network response was not ok");
+}
                 this.translation = (await response.json()).contents;
-                resultContainer.innerHTML = this.translation
+                resultContainer.innerHTML = this.translation;
                 // store in localstorage
                 if (hash) {
                     localStorage.setItem(hash, this.translation);
                 }
             }
-            this.internals.states.delete('progress');
-        } catch (error) {
-            this.internals.states.add('error');
-            this.internals.states.delete('progress');
+            this.internals.states.delete("progress");
+        }
+ catch (error) {
+            this.internals.states.add("error");
+            this.internals.states.delete("progress");
             const errormsg = `Failed to load translation: ${error}`;
             resultContainer.innerHTML = errormsg;
             console.error(errormsg);
         }
 
         // Fire event
-        const event = new CustomEvent('wiki-machine-translation-ready', {
+        const event = new CustomEvent("wiki-machine-translation-ready", {
             detail: {
                 source: this.source,
                 target: this.target,
@@ -139,6 +142,6 @@ class WikiMachineTranslation extends LazyLoadMixin(WikiElement) {
 }
 
 // Register custom element
-if (!customElements.get('wiki-machine-translation')) {
-    customElements.define('wiki-machine-translation', WikiMachineTranslation);
+if (!customElements.get("wiki-machine-translation")) {
+    customElements.define("wiki-machine-translation", WikiMachineTranslation);
 }

@@ -1,6 +1,6 @@
-import { deIndent, addPrefetch } from './common.js';
-import WikiElement from './wiki-element.js';
-import LazyLoadMixin from './mixins/LazyLoadMixin.js';
+import { deIndent, addPrefetch } from "./common.js";
+import WikiElement from "./wiki-element.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 
 /**
  * Represents a custom HTML element for rendering wiki content as HTML.
@@ -17,12 +17,12 @@ class WikiWikiText extends LazyLoadMixin(WikiElement) {
             },
             language: {
                 type: String,
-                default: 'en'
+                default: "en"
             },
             wiki_text: {
                 type: String
             },
-        }
+        };
     }
 
     /**
@@ -30,7 +30,7 @@ class WikiWikiText extends LazyLoadMixin(WikiElement) {
      */
     connectedCallback() {
         super.connectedCallback();
-        addPrefetch('preconnect', `https://${this.language}.wikipedia.org`);
+        addPrefetch("preconnect", `https://${this.language}.wikipedia.org`);
         this.wiki_text = deIndent(this.innerHTML);
     }
 
@@ -46,9 +46,9 @@ class WikiWikiText extends LazyLoadMixin(WikiElement) {
         }
         try {
             const response = await fetch(api, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     wikitext: this.wiki_text,
@@ -56,17 +56,20 @@ class WikiWikiText extends LazyLoadMixin(WikiElement) {
                 }),
             });
 
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+throw new Error("Network response was not ok");
+}
             this.shadowRoot.innerHTML = await response.text();
-        } catch (error) {
+        }
+ catch (error) {
             console.error(`Error while converting wikitext ${this._wikitextContent} error:${error}`);
         }
 
         // Fire event
-        const event = new CustomEvent('wikitext-render', { bubbles: true, composed: true });
+        const event = new CustomEvent("wikitext-render", { bubbles: true, composed: true });
         this.dispatchEvent(event);
     }
 }
 
 // Register custom element
-customElements.define('wiki-wikitext', WikiWikiText);
+customElements.define("wiki-wikitext", WikiWikiText);

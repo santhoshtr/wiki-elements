@@ -1,4 +1,4 @@
-import { debounce } from '../common.js';
+import { debounce } from "../common.js";
 
 const ResizeMixin = (superClass) => class extends superClass {
     constructor() {
@@ -8,7 +8,7 @@ const ResizeMixin = (superClass) => class extends superClass {
 
         this.resizeObserver = new ResizeObserver(entries => {
             if (!this.rendered) {
-                return
+                return;
             }
             for (let entry of entries) {
                 const { width, height } = entry.contentRect;

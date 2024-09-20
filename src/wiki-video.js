@@ -1,8 +1,8 @@
 
-import { html, addPrefetch } from './common.js';
-import WikiElement from './wiki-element.js';
-import LazyLoadMixin from './mixins/LazyLoadMixin.js';
-const styleURL = new URL('./wiki-video.css', import.meta.url)
+import { html, addPrefetch } from "./common.js";
+import WikiElement from "./wiki-element.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+const styleURL = new URL("./wiki-video.css", import.meta.url);
 
 
 class WikiVideo extends LazyLoadMixin(WikiElement) {
@@ -14,7 +14,7 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
             source: {
                 type: String
             }
-        }
+        };
     }
 
     static get template() {
@@ -29,29 +29,32 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
 
             @import url(${styleURL});
             </style>
-            `
+            `;
     }
 
     connectedCallback() {
         super.connectedCallback();
-        addPrefetch('preconnect', 'https://commons.wikimedia.org');
+        addPrefetch("preconnect", "https://commons.wikimedia.org");
     }
 
 
     async render() {
-        const source = this.getAttribute('source');
-        if (!source) return;
+        const source = this.getAttribute("source");
+        if (!source) {
+return;
+}
         var videoTitle = source;
-        if (source.startsWith('http://') || source.startsWith('https://')) {
+        if (source.startsWith("http://") || source.startsWith("https://")) {
             const sourceUrl = new URL(source);
-            videoTitle = sourceUrl.pathname.split('/').pop();
+            videoTitle = sourceUrl.pathname.split("/").pop();
         }
 
         try {
             const videoData = await this.fetchVideoData(videoTitle);
             this.preparePlayer(videoData);
-        } catch (error) {
-            console.error('Error fetching image data:', error);
+        }
+ catch (error) {
+            console.error("Error fetching image data:", error);
         }
     }
 
@@ -66,17 +69,17 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
 
 
     preparePlayer(videoData) {
-        const player = this.shadowRoot.querySelector('video');
-        const attribution = this.shadowRoot.querySelector('figcaption');
+        const player = this.shadowRoot.querySelector("video");
+        const attribution = this.shadowRoot.querySelector("figcaption");
         const commonsUrl = videoData.descriptionurl;
-        const source_el = document.createElement('source');
+        const source_el = document.createElement("source");
 
-        source_el.setAttribute('src', videoData.url);
+        source_el.setAttribute("src", videoData.url);
 
-        const video_file_name = videoData.url.split('/').pop();
+        const video_file_name = videoData.url.split("/").pop();
         const poster = `${videoData.url.replace("/commons", "/commons/thumb")}/640px-${video_file_name}.webp`;
 
-        player.setAttribute('poster', poster);
+        player.setAttribute("poster", poster);
         player.appendChild(source_el);
 
         // Set attribution
@@ -84,8 +87,8 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
         const description = videoData.extmetadata.ImageDescription.value;
         const license = videoData.extmetadata.LicenseShortName.value;
         attribution.innerHTML = `${description} | ${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
-        player.setAttribute('alt', attribution.textContent);
+        player.setAttribute("alt", attribution.textContent);
     }
 }
 
-customElements.define('wiki-video', WikiVideo);
+customElements.define("wiki-video", WikiVideo);

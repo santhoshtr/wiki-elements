@@ -35,19 +35,19 @@ function getImageData(imageUrl) {
     return new Promise((resolve, reject) => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
-        const canvas = document.createElement('canvas')
-        const context = canvas.getContext('2d', { colorSpace: "display-p3" })
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { colorSpace: "display-p3" });
         img.onload = () => {
-            canvas.height = img.height
-            canvas.width = img.width
-            context.drawImage(img, 0, 0)
+            canvas.height = img.height;
+            canvas.width = img.width;
+            context.drawImage(img, 0, 0);
 
             const data = context.getImageData(
                 0, 0, img.width, img.height,
-                { colorSpace: "display-p3" }).data
+                { colorSpace: "display-p3" }).data;
 
-            resolve({ width: img.width, height: img.height, data })
-        }
+            resolve({ width: img.width, height: img.height, data });
+        };
         img.onerror = () => reject(Error(`Failed to load image at ${imageUrl}`));
 
         img.src = imageUrl;
@@ -55,20 +55,20 @@ function getImageData(imageUrl) {
 }
 
 function getAverageColor(data, sample = 1) {
-    const amount = data.length / sample
-    const rgb = { r: 0, g: 0, b: 0 }
+    const amount = data.length / sample;
+    const rgb = { r: 0, g: 0, b: 0 };
     const gap = 4 * sample;
     for (let i = 0; i < data.length; i += gap) {
-        rgb.r += data[i]
-        rgb.g += data[i + 1]
-        rgb.b += data[i + 2]
+        rgb.r += data[i];
+        rgb.g += data[i + 1];
+        rgb.b += data[i + 2];
     }
 
     return [
         Math.round(rgb.r / amount),
         Math.round(rgb.g / amount),
         Math.round(rgb.b / amount)
-    ]
+    ];
 }
 
 function isSameColor(data, groupby = 20) {
@@ -93,30 +93,30 @@ function isSameColor(data, groupby = 20) {
 }
 
 const group = (number, grouping) => {
-    const grouped = Math.round(number / grouping) * grouping
+    const grouped = Math.round(number / grouping) * grouping;
 
-    return Math.min(grouped, 255)
-}
+    return Math.min(grouped, 255);
+};
 
 
 function getProminentColor(data, sample = 1, amount = 1, groupby = 20) {
-    const gap = 4 * sample
-    const colors = {}
+    const gap = 4 * sample;
+    const colors = {};
 
     for (let i = 0; i < data.length; i += gap) {
         const rgb = [
             group(data[i], groupby),
             group(data[i + 1], groupby),
             group(data[i + 2], groupby),
-        ].join()
+        ].join();
 
-        colors[rgb] = colors[rgb] ? colors[rgb] + 1 : 1
+        colors[rgb] = colors[rgb] ? colors[rgb] + 1 : 1;
     }
 
     return Object.entries(colors)
         .sort(([_keyA, valA], [_keyB, valB]) => valA > valB ? -1 : 1)
         .slice(0, amount)
-        .map(([rgb]) => rgb.split(',').map(Number))
+        .map(([rgb]) => rgb.split(",").map(Number));
 }
 
 
@@ -151,33 +151,33 @@ function getColorTheme(bgColor) {
 
 const average = (imageUrl) => {
     return new Promise((resolve, reject) => {
-        if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
-            throw new Error('Invalid image URL');
+        if (typeof imageUrl !== "string" || !imageUrl.trim()) {
+            throw new Error("Invalid image URL");
         }
         getImageData(imageUrl)
             .then((data) => resolve(getAverageColor(data)))
-            .catch((error) => reject(error))
+            .catch((error) => reject(error));
     });
-}
+};
 
 const prominent = (imageUrl) => {
     return new Promise((resolve, reject) => {
-        if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
-            throw new Error('Invalid image URL');
+        if (typeof imageUrl !== "string" || !imageUrl.trim()) {
+            throw new Error("Invalid image URL");
         }
 
         getImageData(imageUrl)
             .then((data) => resolve(getProminentColor(data)))
             .catch((error) => reject(error));
     });
-}
+};
 
-const getContinuousColor = async (imageUrl, at = 'left') => {
-    if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
-        throw new Error('Invalid image URL');
+const getContinuousColor = async (imageUrl, at = "left") => {
+    if (typeof imageUrl !== "string" || !imageUrl.trim()) {
+        throw new Error("Invalid image URL");
     }
 
-    let colorStatus = {}
+    let colorStatus = {};
 
     let imageData = await getImageData(imageUrl);
     const sideRegions = extractSideRegions(imageData);
@@ -189,23 +189,24 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
             colorStatus[side] = {
                 continuous: true,
                 color: Array.from(regionImageData.slice(0, 4))
-            }
-        } else {
+            };
+        }
+ else {
             colorStatus[side] = {
                 continuous: false,
                 color: await getProminentColor(imageData.data)[0]
-            }
+            };
         }
     }
 
     if (colorStatus[at].color[3] == 0) {
         // if the color is transparent, set it to white
-        colorStatus[at].color = [255, 255, 255, 255]
+        colorStatus[at].color = [255, 255, 255, 255];
     }
 
 
-    return colorStatus[at].color
-}
+    return colorStatus[at].color;
+};
 
 export {
     average,

@@ -1,4 +1,4 @@
-getImageDimensions = (imageUrl) => {
+const getImageDimensions = (imageUrl) => {
     return new Promise((resolve, reject) => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
@@ -10,7 +10,7 @@ getImageDimensions = (imageUrl) => {
         };
         img.src = imageUrl;
     });
-}
+};
 
 
 export {

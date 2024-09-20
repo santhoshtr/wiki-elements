@@ -1,9 +1,9 @@
 
-import { html, addPrefetch, getSourceSetFromCommonsUrl } from './common.js';
-import WikiElement from './wiki-element.js';
-import LazyLoadMixin from './mixins/LazyLoadMixin.js';
+import { html, addPrefetch, getSourceSetFromCommonsUrl } from "./common.js";
+import WikiElement from "./wiki-element.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 
-const styleURL = new URL('./wiki-user.css', import.meta.url)
+const styleURL = new URL("./wiki-user.css", import.meta.url);
 
 class WikiUser extends LazyLoadMixin(WikiElement) {
     constructor() {
@@ -26,7 +26,7 @@ class WikiUser extends LazyLoadMixin(WikiElement) {
             @import url(${styleURL});
         </style>
         </div>
-       `
+       `;
     }
 
 
@@ -38,41 +38,49 @@ class WikiUser extends LazyLoadMixin(WikiElement) {
             avatar: {
                 type: String
             },
-        }
+        };
     }
 
     connectedCallback() {
         super.connectedCallback();
-        addPrefetch('preconnect', 'https://en.wikipedia.org');
+        addPrefetch("preconnect", "https://en.wikipedia.org");
     }
 
     async render() {
-        if (!this.username) return;
-        this.shadowRoot.querySelector('.username').textContent = this.username;
+        if (!this.username) {
+return;
+}
+        this.shadowRoot.querySelector(".username").textContent = this.username;
 
         if (this.avatar) {
-            this.shadowRoot.querySelector('img.avatar').src = this.avatar;
+            this.shadowRoot.querySelector("img.avatar").src = this.avatar;
         }
 
         try {
             const userData = await this.fetchUserData(this.username);
             this.updateUser(userData);
-        } catch (error) {
-            console.error('Error fetching user data:', error);
+        }
+ catch (error) {
+            console.error("Error fetching user data:", error);
         }
     }
 
     async fetchUserData() {
-        if (!this.username) return;
+        if (!this.username) {
+return;
+}
         const url = `https://en.wikipedia.org/w/api.php?action=query&guiprop=groups|merged|unattached&guiuser=${this.username}&meta=globaluserinfo&format=json&origin=*`;
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+throw new Error("Network response was not ok");
+}
             const data = await response.json();
             return data.query.globaluserinfo;
-        } catch (error) {
-            this.shadowRoot.querySelector('.description').innerText = 'Failed to load article.';
-            console.error('Fetch error:', error);
+        }
+ catch (error) {
+            this.shadowRoot.querySelector(".description").innerText = "Failed to load article.";
+            console.error("Fetch error:", error);
         }
     }
 
@@ -98,17 +106,17 @@ class WikiUser extends LazyLoadMixin(WikiElement) {
 
 
     updateUser(userData) {
-        this.shadowRoot.querySelector('.username').textContent = userData.name;
-        this.shadowRoot.querySelector('.editcount').textContent = this.getTotalEditCount(userData);
-        this.shadowRoot.querySelector('.wikicount').textContent = this.getTotalWikis(userData);
+        this.shadowRoot.querySelector(".username").textContent = userData.name;
+        this.shadowRoot.querySelector(".editcount").textContent = this.getTotalEditCount(userData);
+        this.shadowRoot.querySelector(".wikicount").textContent = this.getTotalWikis(userData);
         const registrationDate = new Date(userData.registration);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const options = { year: "numeric", month: "long", day: "numeric" };
         const formattedDate = registrationDate.toLocaleDateString(undefined, options);
         // FIXME. Get first registration date in any wiki
-        this.shadowRoot.querySelector('.registration').textContent = formattedDate;
+        this.shadowRoot.querySelector(".registration").textContent = formattedDate;
     }
 }
 
-if (!customElements.get('wiki-user')) {
-    customElements.define('wiki-user', WikiUser);
+if (!customElements.get("wiki-user")) {
+    customElements.define("wiki-user", WikiUser);
 }

@@ -30,7 +30,7 @@ const LazyLoadMixin = (superClass) => class extends superClass {
     _setupIntersectionObserver() {
         const options = {
             root: null,
-            rootMargin: '200px',
+            rootMargin: "200px",
             threshold: 0.1
         };
 
@@ -49,7 +49,7 @@ const LazyLoadMixin = (superClass) => class extends superClass {
 
     render() {
         // This method should be overridden in the component class
-        console.warn('Render method not implemented');
+        console.warn("Render method not implemented");
         this._isRendered = true;
     }
 };
