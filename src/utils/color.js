@@ -2,10 +2,10 @@ function extractSideRegions(imageData) {
     const { width, height, data } = imageData;
 
     const sideRegionMap = {
-        left: { x: 0, y: 0, width: 2, height: height },
-        right: { x: width - 2, y: 0, width: 2, height: height },
-        bottom: { x: 0, y: height - 2, width: width, height: 2 },
-        top: { x: 0, y: 0, width: width, height: 2 },
+        left: { x: 0, y: 0, width: 1, height: height },
+        right: { x: width - 1, y: 0, width: 1, height: height },
+        bottom: { x: 0, y: height - 1, width: width, height: 1 },
+        top: { x: 0, y: 0, width: width, height: 1 },
     };
 
     const result = {};
@@ -197,12 +197,13 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
             }
         }
     }
+
     if (colorStatus[at].color[3] == 0) {
         // if the color is transparent, set it to white
-        colorStatus[at].color = [255, 255, 255, 1]
+        colorStatus[at].color = [255, 255, 255, 255]
     }
 
-    console.log(colorStatus);
+
     return colorStatus[at].color
 }
 
