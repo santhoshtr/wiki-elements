@@ -38,8 +38,8 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
 
     async render() {
         if (!this.source) {
-return;
-}
+            return;
+        }
         var imageTitle = this.source;
         if (this.source.startsWith("http://") || this.source.startsWith("https://")) {
             const sourceUrl = new URL(this.source);
@@ -53,7 +53,7 @@ return;
             this.internals.states.delete("progress");
             this.updateImage(imageData);
         }
- catch (error) {
+        catch (error) {
             this.internals.states.delete("progress");
             this.internals.states.add("error");
             console.error("Error fetching image data:", error);
