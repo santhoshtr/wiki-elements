@@ -176,7 +176,7 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
     if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
         throw new Error('Invalid image URL');
     }
-    let region;
+
     let colorStatus = {}
 
     let imageData = await getImageData(imageUrl);
@@ -197,7 +197,10 @@ const getContinuousColor = async (imageUrl, at = 'left') => {
             }
         }
     }
-
+    if (colorStatus[at].color[3] == 0) {
+        // if the color is transparent, set it to white
+        colorStatus[at].color = [255, 255, 255, 1]
+    }
 
     console.log(colorStatus);
     return colorStatus[at].color
