@@ -83,7 +83,9 @@ class WikiMap extends HTMLElement {
 
     async fetchMapData() {
         if (this.source) {
-            const url = new URL(this.source);
+          // Normalize the source URL to support both /wiki/ and /data/main/ URLs
+          const normalizedSource = this.source.replace("/data/main/", "/wiki/");
+          const url = new URL(normalizedSource);
             const article = url.pathname.split("/wiki/").pop();
             const hostname = url.hostname;
             const apiURL = `https://${hostname}/w/api.php?action=query&prop=revisions&rvprop=content&titles=${encodeURIComponent(article)}&format=json&formatversion=2&origin=*`;
