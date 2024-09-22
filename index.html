@@ -14,16 +14,13 @@
     <meta name="color-scheme" content="dark light" />
     <link rel="stylesheet" href="style.css" />
     <script src="src/index.js" type="module"></script>
+
   </head>
 
   <body>
     <header class="header">
       <span class="logo"></span>
-      <h1>wiki-elements</h1>
-      <span class="theme-selector">
-        <input type="checkbox" style="display: none;" id="theme-toggle">
-        <label for="theme-toggle" style="cursor: pointer;float:right;">☀️</label>
-      </span>
+      <span class="site-title">wiki-elements</span>
       <input type="checkbox" style="display: none;" id="menu-toggle">
       <label for="menu-toggle" class="hamburger">
         <span></span>
@@ -54,7 +51,23 @@
 
       <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
 
-      <dark-mode-toggle id="dark-mode-toggle" appearance="toggle" title="Theme"></dark-mode-toggle>
+      <form id="theme">
+        <fieldset id="theme-picker">
+          <legend>Theme:</legend>
+          <label>
+            Auto
+            <input type="radio" name="theme" value="auto" checked>
+          </label>
+          <label>
+            Light
+            <input type="radio" name="theme" value="light">
+          </label>
+          <label>
+            Dark
+            <input type="radio" name="theme" value="dark">
+          </label>
+        </fieldset>
+      </form>
     </nav>
     <article class="main">
       <p class="subheading">A collection of WebComponents to share or interact with Wikipedia content</p>
@@ -145,13 +158,6 @@
     }
 
     label {
-      font-size: 1em;
-    }
-
-    input,
-    button,
-    select {
-      padding: 5px;
       font-size: 1em;
     }
 
@@ -419,10 +425,7 @@
         background: var(--surface-1) !important;
       }
       .hljs-copy {
-        background-color: transparent;
-        border: none;
         float: right;
-        cursor: pointer;
         position: relative;
         width: 30px;
         left: -30px;
@@ -437,6 +440,15 @@
         },
         false,
       );
+    </script>
+    <script>
+      document.getElementById('theme').oninput = e => {
+        // if you want this to not reset on page load
+        // you'll want to set a cookie or local storage value
+        // which restores the attribute on html
+        // eg: html[data-theme="dark"]
+        document.firstElementChild.setAttribute('data-theme', e.target.value)
+      }
     </script>
   </body>
 </html>

@@ -1,31 +1,15 @@
+@import 'https://unpkg.com/open-props' layer(base);
+@import 'https://unpkg.com/open-props/normalize.min.css' layer(base);
 
+/* the following switch imports have selectors that enable the override of the system setting */
+@import 'https://unpkg.com/open-props/theme.light.switch.min.css' layer(base);
+@import 'https://unpkg.com/open-props/theme.dark.switch.min.css' layer(base);
 
-@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/buttons.min.css" layer(base);
 
 @layer demo {
-  :root {
-    --primary-color: var(--indigo-5) ;
-    --border-color: light-dark(var(--gray-4), var(--gray-8));
-    color-scheme: light dark;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  /* Dark mode */
-  @media screen  {
-    :root {
-      color-scheme: light;
-      &:has(#theme-toggle:checked) {
-        color-scheme: dark;
-      }
-  }
-
-
   body {
     font-family: var(--font-sans);
-    line-height: 1.5;
     line-height: 1.5;
     width: 100vw;
     height: 100vh;
@@ -45,7 +29,7 @@
   }
   .header {
     display: grid;
-    grid-template-columns: 50px auto 50px 50px;
+    grid-template-columns: 50px auto 50px;
     gap: 1em;
     background-color: var(--surface-2);
     align-items: center;
@@ -55,9 +39,13 @@
     padding: 0.5em;
     position: sticky;
     top: 0;
-    border-bottom: var(--border-size-1)  solid var(--border-color);
+    border-bottom: var(--border-size-1) solid var(--text-2);
 
-    color: var(--primary-color);
+    .site-title{
+      font-size: var(--font-size-fluid-1);
+      font-weight: var(--font-weight-7);
+      color: var(--text-1);
+    }
     .logo {
       background-image: url('./logo.svg');
       background-repeat: no-repeat;
@@ -66,18 +54,13 @@
       width: 50px;
       height: 50px;
     }
-    h1 {
-      font-size: var(--font-size-fluid-1);
-      font-weight: var(--font-weight-7);
-      margin: 0.5em;
-    }
   }
- main {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  width: 100%;
-  overflow-x: hidden;
- }
+  main {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+    overflow-x: hidden;
+  }
 
   article {
     padding: 4em;
@@ -85,28 +68,21 @@
     overflow-x: hidden;
     overflow-y: auto;
     max-width: 100%;
-
-    > h2,
-    > h3,
-    > h4 {
+    > * {
+      margin: 1em 0;
+    }
+    a:hover::before {
+      content: '§';
+      position: absolute;
+      padding: 0 0.2em;
+      margin-left: -1em;
+      border-radius: 0.2em;
       color: var(--primary-color);
-      a {
-        text-decoration: none;
-        color: var(--text-1);
-      }
-      a:hover::before {
-        content: '§';
-        position: absolute;
-        padding: 0 0.2em;
-        margin-left: -1em;
-        border-radius: 0.2em;
-        color: var(--primary-color);
-      }
     }
   }
 
   .nav {
-    border-right: var(--border-size-1) solid var(--border-color);
+    border-right: var(--border-size-1) solid var(--text-2);
     background-color: var(--surface-1);
     position: sticky;
     top: 0;
@@ -117,7 +93,6 @@
     padding: 1em;
     > * {
       display: block;
-      color: var(--primary-color);
     }
     a {
       text-decoration: none;
@@ -129,7 +104,7 @@
 
   .subheading {
     color: var(--text-2);
-    font-weight: 300;
+    font-weight: var(--font-weight-3);
   }
 
   .example {
@@ -146,7 +121,7 @@
     }
 
     code {
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--text-2);
       border-radius: 4px;
       background-color: var(--surface-2);
       white-space: preserve-breaks;
@@ -173,9 +148,9 @@
   }
   .footer {
     padding: 1em;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--text-2);
     background-color: var(--surface-2);
-    width: 100% ;
+    width: 100%;
     z-index: 2;
   }
 
@@ -192,7 +167,7 @@
       width: 100%;
       height: 3px;
       background-color: var(--text-1);
-      margin-bottom: 5px;
+      margin-bottom: 5px !important;
       transition: 0.3s;
     }
   }
@@ -213,18 +188,18 @@
 
   @media (max-width: 100ch) {
     body {
-    &:has(#menu-toggle:checked) {
-          overflow: hidden;
-          .nav {
-            height: 100%;
-            right: 0;
-            left: 0;
-            top: 72px;
-            z-index: 1024;
-          }
+      &:has(#menu-toggle:checked) {
+        overflow: hidden;
+        .nav {
+          height: 100%;
+          right: 0;
+          left: 0;
+          top: 72px;
+          z-index: 1024;
+        }
       }
     }
-    main{
+    main {
       grid-template-columns: 1fr;
     }
     article {
