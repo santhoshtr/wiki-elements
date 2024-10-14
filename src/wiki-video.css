@@ -4,7 +4,6 @@
     width: 100%;
     max-width: 100vw;
     margin: 0;
-
   }
 
   figure {
@@ -16,36 +15,51 @@
     position: relative;
     overflow: hidden;
     container-type: inline-size;
-    video {
-      display: block;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      max-width: 100vw;
-      position: relative;
-      object-fit: contain;
-    }
-    figcaption {
-      position: absolute;
-      transition: 0.3s;
-      top: 0;
-      right: calc(-1.5*100cqi);
+  }
+  figure > video {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+    object-fit: contain;
+  }
+  figure > figcaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 10px;
+    opacity: 0;
+  }
+  figure:hover > figcaption {
+    opacity: 1;
+  }
+  figure > figcaption::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
-      width: 100cqi;
-      margin: 0;
-      font-size: x-small;
-      overflow: scroll;
-      scrollbar-width: none;
+    background: rgba(0, 0, 0, 0.5);
+    filter: blur(12px);
+    transform: scale(1.5);
+  }
+  figure > figcaption > * {
+    margin: 0;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
 
-      background-color: #33333380;
-      color: white;
-      a {
-        text-decoration: none;
-        color: white;
-      }
-    }
-    &:hover figcaption {
-      right: 0;
-    }
+  figure > figcaption > h1 {
+    font-size: 1em;
+    line-clamp: 3;
+  }
+  figure > figcaption > p {
+    font-size: 0.8em;
   }
 }

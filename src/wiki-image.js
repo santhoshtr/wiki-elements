@@ -82,14 +82,17 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
         img.setAttribute("srcset", srcset);
         img.setAttribute("src", imageData.url);
 
-
         // Set attribution
         const author = imageData.user;
         const description = imageData.extmetadata.ImageDescription.value;
         const license = imageData.extmetadata.LicenseShortName.value;
-        attribution.innerHTML = `${description} | ${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
-        img.setAttribute("alt", attribution.textContent);
-
+        const descriptionElement = document.createElement("h1");
+        descriptionElement.innerHTML = description;
+        attribution.appendChild(descriptionElement);
+        const metaElement = document.createElement("p");
+        metaElement.innerHTML = `${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
+        attribution.appendChild(metaElement);
+        img.setAttribute("alt", description);
     }
 }
 

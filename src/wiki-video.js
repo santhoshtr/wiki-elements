@@ -83,11 +83,18 @@ return;
         player.appendChild(source_el);
 
         // Set attribution
+        const descriptionElement = document.createElement("h1");
+
+        const metaElement = document.createElement("p");
+
         const author = videoData.user;
         const description = videoData.extmetadata.ImageDescription.value;
+        descriptionElement.innerHTML = description;
+        attribution.appendChild(descriptionElement);
         const license = videoData.extmetadata.LicenseShortName.value;
-        attribution.innerHTML = `${description} | ${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
-        player.setAttribute("alt", attribution.textContent);
+        metaElement.innerHTML = `${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`;
+        attribution.appendChild(metaElement);
+        player.setAttribute("alt", description);
     }
 }
 
