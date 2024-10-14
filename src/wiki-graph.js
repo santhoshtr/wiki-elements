@@ -23,7 +23,12 @@ class WikiGraph extends LazyLoadMixin(WikiElement) {
         return {
             source: {
                 type: String
-            }
+            },
+            theme: {
+                type: String,
+                options: ["light", "dark"],
+                default: "light",
+            },
         };
     }
 
@@ -33,7 +38,6 @@ class WikiGraph extends LazyLoadMixin(WikiElement) {
         const url = new URL(this.source);
         this.article = url.pathname.split("/wiki/").pop();
         this.hostname = url.hostname;
-
         this.title = this.article.split(".")[0].replace(/_/g, " ");
         this.fetchGraphData().then((graphData) => this.renderGraph(graphData));
     }
@@ -49,14 +53,17 @@ class WikiGraph extends LazyLoadMixin(WikiElement) {
             echarts = window.echarts;
         }
 
-        var wikigraph = echarts.init(this.shadowRoot.querySelector(".wiki-graph"));
+        var wikigraph = echarts.init(
+            this.shadowRoot.querySelector(".wiki-graph"),
+            this.theme,
+            { renderer: "svg" });
         let xAxisLabels = [];
         let yAxisLabels = [];
         for (let i = 0; i < graphData.schema.fields.length; i++) {
             if (i == 0) {
                 xAxisLabels.push(graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name);
             }
- else {
+            else {
                 yAxisLabels.push(graphData.schema.fields[i].title?.en || graphData.schema.fields[i].name);
             }
         }
@@ -97,6 +104,18 @@ class WikiGraph extends LazyLoadMixin(WikiElement) {
             yAxis: {},
             series: series,
             dataZoom: [],
+            toolbox: {
+                show: true,
+                feature: {
+                    //     dataZoom: {
+                    //         yAxisIndex: 'none'
+                    //     },
+                    dataView: { readOnly: true },
+                    magicType: { type: ["line", "bar"] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
         };
 
         // Display the chart using the configuration items and data just specified.
@@ -108,12 +127,12 @@ class WikiGraph extends LazyLoadMixin(WikiElement) {
         try {
             const response = await fetch(this.apiURL);
             if (!response.ok) {
-throw new Error("Network response was not ok");
-}
+                throw new Error("Network response was not ok");
+            }
             const data = await response.json();
             return JSON.parse(data.query.pages[0]?.revisions[0]?.content);
         }
- catch (error) {
+        catch (error) {
             console.error("Fetch error:", error);
         }
     }
