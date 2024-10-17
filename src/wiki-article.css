@@ -75,7 +75,7 @@
     --font-size-body: 1.1em;
     --container-height: 300;
     --dominant-color: var(--continuous-color-left);
-    --l-threshold: 0.7;
+    --l-threshold: 0.6;
 
     @container wiki-article (max-width: 720px) {
       --dominant-color: var(--continuous-color-bottom);
@@ -89,8 +89,8 @@
 
     @supports (color: oklch(from red l c h)) {
       /* Thanks to https://lea.verou.me/blog/2024/contrast-color/ */
-      --l: clamp(0, (var(--l-threshold) / l - 1) * infinity, 1);
-      --wiki-article-text-color: oklch(from var(--dominant-color) var(--l) 0 h);
+      --diff: calc(var(--l-threshold) - l);
+      --wiki-article-text-color: oklch(from var(--dominant-color) clamp(0.05, max(min(var(--diff) * infinity, 1), 0), 0.95) c h);
     }
 
     @supports (color: contrast-color(red)) {
