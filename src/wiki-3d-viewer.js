@@ -20,6 +20,11 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
             </div>
             <style>
                 @import url(${styleURL});
+                #wiki-3d-viewer-container {
+                    position: relative;
+                    width: 100%;
+                    height: 75vh;
+                }
             </style>
         `;
     }
@@ -46,17 +51,19 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     }
 
     init3d(url) {
+        const container = this.shadowRoot.getElementById("wiki-3d-viewer-container");
+
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xcccccc);
 
-        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
+        const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 1, 1000);
 
-        camera.position.z = 5;
+        camera.position.z = 10;
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        this.shadowRoot.getElementById("wiki-3d-viewer-container").appendChild(renderer.domElement);
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
 
         // Add lights
         const ambientLight = new THREE.AmbientLight(0x404040);
@@ -78,6 +85,9 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
         controls.addEventListener("change", render);
         controls.target.set(0, 0, 2);
         controls.enableZoom = true;
+        controls.rotateSpeed = 0.05;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = .75;
         controls.update();
 
         const loader = new STLLoader();
@@ -108,8 +118,12 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 
                 scene.add(mesh);
 
-                renderer.render(scene, camera);
-
+                var animate = function () {
+                    requestAnimationFrame(animate);
+                    controls.update();
+                    renderer.render(scene, camera);
+                };
+                animate();
                 this.shadowRoot.getElementById("loading").style.display = "none";
             },
             function (xhr) {
