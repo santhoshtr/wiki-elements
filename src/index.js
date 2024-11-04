@@ -7,3 +7,4 @@ import "./wiki-machine-translation.js";
 import "./wiki-graph.js";
 import "./wiki-map.js";
 import "./wiki-user.js";
+import "./wiki-3d-viewer.js";
