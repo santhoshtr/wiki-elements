@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+    />
+    <meta name="supported-color-schemes" content="dark light" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="demo.js" type="module"></script>
+    <script src="../src/index.js" type="module"></script>
+    <script src="prism.js" defer ></script>
+    <link rel="stylesheet" href="prism.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <span class="logo"></span>
+      <span class="site-title">wiki-elements</span>
+      <input type="checkbox" style="display: none" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </header>
+    <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+    <main>
+      <article class="main">
+        <h3 id="wiki-machine-translation">wiki-machine-translation</h3>
+        <p>
+          The <code>wiki-machine-translation</code> component translates the text from one language to another.
+        </p> <p>
+          The translation is powered by the <a href="https://www.mediawiki.org/wiki/MinT">MinT</a> machine translation service
+        </p>
+        <h4>Attributes</h4>
+        <ul>
+          <li>
+            <code>source</code>: The source language code. For example, <code>en</code> for English, <code>hi</code> for
+            Hindi, <code>es</code> for Spanish, etc.
+          </li>
+          <li>
+            <code>target</code>: The target language code. For example, <code>en</code> for English, <code>hi</code> for
+            Hindi, <code>es</code> for Spanish, etc.
+          </li>
+        </ul>
+
+        The component is reactive, which means that the translation will be updated whenever the <code>source</code> or
+        <code>target</code> attribute changes.
+        <h4>Example</h4>
+        <section class="example">
+          <pre><code class="language-html" >
+                    &lt;wiki-machine-translation source="hi" target="en"&gt;
+                    बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध
+                    गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये
+                    ड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी
+                    ठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+                    &lt;/wiki-machine-translation&gt;
+
+                </code></pre>
+          <section class="rendering">
+            <wiki-machine-translation source="hi" target="en">
+              <p>
+                बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम
+                भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि
+                लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+              </p>
+            </wiki-machine-translation>
+          </section>
+        </section>
+      </article>
+    </main>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css"
+      media="screen and (prefers-color-scheme: light)"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css"
+      media="screen and (prefers-color-scheme: dark)"
+    />
+
+  </body>
+</html>

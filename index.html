@@ -6,14 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+    <link rel="icon" href="/doc/logo.svg" sizes="any" type="image/svg+xml" />
     <meta name="description"
       content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
     <meta name="supported-color-schemes" content="dark light" />
     <meta name="color-scheme" content="dark light" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="src/index.js" type="module"></script>
+    <link rel="stylesheet" href="doc/style.css" />
 
+    <script src="doc/demo.js" type="module"></script>
+    <script src="doc/prism.js" ></script>
+    <link rel="stylesheet" href="doc/prism.css" />
+    <script src="src/index.js" type="module"></script>
   </head>
 
   <body>
@@ -27,440 +30,56 @@
         <span></span>
       </label>
     </header>
+    <nav class="nav" data-src="doc/nav.html" data-type="text/html"></nav>
+
     <main>
-      <nav class="nav">
-        <a href="#introduction">Introduction</a>
-        <a href="#install">Install</a>
-
-        <h4 href="#components">Components</h4>
-
-        <a href="#wiki-profile">wiki-profile</a>
-        <a href="#wiki-article">wiki-article</a>
-        <a href="#wiki-wikitext">wiki-wikitext</a>
-        <a href="#wiki-image">wiki-image</a>
-        <a href="#wiki-user">wiki-user</a>
-        <a href="#wiki-video">wiki-video</a>
-        <a href="#wiki-fact">wiki-facts</a>
-        <a href="#wiki-language-selector">wiki-language-selector</a>
-        <a href="#wiki-machine-translation">wiki-machine-translation</a>
-        <a href="#wiki-map">wiki-map</a>
-        <a href="#wiki-pronounce">wiki-pronounce</a>
-        <a href="#wiki-graph">wiki-graph</a>
-        <a href="#wiki-3d-viewer">wiki-3d-viewer</a>
-        <br />
-
-        <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
-
-        <form id="theme">
-          <fieldset id="theme-picker">
-            <legend>Theme:</legend>
-            <label>
-              <input type="radio" name="theme" value="auto" checked>
-              Auto
-
-            </label>
-            <label>
-              <input type="radio" name="theme" value="light">
-              Light
-
-            </label>
-            <label>
-              <input type="radio" name="theme" value="dark">
-              Dark
-
-            </label>
-            </fieldset>
-            </form>
-            </nav>
             <article class="main">
-              <p class="subheading">A collection of WebComponents to share or interact with Wikipedia content</p>
-              <h2><a href="#install">Install</a></h2>
+              <h2>wiki-elements</h2>
+              <p>             Seamlessly integrate Wikipedia's wealth of knowledge into your web projects with powerful, easy-to-use <a href="https://en.wikipedia.org/wiki/Web_Components">Web Components</a></p>
 
-        <h2 id="components"><a href="#components">Components</a></h2>
-        <h3 id="wiki-wikitext"><a href="#wiki-wikitext">wiki-wikitext</a></h3>
-        <section class="example">
-          <pre><code class="language-html" >
-                    &lt;wiki-wikitext&gt;
-                    [[Chordophone]]
-                    &lt;/wiki-wikitext&gt;
+             <ul>
+              <li>Instant access to Wikipedia's comprehensive, multilingual content</li>
+              <li>Zero configuration, lightweight, and performance-optimized components. Copy and paste it.</li>
+              <li> wiki-elements is standard Web Components that work with any framework or vanilla JavaScript</li>
+              <li>Generate shareable, attribution-ready links and embeds with built-in copyright information and source tracking.</li>
+             </ul>
 
-                </code></pre>
-          <section class="rendering">
-            <wiki-wikitext> [[Chordophone]] </wiki-wikitext>
-          </section>
-          </section>
-          <section class="example">
-            <pre><code class="language-html" >
-                    &lt;wiki-wikitext&gt;
-                    == Violin ==
-
-                    The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is the
-                    smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin family]].
-                    Smaller violin-type instruments exist, including the [[violino piccolo]] and the [[pochette (musical
-                    instrument)|pochette]], but these are virtually unused.
-                    Most violins have a hollow wooden body, and commonly have four [[strings (music)|strings]]
-                    (sometimes [[five-string violin|five]]), usually tuned in [[perfect fifth]]s with notes G3, D4, A4,
-                    E5, and are most commonly played by drawing a [[bow (music)|bow]] across the strings.
-
-                    [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
-                    [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the earliest
-                    depictions of the violin family.]]
-
-                    The violin can also be
-                    played by plucking the strings with the fingers ([[pizzicato]]) and, in specialized cases, by
-                    striking the strings with the wooden side of the bow ([[col legno]]).
-                    &lt;/wiki-wikitext&gt;
-
-                </code></pre>
-          <section class="rendering">
-            <wiki-wikitext>
-              == Violin ==
-
-              The '''violin''', colloquially known as a '''[[fiddle]]''', is a wooden [[chordophone]], and is
-              the smallest, and thus highest-pitched instrument ([[soprano]]) in regular use in the [[violin family]].
-              Smaller violin-type instruments exist, including the [[violino piccolo]] and the
-              [[pochette (musical instrument)|pochette]], but these are virtually unused.
-              Most violins have a hollow wooden body, and commonly
-              have four [[strings (music)|strings]] (sometimes [[five-string violin|five]]), usually tuned in
-              [[perfect fifth]]s with notes G3, D4, A4, E5, and are most commonly played by drawing
-              a [[bow (music)|bow]] across the strings.
-
-              [[File:Gaudenzio Ferrari 002.jpg|thumb|The cupola of Madonna dei Miracoli in [[Saronno]],
-              [[Italy]], with angels playing violin, viola, and cello, dates from 1535 and is one of the earliest
-              depictions of the violin family.]]
-
-              The violin can also be played by plucking the strings with the fingers
-              ([[pizzicato]]) and, in specialized cases, by striking the strings with the
-              wooden side of the bow ([[col legno]]).
-              </wiki-wikitext>
-              </section>
-              </section>
-
-        <h3 id="wiki-article"><a href="#wiki-article">wiki-article</a></h3>
-        <section class="wiki-article example grid">
-          <pre><code class="language-html" >
-                    &lt;wiki-article language="en" article="Alan Turing">
-                    &lt;/wiki-article>
-                </code></pre>
-          <section class="rendering cols-2">
-            <wiki-article language="en" article="Alan Turing"></wiki-article>
-          </section>
-          </section>
-          <style>
-            form.wiki-article-selector {
-              width: min(100%, 60ch);
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 20px;
-              margin-bottom: 20px;
-
-            .form-item {
-              display: grid;
-              grid-template-rows: auto auto;
-              gap: 5px;
-            }
-
-            label {
-              font-size: 1em;
-            }
-
-            button {
-              grid-row: 2;
-            }
-          }
-
-          @media (max-width: 600px) {
-            form.wiki-article-selector {
-              grid-template-columns: auto;
-            }
-          }
-        </style>
-        <script>
-          function updateArticle(event) {
-            const language = document.getElementById('language').value;
-            const article = document.getElementById('article').value;
-            const layout = document.getElementById('layout').value;
-            const wikiArticle = document.querySelector('wiki-article');
-            const wikiArticleCode = document.querySelector('.wiki-article code');
-            wikiArticle.setAttribute('language', language);
-            wikiArticle.setAttribute('article', article);
-            wikiArticle.setAttribute('layout', layout);
-            //wikiArticle.render();
-            wikiArticleCode.innerHTML = `&lt;wiki-article language="${language}" article="${article}" layout="${layout}"&gt;&lt;/wiki-article>`;
-            wikiArticleCode.removeAttribute('data-highlighted');
-            hljs.highlightElement(wikiArticleCode);
-            return false;
-          }
-        </script>
-        <form class="wiki-article-selector" onsubmit="event.preventDefault(); updateArticle();">
-          <div class="form-item">
-            <label for="language">Language</label>
-            <select id="language">
-              <option value="en">English</option>
-              <option value="de">German</option>
-              <option value="fr">French</option>
-              <option value="es">Spanish</option>
-              <option value="it">Italian</option>
-              <option value="pt">Portuguese</option>
-              <option value="ru">Russian</option>
-              <option value="ja">Japanese</option>
-              <option value="zh">Chinese</option>
-              <option value="ar">Arabic</option>
-              <option value="hi">Hindi</option>
-              <option value="bn">Bengali</option>
-              <option value="pa">Punjabi</option>
-              <option value="te">Telugu</option>
-              <option value="ta">Tamil</option>
-              <option value="ml">Malayalam</option>
-              <option value="eu">Basque</option>
-              <option value="he">Hebrew</option>
-              <option value="el">Greek</option>
-            </select>
-          </div>
-          <div class="form-item">
-            <label for="article">Article</label>
-            <input type="text" id="article" placeholder="Article name" value="Alan Turing" />
-          </div>
-          <div class="form-item">
-            <select id="layout">
-              <option value="card">Card</option>
-              <option value="compact">Compact</option>
-              <option value="simple">Simple</option>
-            </select>
-
-          </div>
-          <div class="form-item">
-            <button type="submit">Go</button>
-          </div>
-          </form>
-
-        <h3 id="wiki-profile"><a href="#wiki-profile">wiki-profile</a></h3>
-        <section class="example">
-          <pre><code class="language-html" >
-                    &lt;wiki-profile language="en" article="Barack Obama"&gt;
-                    &lt;/wiki-profile&gt;
-                </code></pre>
-          <section class="rendering" style="width: 300px;">
-            <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
-          </section>
-          </section>
-
-        <section class="example">
-          <pre><code class="language-html" >
-                    &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
-                    &lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Julia Roberts"&gt;
-                    &lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Mahershala Ali"&gt;
-                    &lt;/wiki-profile&gt;
-
-                </code></pre>
-          <section class="rendering flex">
-            <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-            <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-            <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
-          </section>
-          </section>
-
-        <h3 id="wiki-user"><a href="#wiki-user">wiki-user</a></h3>
-        <section class="example">
-          <pre><code class="language-html" >
-                &lt;wiki-user username="Amire80"&gt;
-                &lt;/wiki-user&gt;
-            </code></pre>
-          <section class="rendering">
-            <wiki-user username="Amire80"></wiki-user>
-          </section>
-          </section>
-
-        </section>
-
-        <h3 id="wiki-map"><a href="#wiki-map">wiki-map</a></h3>
-        <section class="example">
-          <pre><code class="language-html" >
-                    &lt;wiki-map article="Banaras" language="en"&gt;
-                    &lt;/wiki-map&gt;
-                </code></pre>
-          <section class="rendering">
-            <wiki-map article="Banaras" language="en"></wiki-map>
-          </section>
-          </section>
-          <section class="example">
-            <pre><code class="language-html" >
-                    &lt;wiki-map longitude="76.9545" latitude="8.4906"&gt;
-                    &lt;/wiki-map&gt;
-
-                </code></pre>
-          <section class="rendering">
-            <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
-          </section>
-          </section>
-          <section class="example">
-            <pre><code class="language-html" >
-                    &lt;wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"&gt;
-                    &lt;/wiki-map&gt;
-
-              </code></pre>
-          <section class="rendering">
-            <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
-          </section>
-          </section>
-          <h3 id="wiki-image"><a href="#wiki-image">wiki-image</a></h3>
-          <section class="example grid">
-            <pre class="cols-2"><code class="language-html" >
-                    &lt;wiki-image source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg"&gt;
-                    &lt;/wiki-image&gt;
-
-                </code></pre>
-          <section class="rendering cols-2">
-            <wiki-image source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg">
-            </wiki-image>
-          </section>
-          </section>
-          <section class="example">
-            <pre><code class="language-html" >
-                      &lt;wiki-image source="https://commons.wikimedia.org/wiki/File:023_African_pygmy_kingfisher_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg"&gt;
-                      &lt;/wiki-image&gt;
-    </code></pre>
-          <section class="rendering">
-            <wiki-image
-              source="https://commons.wikimedia.org/wiki/File:023_African_pygmy_kingfisher_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg">
-            </wiki-image>
-          </section>
-          </section>
-          </section>
-
-        <h3 id="wiki-video"><a href="#wiki-video">wiki-video</a></h3>
-        <section class="example grid">
-          <pre><code class="language-html" >
-                      &lt;wiki-video source="File:Train_Crimean_Bridge_2019.webm"&gt;
-                    &lt;/wiki-video&gt;
-
-                </code></pre>
-          <section class="rendering ">
-            <wiki-video source="File:Train_Crimean_Bridge_2019.webm">
-            </wiki-video>
-          </section>
-          </section>
-
-        </section>
-
-        <h3 id="wiki-machine-translation"><a href="#wiki-machine-translation">wiki-machine-translation</a></h3>
-        <section class="example">
-          <pre><code class="language-html" >
-                    &lt;wiki-machine-translation source="hi" target="en"&gt;
-                    बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
-                    &lt;/wiki-machine-translation&gt;
-
-                </code></pre>
-          <section class="rendering">
-            <wiki-machine-translation source="hi" target="en">
+              <h3>Why </h3>
               <p>
-                बुलबुल, शाखाशायी गण के पिकनोनॉटिडी कुल का पक्षी है और प्रसिद्ध गायक पक्षी "बुलबुल हजारदास्ताँ" से एकदम
-                भिन्न है। ये कीड़े-मकोड़े और फल फूल खानेवाले पक्षी होते हैं। ये पक्षी अपनी मीठी बोली के लिए नहीं, बल्कि
-                लड़ने की आदत के कारण शौकीनों द्वारा पाले जाते रहे हैं।
+                Wikipedia is the world's largest and most comprehensive encyclopedia, with over 6 million articles in English alone. It's a treasure trove of knowledge, but integrating it into your web projects can be a challenge. wiki-elements makes it easy to embed Wikipedia content in your web pages, with a collection of powerful, easy-to-use Web Components that let you display Wikipedia articles, profiles, user pages, and more with just a few lines of code.
               </p>
-            </wiki-machine-translation>
-          </section>
-          </section>
-          <h3 id="wiki-graph"><a href="#wiki-graph<">wiki-graph</a></h3>
-          <section class="example grid">
-            <pre class="cols-2"><code class="language-html">
-                    &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab" &gt;
-                    &lt;/wiki-graph&gt;
 
-                </code></pre>
+              <h3 id="#usage">Usage </h3>
+              <p>
+                To use wiki-elements in your project, include the following script tag in your HTML file:
+              </p>
+              <pre class="language-html">
+                <code>
+                    &lt;script
+                      src="https://santhoshtr.github.io/wiki-elements/src/index.js"
+                      type="module">
+                    &lt;/script>
+                </code>
+              </pre>
+              <p>
+                You can now use any of the wiki-elements in your project. For example, to display a Wikipedia article, use the <code>wiki-article</code> element:
+              </p>
+              <pre class="language-html">
+                <code>
+                    &lt;wiki-article article="Culture of Greece">
+                    &lt;/wiki-article>
+                </code>
+              </pre>
+              <wiki-article language="en" article="Culture of Greece">
+              </wiki-article>
+              <p>
+                Now you can see the article about the Culture of Greece displayed on your web page.
+              </p>
 
-          <section class="rendering cols-2">
-            <wiki-graph
-              source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab">
-            </wiki-graph>
-          </section>
-        </section>
-        <section class="example grid">
-          <pre class="cols-2"><code class="language-html">
-                    &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"&gt;
-                    &lt;/wiki-graph&gt;
-
-                </code></pre>
-          <section class="rendering cols-2">
-            <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"> </wiki-graph>
-          </section>
-          </section>
-        <!-- wiki-3d-viewer -->
-        <h3 id="wiki-3d-viewer"><a href="#wiki-3d-viewer">wiki-3d-viewer</a></h3>
-        <section class="example grid">
-          <pre><code class="language-html">
-                                            &lt;wiki-3d-viewer source="https://commons.wikimedia.org/wiki/Special:Redirect/file/Moon%20elevation.stl"&gt;
-                                            &lt;/wiki-3d-viewer&gt;
-        
-                            </code></pre>
-          <section class="rendering  cols-2">
-            <wiki-3d-viewer source="./src/Moon_elevation.stl">
-            </wiki-3d-viewer>
-          </section>
-
-          <footer class="footer">
-            <p>Created by <a href="https://thottingal.in">Santhosh Thottingal</a></p>
-          </footer>
+              <button onclick="window.location.href = 'doc/wiki-article.html';">Read documentation</button>
           </article>
-
     </main>
 
-
-
-    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css"
-      media="screen and (prefers-color-scheme: light)" />
-    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css"
-      media="screen and (prefers-color-scheme: dark)" />
-
-    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"></script>
-    <script>
-            hljs.highlightAll();
-    </script>
-    <script>
-      const snippets = document.getElementsByTagName('pre');
-      const numberOfSnippets = snippets.length;
-      for (var i = 0; i < numberOfSnippets; i++) {
-        code = snippets[i].getElementsByTagName('code')[0].innerText;
-        snippets[i].classList.add('hljs'); // append copy button to pre tag
-        snippets[i].innerHTML = '<button class="hljs-copy">📋</button>' + snippets[i].innerHTML; // append copy button
-        snippets[i].getElementsByClassName('hljs-copy')[0].addEventListener("click", function () {
-          navigator.clipboard?.writeText(code);
-        });
-      }
-    </script>
-    <style>
-      pre.hljs {
-        background: var(--surface-1) !important;
-      }
-
-      .hljs-copy {
-        float: right;
-        position: relative;
-        width: 30px;
-        left: -30px;
-      }
-    </style>
-    <script>
-      window.addEventListener(
-        "hashchange",
-        () => {
-          // uncheck the menu toggle
-          document.getElementById("menu-toggle").checked = false;
-        },
-        false,
-      );
-    </script>
-    <script>
-      document.getElementById('theme').oninput = e => {
-        // if you want this to not reset on page load
-        // you'll want to set a cookie or local storage value
-        // which restores the attribute on html
-        // eg: html[data-theme="dark"]
-        document.firstElementChild.setAttribute('data-theme', e.target.value)
-      }
-    </script>
   </body>
 
 </html>

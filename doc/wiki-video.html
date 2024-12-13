@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
+
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none;" id="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
+
+            <article class="main">
+                <h3 id="wiki-video"> wiki-video</h3>
+
+                <p>
+                    The <code>wiki-video</code> element is a custom element that displays a video from Wikimedia Commons.
+                </p>
+                <p>
+                    Video caption and attribution to the author of the image is automatically added.
+                </p>
+                <h4 id="attributes">Attributes</h4>
+                <ul>
+                    <li><code>source</code>: The source of the video. It can be a URL or a file name from Wikimedia Commons.
+                    </li>
+                </ul>
+                <h4 id="examples">Examples</h4>
+
+                <section class="example grid">
+                    <pre><code class="language-html" >
+                      &lt;wiki-video source="File:Train_Crimean_Bridge_2019.webm"&gt;
+                    &lt;/wiki-video&gt;
+
+                </code></pre>
+                    <section class="rendering ">
+                        <wiki-video source="File:Train_Crimean_Bridge_2019.webm">
+                        </wiki-video>
+                    </section>
+                </section>
+
+                </section>
+
+            </article>
+        </main>
+
+
+    </body>
+
+</html>

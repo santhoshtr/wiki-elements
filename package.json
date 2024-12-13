@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "style": "src/style.css",
   "scripts": {
-    "test": "light-server --quiet --serve . --port 7000 -w '*.html, *.js, *.css, src/**'",
+    "test": "light-server --quiet --serve . --port 7000 -w '*.html, *.js, *.css, src/**, doc/**'",
     "format": "npx prettier . --write"
   },
   "repository": {

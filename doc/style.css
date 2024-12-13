@@ -1,11 +1,6 @@
 @import 'https://unpkg.com/open-props' layer(base);
 @import 'https://unpkg.com/open-props/normalize.min.css' layer(base);
-
-/* the following switch imports have selectors that enable the override of the system setting */
-@import 'https://unpkg.com/open-props/theme.light.switch.min.css' layer(base);
-@import 'https://unpkg.com/open-props/theme.dark.switch.min.css' layer(base);
-
-@import "https://unpkg.com/open-props/buttons.min.css" layer(base);
+@import 'https://unpkg.com/open-props/buttons.min.css' layer(base);
 
 @layer demo {
   body {
@@ -15,13 +10,17 @@
     height: 100vh;
     margin: auto;
     padding: 0;
-    overflow-x: hidden;
+    overflow:  auto hidden;
     accent-color: var(--link);
     color: var(--text-1);
     background-color: var(--surface-1);
-
+    align-items: start;
+    align-content: start;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 40ch auto;
+    grid-template-areas:
+      'header  header'
+      'nav     main ';
     /* dark / light mode toggle animation */
     transition:
       background 0.2s ease-in-out,
@@ -29,6 +28,7 @@
   }
   .header {
     display: grid;
+    grid-area: header;
     grid-template-columns: 50px auto 50px;
     gap: 1em;
     background-color: var(--surface-2);
@@ -37,11 +37,11 @@
     height: 3lh;
     width: 100%;
     padding: 0.5em;
-    position: sticky;
-    top: 0;
+
+    z-index: 10;
     border-bottom: var(--border-size-1) solid var(--text-2);
 
-    .site-title{
+    .site-title {
       font-size: var(--font-size-fluid-1);
       font-weight: var(--font-weight-7);
       color: var(--text-1);
@@ -56,48 +56,95 @@
     }
   }
   main {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-area: main;
+    height: auto;
     width: 100%;
     overflow-x: hidden;
+    overflow-y: auto;
+
+    max-height: 100vh;
+    padding-bottom: 10ch;
+
+  }
+
+  .article-nav {
+    h2 {
+      font-size: 1em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin: 0;
+        padding: 0.25em 0.5em;
+      }
+    }
+    a {
+      text-decoration: none;
+      text-wrap: nowrap;
+      font-size: 0.9em;
+    }
+    a:visited {
+      color: var(--link);
+    }
   }
 
   article {
-    padding: 4em;
-    margin: 0;
+
+    padding: 0.5em;
+    margin: 0.5em 1em;
     overflow-x: hidden;
     overflow-y: auto;
     max-width: 100%;
     > * {
       margin: 1em 0;
     }
-    a:hover::before {
-      content: '§';
-      position: absolute;
-      padding: 0 0.2em;
-      margin-left: -1em;
-      border-radius: 0.2em;
-      color: var(--primary-color);
+
+    a:visited {
+      color: var(--link);
     }
   }
 
   .nav {
+    grid-area: nav;
     background-color: var(--surface-1);
-    position: sticky;
-    top: 0;
-    z-index: 3;
+    display: grid;
+    align-items: start;
+    align-content: start;
+    gap: 0.5em;
     max-height: 100vh;
+
     font-size: var(--font-size-2);
     line-height: var(--font-lineheight-2);
     padding: 1em;
     > * {
       display: block;
     }
+    h4 {
+      margin: 0;
+      padding: 0;
+      font-size: 1em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin: 0;
+        padding: 0.25em 1em;
+      }
+    }
     a {
       text-decoration: none;
       text-wrap: nowrap;
       font-weight: var(--font-weight-4);
-      color: var(--text-1);
+    }
+    a.active {
+      font-weight: 700;
+    }
+    a:visited {
+      color: var(--link);
     }
   }
 
@@ -108,27 +155,12 @@
 
   .example {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
-    gap: 1em;
+    gap: 0.5em;
 
-    margin: 1em 0 2em 0;
     overflow: hidden;
 
-    > * {
-      padding: 0.5em;
-    }
-
-    code {
-      border: 1px solid var(--text-2);
-      border-radius: 4px;
-      background-color: var(--surface-2);
-      white-space: preserve-breaks;
-      overflow: auto;
-      font-size: 1.2em;
-      font-family: var(--font-monospace-code);
-      scrollbar-width: thin;
-    }
     .rendering {
       resize: both;
       overflow: auto;
@@ -141,10 +173,8 @@
   }
   .grid {
     display: grid;
-    .cols-2 {
-      grid-column: span 2;
-    }
   }
+
   .footer {
     padding: 1em;
     border-top: 1px solid var(--text-2);
@@ -187,6 +217,10 @@
 
   @media (max-width: 100ch) {
     body {
+      grid-template-areas:
+      'header'
+      'main ';
+      grid-template-columns: auto;
       &:has(#menu-toggle:checked) {
         overflow: hidden;
         .nav {
@@ -229,4 +263,8 @@
       display: block;
     }
   }
+}
+
+@view-transition {
+  navigation: auto;
 }

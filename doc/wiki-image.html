@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer ></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
+
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none;" id="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
+
+            <article class="main">
+                <h3 id="wiki-image">wiki-image</h3>
+                <p>
+                    The <code>wiki-image</code> component displays an image from Wikimedia Commons. This helps easy reuse of millions of free licensed images from Wikimedia Commons anywhere in the web.
+                </p>
+                <p>
+                    Image caption and attribution to the author of the image is automatically added to the image. The image is displayed in a responsive way.
+                </p>
+                <h4>Attributes</h4>
+                <ul>
+                    <li><code>source</code>: The source of the image. It can be a file name or a URL.</li>
+                </ul>
+                <h4>Examples</h4>
+                <section class="example grid">
+                    <pre><code class="language-html" >
+                    &lt;wiki-image source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg"&gt;
+                    &lt;/wiki-image&gt;
+
+                </code></pre>
+                    <section class="rendering ">
+                        <wiki-image source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg">
+                        </wiki-image>
+                    </section>
+                </section>
+                <section class="example">
+                    <pre><code class="language-html" >
+                      &lt;wiki-image
+                      source="https://commons.wikimedia.org/wiki/File:023_African_pygmy_kingfisher_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg"&gt;
+                      &lt;/wiki-image&gt;
+    </code></pre>
+                    <section class="rendering">
+                        <wiki-image
+                            source="https://commons.wikimedia.org/wiki/File:023_African_pygmy_kingfisher_at_Kibale_forest_National_Park_Photo_by_Giles_Laurent.jpg">
+                        </wiki-image>
+                    </section>
+                </section>
+                </section>
+
+
+            </article>
+        </main>
+
+
+    </body>
+
+</html>

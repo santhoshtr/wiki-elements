@@ -8,6 +8,7 @@ import { OrbitControls } from "./libs/threejs/examples/jsm/loaders/OrbitControls
 
 const styleURL = new URL("./wiki-3d-viewer.css", import.meta.url);
 
+
 class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     constructor() {
         super();

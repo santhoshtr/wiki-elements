@@ -22,9 +22,9 @@
         aspect-ratio: 1;
         object-fit: cover;
         object-position: 50% 10%;
-        transition: transform .5s ease;
+        transition: transform .5s ease-in;
         &:hover {
-          transform: scale(1.5);
+          transform: scale(1.25);
         }
       }
     }

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+    <meta name="description"
+      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
+    <meta name="supported-color-schemes" content="dark light" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="demo.js" type="module"></script>
+    <script src="../src/index.js" type="module"></script>
+    <script src="prism.js" defer ></script>
+    <link rel="stylesheet" href="prism.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <span class="logo"></span>
+      <span class="site-title">wiki-elements</span>
+      <input type="checkbox" style="display: none;" id="menu-toggle">
+      <label for="menu-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </header>
+    <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+    <main>
+
+            <article class="main">
+              <p class="subheading">A collection of WebComponents to share or interact with Wikipedia content</p>
+
+        <h3 id="wiki-user"><a href="#wiki-user">wiki-user</a></h3>
+        <section class="example">
+          <pre><code class="language-html" >
+                &lt;wiki-user username="Amire80"&gt;
+                &lt;/wiki-user&gt;
+            </code></pre>
+          <section class="rendering">
+            <wiki-user username="Amire80"></wiki-user>
+          </section>
+          </section>
+
+        </section>
+
+
+          </article>
+    </main>
+
+
+  </body>
+
+</html>
