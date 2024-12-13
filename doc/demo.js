@@ -38,8 +38,8 @@ function generateTableOfContents() {
 
     // Find the nav item that matches the current URL
     const currentURL = new URL(window.location.href);
-    const currentPath = currentURL.pathname;
-    const currentNavItem = document.querySelector(`a[href="${currentPath}"]`);
+    const currentPath = currentURL.pathname.split("/").pop();
+    const currentNavItem = document.querySelector(`a[href*="${currentPath}"]`);
     currentNavItem.classList.add("active");
     // append to active nav
     currentNavItem.append(toc);
