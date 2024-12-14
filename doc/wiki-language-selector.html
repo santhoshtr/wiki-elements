@@ -57,13 +57,121 @@
                     &lt;wiki-language-selector>&lt;/wiki-language-selector>
                 </code></pre>
                     <section class="rendering ">
-                        <wiki-language-selector source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg">
+                        <wiki-language-selector>
                         </wiki-language-selector>
                     </section>
                 </section>
+                <h4 id="customization">Customization</h4>
+                <p>
+                    All components under wiki-elements supports <a href="https://web.dev/articles/declarative-shadow-dom">Declarative
+                    shadow DOM.</a> You can customize the component by adding a <code>template</code> element with <code>shadowrootmode="open"</code> attribute. The template should contain the shadow DOM structure of the component.
+                </p>
 
-                </section>
+                <p>
+                    To illustrate, the following example shows a customized version of the <code>wiki-language-selector</code> component with a custom header and an  button in popover.
+                </p>
+                <pre>
+                    <code class="language-html">
+                        &lt;wiki-language-selector>
+                            &lt;template shadowrootmode="open">
+                                &lt;section class="container">
+                                     &lt;!-- Add a header, allow more customization by marking it as a slot -->
+                                    &lt;slot name="wiki-langaugeselector-header">
+                                        &lt;p>Choose a language - Default header&lt;/p>
+                                    &lt;/slot>
+                                    &lt;form>
+                                        &lt;input id="wikilanguageselector-search" type="search" part="input" autocomplete="off" />
+                                    &lt;/form>
+                                &lt;/section>
+                                &lt;div class="suggestions-popover" popover>
+                                    &lt;p class="suggestions-header">Suggestions&lt;/p>
+                                    &lt;ul part="suggestions" class="suggestions">&lt;/ul>
+                                    &lt;!-- Add an actions section at the end of menu -->
+                                    &lt;section class="actions">
+                                        &lt;button class="example-btn" onclick="clickHander()">Example&lt;/button>
+                                    &lt;/section>
+                                &lt;/div>
+                                &lt;!-- Customize the styles -->
+                                &lt;style>
+                                    .container {
+                                        display: flex;
+                                        flex-direction: column;
+                                        padding: 1em;
+                                        border-bottom: 1px solid CanvasText;
+                                    }
 
+                                    .suggestions-header {
+                                        padding: 0.5em;
+                                        font-weight: bold;
+                                    }
+                                    .actions {
+                                        border-top: 1px solid CanvasText;
+                                        display: flex;
+                                        justify-content: flex-end;
+                                        padding: 0.5em;
+                                    }
+                                &lt;/style>
+                                &lt;script>
+                                    function clickHander() {
+                                        alert('Example button clicked');
+                                    };
+                                &lt;/script>
+                            &lt;/template>
+                            &lt;!-- Customize the slot -->
+                            &lt;p slot="wiki-langaugeselector-header">Choose a language&lt;/p>
+                        &lt;/wiki-language-selector>
+                    </code>
+                </pre>
+                <p>
+                   And it will render as below:
+                </p>
+                <wiki-language-selector>
+
+                    <template shadowrootmode="open">
+                        <section class="container">
+                        <slot name="wiki-langaugeselector-header">
+                        <p>Choose a language - Default header</p>
+                        </slot>
+                        <form>
+                            <input id="wikilanguageselector-search" type="search" part="input" autocomplete="off" />
+                        </form>
+                        </section>
+                        <div class="suggestions-popover" popover>
+                            <p class="suggestions-header">Suggestions</p>
+                            <ul part="suggestions" class="suggestions"></ul>
+                            <section class="actions">
+                                <button class="example-btn" onclick="clickHander()">Example</button>
+                            </section>
+                        </div>
+                        <style>
+                            .container {
+                                display: flex;
+                                flex-direction: column;
+                                padding: 1em;
+                                border-bottom: 1px solid CanvasText;
+                            }
+
+                            .suggestions-header {
+                                padding: 0.5em;
+                                font-weight: bold;
+                            }
+                            .actions {
+                                border-top: 1px solid CanvasText;
+                                display: flex;
+                                justify-content: flex-end;
+                                padding: 0.5em;
+                            }
+                        </style>
+                        <script>
+                            function clickHander() {
+                                alert('Example button clicked');
+                            };
+                        </script>
+                      </template>
+                      <p slot="wiki-langaugeselector-header">Choose a language</p>
+                </wiki-language-selector>
+
+                <p>Additionally, the <code>WikiLanguageSelector</code> class can be extended and methods can be overridden to customize the behavior.</p>
 
             </article>
         </main>

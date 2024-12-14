@@ -1,7 +1,6 @@
 import { addPrefetch, html } from './common.js'
 import WikiElement from './wiki-element.js'
 
-const styleURL = new URL('./wiki-language-selector.css', import.meta.url)
 
 /**
  * Fetches language names and their autonyms from Wikipedia API.
@@ -54,10 +53,11 @@ class WikiLanguageSelector extends WikiElement {
             <div class="suggestions-popover" popover>
                 <ul part="suggestions" class="suggestions"></ul>
             </div>
-            <style>
-                @import url(${styleURL});
-            </style>
         `
+    }
+
+    static get stylesheetURL() {
+        return new URL('./wiki-language-selector.css', import.meta.url)
     }
 
     static get properties() {

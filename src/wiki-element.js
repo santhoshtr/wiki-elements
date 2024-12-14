@@ -1,28 +1,40 @@
+import './utils/polyfills.js'
+
 class WikiElement extends HTMLElement {
-
     constructor() {
-        super();
-        this.internals = this.attachInternals();
-        this.connected = false;
-        this.rendered = false;
-        this.initializeProperties();
+        super()
+        const supportsDeclarative = Object.prototype.hasOwnProperty.call(HTMLElement.prototype, 'attachInternals')
 
-        this.attachShadow({ mode: "open" });
-        if (this.constructor.template) {
-            this.shadowRoot.innerHTML = this.constructor.template.innerHTML;
+        this.internals = supportsDeclarative ? this.attachInternals() : undefined
+        this.connected = false
+        this.rendered = false
+        this.initializeProperties()
+        // check for a Declarative Shadow Root.
+        let shadow = this.internals?.shadowRoot
+        if (!shadow) {
+            this.attachShadow({ mode: 'open' })
+            if (this.constructor.template) {
+                this.shadowRoot.setHTMLUnsafe(this.constructor.template.innerHTML)
+            }
+        }
+        if (this.constructor.stylesheetURL) {
+            const link = document.createElement('link')
+            link.rel = 'stylesheet'
+            link.href = this.constructor.stylesheetURL
+            this.shadowRoot.appendChild(link)
         }
     }
 
     initializeProperties() {
-        const props = this.constructor.properties;
+        const props = this.constructor.properties
         for (const [name, config] of Object.entries(props)) {
             if (!Object.prototype.hasOwnProperty.call(this, name)) {
-                const value = this.getAttribute(name) || config.default;
+                const value = this.getAttribute(name) || config.default
                 if (config.options && !config.options.includes(value)) {
-                    console.warn(`Invalid value ${value} for property ${name}. Valid options are ${config.options}`);
-                    continue;
+                    console.warn(`Invalid value ${value} for property ${name}. Valid options are ${config.options}`)
+                    continue
                 }
-                this[name] = this.convertValue(value, config.type);
+                this[name] = this.convertValue(value, config.type)
             }
         }
     }
@@ -53,10 +65,10 @@ class WikiElement extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
-            const props = this.constructor.properties;
+            const props = this.constructor.properties
             if (name in props) {
-                this[name] = this.convertValue(newValue, props[name].type);
-                this.propertyChangedCallback(name, oldValue, this[name]);
+                this[name] = this.convertValue(newValue, props[name].type)
+                this.propertyChangedCallback(name, oldValue, this[name])
             }
         }
     }
@@ -65,34 +77,29 @@ class WikiElement extends HTMLElement {
         if (!this.rendered) {
             return
         }
-        console.log(`Property ${name} changed from ${oldValue} to ${newValue}`);
+        console.log(`Property ${name} changed from ${oldValue} to ${newValue}`)
         // This method can be overridden in subclasses to react to property changes
-        this.render();
+        this.render()
     }
 
     connectedCallback() {
-        this.connected = true;
-        this.render();
-        this.rendered = true;
+        this.connected = true
+        this.render()
+        this.rendered = true
     }
 
     static get observedAttributes() {
-        return Object.keys(this.properties);
+        return Object.keys(this.properties)
     }
 
     static get template() {
-        return "";
+        return ''
         // return html`<p>${this.greeting}</p>`;
     }
 
-
-
     static get properties() {
-        return {};
+        return {}
     }
-
-
-
 }
 
-export default WikiElement;
+export default WikiElement
