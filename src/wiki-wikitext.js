@@ -1,6 +1,6 @@
-import { deIndent, addPrefetch } from "./common.js";
-import WikiElement from "./wiki-element.js";
+import { addPrefetch,deIndent } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
 /**
  * Represents a custom HTML element for rendering wiki content as HTML.

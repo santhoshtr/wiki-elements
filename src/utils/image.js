@@ -15,5 +15,4 @@ const getImageDimensions = (imageUrl) => {
 
 export {
     getImageDimensions,
-
 };

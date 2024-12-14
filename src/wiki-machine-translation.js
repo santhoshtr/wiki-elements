@@ -1,4 +1,4 @@
-import { html, deIndent, addPrefetch, detectLanguage, sha256 } from "./common.js";
+import { addPrefetch, deIndent, detectLanguage, html, sha256 } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 import WikiElement from "./wiki-element.js";
 

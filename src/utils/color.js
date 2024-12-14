@@ -210,7 +210,7 @@ const getContinuousColor = async (imageUrl, at = "left") => {
 
 export {
     average,
-    prominent,
-    getContinuousColor,
     getColorTheme,
+    getContinuousColor,
+    prominent,
 };

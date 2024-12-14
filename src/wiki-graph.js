@@ -1,6 +1,6 @@
-import { html, addScript } from "./common.js";
-import WikiElement from "./wiki-element.js";
+import { addScript,html } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
 const URLs = {
     echarts: "https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js",

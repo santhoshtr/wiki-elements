@@ -1,7 +1,8 @@
 
-import { html, addPrefetch } from "./common.js";
-import WikiElement from "./wiki-element.js";
+import { addPrefetch,html } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
+
 const styleURL = new URL("./wiki-video.css", import.meta.url);
 
 

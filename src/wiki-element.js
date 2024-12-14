@@ -16,7 +16,7 @@ class WikiElement extends HTMLElement {
     initializeProperties() {
         const props = this.constructor.properties;
         for (const [name, config] of Object.entries(props)) {
-            if (!this.hasOwnProperty(name)) {
+            if (!Object.prototype.hasOwnProperty.call(this, name)) {
                 const value = this.getAttribute(name) || config.default;
                 if (config.options && !config.options.includes(value)) {
                     console.warn(`Invalid value ${value} for property ${name}. Valid options are ${config.options}`);
@@ -29,20 +29,25 @@ class WikiElement extends HTMLElement {
 
     convertValue(value, type) {
         if (value === null) {
- return value; 
-};
+            return value
+        }
         switch (type) {
             case String:
-                return value;
+                return value
             case Number:
-                return Number(value);
+                return Number(value)
             case Boolean:
-                return value !== null && value !== "false";
+                return value !== null && value !== 'false'
             case Array:
             case Object:
-                return JSON.parse(value);
+                if (typeof value === 'string') {
+                    return JSON.parse(value)
+                }
+                return value
+            case Function:
+                return value
             default:
-                return value;
+                return value
         }
     }
 
@@ -58,8 +63,8 @@ class WikiElement extends HTMLElement {
 
     propertyChangedCallback(name, oldValue, newValue) {
         if (!this.rendered) {
- return; 
-}
+            return
+        }
         console.log(`Property ${name} changed from ${oldValue} to ${newValue}`);
         // This method can be overridden in subclasses to react to property changes
         this.render();

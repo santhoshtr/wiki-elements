@@ -1,8 +1,7 @@
-import { html, getSourceSetFromCommonsUrl } from "./common.js";
+import { getSourceSetFromCommonsUrl,html } from "./common.js";
 import { editIcon, historyIcon, talkIcon } from "./icons.js";
-import { getContinuousColor, getColorTheme } from "./utils/color.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
-
+import { getColorTheme,getContinuousColor } from "./utils/color.js";
 import WikiElement from "./wiki-element.js";
 
 const styleURL = new URL("./wiki-article.css", import.meta.url);

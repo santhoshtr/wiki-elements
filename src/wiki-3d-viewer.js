@@ -1,10 +1,9 @@
-import { html, addPrefetch } from "./common.js";
-import WikiElement from "./wiki-element.js";
-import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
-
+import { addPrefetch,html } from "./common.js";
 import * as THREE from "./libs/threejs/build/three.module.js";
-import { STLLoader } from "./libs/threejs/examples/jsm/loaders/STLLoader.js";
 import { OrbitControls } from "./libs/threejs/examples/jsm/loaders/OrbitControls.js";
+import { STLLoader } from "./libs/threejs/examples/jsm/loaders/STLLoader.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
 const styleURL = new URL("./wiki-3d-viewer.css", import.meta.url);
 

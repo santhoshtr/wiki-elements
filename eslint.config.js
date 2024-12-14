@@ -1,43 +1,37 @@
-export default [
-  {
-    "languageOptions": {
-      "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "allowImportExportEverywhere": true,
-        "ecmaFeatures": {
-          "impliedStrict": true
-        }
-      },
-      "globals": {
-        "browser": true,
-        "node": true
-      },
-    },
+import globals from 'globals'
+import pluginJs from '@eslint/js'
+import importPlugin from 'eslint-plugin-import'
+import prettier from 'eslint-config-prettier'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
-    "rules": {
-      "semi": 1,
-      "no-dupe-args": 1,
-      "no-dupe-keys": 1,
-      "no-unreachable": 1,
-      "valid-typeof": 1,
-      "curly": 1,
-      "no-useless-call": 1,
-      "brace-style": [1, "stroustrup"],
-      "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
-      "quotes": [1, "double", "avoid-escape"],
-      "spaced-comment": [
-        1,
-        "always",
-        {
-          "block": {
-            "exceptions": ["*"]
-          }
-        }
-      ],
-      "arrow-spacing": 1,
-      "comma-spacing": 1,
-      "keyword-spacing": 1
-    }
-  }
-];
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+    {
+        ignores: ['.git/*', 'src/libs/*', '.vscode/*', 'coverage/*', 'dist/*', 'node_modules/*'],
+    },
+    importPlugin.flatConfigs.recommended,
+    pluginJs.configs.recommended,
+    prettier,
+    {
+        files: ['src/**/*.{js,mjs,cjs,ts,cts,mts}'],
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.es2021,
+            },
+            parserOptions: {
+                ecmaVersion: 2020,
+            },
+        },
+        plugins: { 'simple-import-sort': simpleImportSort },
+        rules: {
+            'no-warning-comments': ['warn', { terms: ['todo', 'fixme', '@@@'] }],
+            'simple-import-sort/imports': 'warn',
+            'simple-import-sort/exports': 'warn',
+            'import/first': 'warn',
+            'import/newline-after-import': 'warn',
+            'import/no-duplicates': ['error', { 'prefer-inline': true }],
+            'import/order': 'off',
+        },
+    },
+]

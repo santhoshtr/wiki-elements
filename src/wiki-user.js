@@ -1,7 +1,7 @@
 
-import { html, addPrefetch, getSourceSetFromCommonsUrl } from "./common.js";
-import WikiElement from "./wiki-element.js";
+import { addPrefetch, getSourceSetFromCommonsUrl,html } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
 const styleURL = new URL("./wiki-user.css", import.meta.url);
 

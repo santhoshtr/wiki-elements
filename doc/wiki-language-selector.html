@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer ></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
+
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none;" id="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
+
+            <article class="main">
+                <h3 id="wiki-language-selector">wiki-language-selector</h3>
+                <p>
+                    The <code>wiki-language-selector</code>
+                    component allows users to select a language from a list of languages.
+                </p>
+                <h4 id="attributes">Attributes</h4>
+                <ul>
+                    <li>
+                        <code>data-languages</code> (optional): An object containing language codes and their corresponding
+                        names. The format should match the API result of wikipedia <a href="https://en.wikipedia.org/w/api.php?action=query&liprop=autonym|name&meta=languageinfo&uselang=en&format=json&origin=*">languageinfo API</a>. If not provided, the component will fetch the list of languages from the wikipedia API.
+                    </li>
+                    <li>
+                        <code>data-languages</code> (optional): The set of language codes valid for the context. If not provided, the component will use all language codes from <code>data-languages</code>.
+                    </li>
+                    <li>
+                        <code>onselect</code> (optional): The callback function to be called when a language is selected. The function receives object with keys 'value', 'name' and 'autonym'.
+                    </li>
+                </ul>
+                <h4 id="examples">Examples</h4>
+                <section class="example grid">
+                    <pre><code class="language-html" >
+                    &lt;wiki-language-selector>&lt;/wiki-language-selector>
+                </code></pre>
+                    <section class="rendering ">
+                        <wiki-language-selector source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg">
+                        </wiki-language-selector>
+                    </section>
+                </section>
+
+                </section>
+
+
+            </article>
+        </main>
+
+
+    </body>
+
+</html>
