@@ -1,7 +1,7 @@
 import { addPrefetch, html } from './common.js'
 import * as THREE from './libs/threejs/build/three.module.js'
-import { OrbitControls } from './libs/threejs/examples/jsm/loaders/OrbitControls.js'
 import { STLLoader } from './libs/threejs/examples/jsm/loaders/STLLoader.js'
+import { TrackballControls } from './libs/threejs/examples/jsm/loaders/TrackballControls.js'
 import LazyLoadMixin from './mixins/LazyLoadMixin.js'
 import WikiElement from './wiki-element.js'
 
@@ -19,11 +19,6 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
             </div>
             <style>
                 @import url(${styleURL});
-                #wiki-3d-viewer-container {
-                    position: relative;
-                    width: 100%;
-                    height: 75vh;
-                }
             </style>
         `
     }
@@ -45,94 +40,98 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
         if (!this.source) {
             return
         }
-
-        this.init3d(this.source)
+        this.progress = this.shadowRoot.getElementById('loading')
+        await this.init3d(this.source)
     }
 
-    init3d(url) {
+    async init3d(stlUrl) {
         const container = this.shadowRoot.getElementById('wiki-3d-viewer-container')
 
         const scene = new THREE.Scene()
-        scene.background = new THREE.Color(0xcccccc)
+        const dimensions = {
+            width: Math.max(600, container.getClientRects()[0].width),
+            height: Math.max(600, container.getClientRects()[0].height),
+        }
+        // Camera setup
+        const camera = new THREE.PerspectiveCamera(60, dimensions.width / dimensions.height, 0.001, 1000)
+        camera.position.set(0, 0, 5)
+        camera.add(new THREE.PointLight(0xffffff, 0.3))
 
-        const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 1, 1000)
-
-        camera.position.z = 10
-
+        // Renderer setup
         const renderer = new THREE.WebGLRenderer({ antialias: true })
+        renderer.setClearColor(0x222222)
+        renderer.setSize(dimensions.width, dimensions.height)
         renderer.setPixelRatio(window.devicePixelRatio)
-        renderer.setSize(container.clientWidth, container.clientHeight)
+        renderer.shadowMap.enabled = true
         container.appendChild(renderer.domElement)
 
-        // Add lights
-        const ambientLight = new THREE.AmbientLight(0x404040)
-        scene.add(ambientLight)
+        // Orbit controls for interaction
+        const controls = new TrackballControls(camera, renderer.domElement)
+        controls.rotateSpeed = 4
+        controls.zoomSpeed = 4
+        controls.panSpeed = 4
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5)
-        directionalLight.position.set(1, 1, 1)
-        scene.add(directionalLight)
+        // Lighting
 
-        const geometry = new THREE.BoxGeometry()
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-        let mesh = new THREE.Mesh(geometry, material)
-        scene.add(mesh)
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
-        const controls = new OrbitControls(camera, renderer.domElement)
-        function render() {
+        const light = new THREE.DirectionalLight(0xffffff, 0.8)
+        light.position.set(-100, 50, 25).normalize()
+        scene.add(light)
+
+        // STL Loader
+        const loader = new STLLoader()
+        await loader.load(stlUrl, (geometry) => {
+            const material = new THREE.MeshPhongMaterial({
+                color: 0xf0ebe8,
+                shininess: 5,
+                flatShading: true,
+                side: THREE.DoubleSide,
+            })
+            const object = new THREE.Mesh(geometry, material)
+
+            // Center the model
+            geometry.center()
+            camera.lookAt(scene.position)
+            // Scale the model to fit the view
+            const box = new THREE.Box3().setFromObject(object)
+            const size = box.getSize(new THREE.Vector3())
+            const maxDim = Math.max(size.x, size.y, size.z)
+            const scaleFactor = 3 / maxDim
+            object.scale.set(scaleFactor, scaleFactor, scaleFactor)
+
+            scene.add(object)
+
+            // center
+            // object.geometry.center()
+            // object.geometry.computeBoundingSphere()
+
+            // const radius = object.geometry.boundingSphere.radius
+            // camera.position.set(-radius * 1, -radius * 1, radius * 0.2)
+            renderer.render(scene, camera)
+        })
+
+        // Window resize handling
+        window.addEventListener('resize', () => {
+            camera.aspect = dimensions.width / dimensions.height
+            camera.updateProjectionMatrix()
+            renderer.setSize(dimensions.width, dimensions.height)
+        })
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate)
+            controls.update()
             renderer.render(scene, camera)
         }
-        controls.addEventListener('change', render)
-        controls.target.set(0, 0, 2)
-        controls.enableZoom = true
-        controls.rotateSpeed = 0.05
-        controls.autoRotate = true
-        controls.autoRotateSpeed = 0.75
-        controls.update()
-
-        const loader = new STLLoader()
-        loader.load(
-            url,
-            (geometry) => {
-                const params = {
-                    wireframe: false,
-                    color: '#cccccc',
-                }
-
-                const material = new THREE.MeshPhongMaterial({
-                    color: params.color,
-                    wireframe: params.wireframe,
-                })
-                mesh = new THREE.Mesh(geometry, material)
-
-                // Center the model
-                geometry.computeBoundingBox()
-                const center = geometry.boundingBox.getCenter(new THREE.Vector3())
-                geometry.translate(-center.x, -center.y, -center.z)
-
-                // Scale to reasonable size
-                const size = geometry.boundingBox.getSize(new THREE.Vector3())
-                const maxDim = Math.max(size.x, size.y, size.z)
-                const scale = 5 / maxDim
-                mesh.scale.set(scale, scale, scale)
-
-                scene.add(mesh)
-
-                var animate = function () {
-                    requestAnimationFrame(animate)
-                    controls.update()
-                    renderer.render(scene, camera)
-                }
-                animate()
-                this.shadowRoot.getElementById('loading').style.display = 'none'
-            },
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-            },
-            function (error) {
-                console.error('Error loading STL:', error)
-                document.getElementById('loading').textContent = 'Error loading STL file'
-            }
-        )
+        animate()
+        this.progress.style.display = 'none'
+        // Return cleanup function if needed
+        return () => {
+            document.getElementById('viewer').removeChild(renderer.domElement)
+            controls.dispose()
+            renderer.dispose()
+        }
     }
 }
 
