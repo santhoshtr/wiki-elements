@@ -1,70 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-    <meta
-      name="description"
-      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
-    />
-    <meta name="supported-color-schemes" content="dark light" />
-    <meta name="color-scheme" content="dark light" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="demo.js" type="module"></script>
-    <script src="../src/index.js" type="module"></script>
-    <script src="prism.js" defer></script>
-    <link rel="stylesheet" href="prism.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta
+            name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+        />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
 
-  <body>
-    <header class="header">
-      <span class="logo"></span>
-      <span class="site-title">wiki-elements</span>
-      <input type="checkbox" style="display: none" id="menu-toggle" />
-      <label for="menu-toggle" class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-    </header>
-    <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
-    <main>
-      <article class="main">
-
-        <h3>wiki-profile</h3>
-        <p>
-          The <code>wiki-profile</code> element is a WebComponent to display the profile image of a person by giving the name.
-        </p>
-        <h4 id="attributes">Attributes</h4>
-        <ul>
-          <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
-          <li><code>article</code>: The title of the article.</li>
-        </ul>
-        <h4 id="examples">Examples</h4>
-        <section class="example">
-          <pre><code class="language-html" >
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none" id="menu-toggle" />
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
+            <article class="main">
+                <h3>wiki-profile</h3>
+                <p>
+                    The <code>wiki-profile</code> element is a WebComponent to display the profile image of a person by
+                    giving the name.
+                </p>
+                <h4 id="attributes">Attributes</h4>
+                <ul>
+                    <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
+                    <li><code>article</code>: The title of the article.</li>
+                </ul>
+                <h4 id="examples">Examples</h4>
+                <section class="example">
+                    <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Barack Obama"&gt;
                     &lt;/wiki-profile&gt;
                 </code></pre>
-          <section class="rendering" style="width: 300px">
-            <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
-          </section>
-        </section>
-        <section class="example">
-          <pre><code class="language-html" >
+                    <section class="rendering" style="width: 300px">
+                        <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
+                    </section>
+                </section>
+                <section class="example">
+                    <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Albert Einstein"&gt;
                     &lt;/wiki-profile&gt;
                 </code></pre>
-          <section class="rendering" style="width: 300px">
-            <wiki-profile language="en" article="Albert Einstein"> </wiki-profile>
-          </section>
-        </section>
+                    <section class="rendering" style="width: 300px">
+                        <wiki-profile language="en" article="Albert Einstein"> </wiki-profile>
+                    </section>
+                </section>
 
-        <section class="example">
-          <pre><code class="language-html" >
+                <section class="example">
+                    <pre><code class="language-html" >
                     &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
                     &lt;/wiki-profile&gt;
                     &lt;wiki-profile language="en" article="Julia Roberts"&gt;
@@ -73,14 +73,13 @@
                     &lt;/wiki-profile&gt;
 
                 </code></pre>
-          <section class="rendering flex">
-            <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-            <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-            <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
-          </section>
-        </section>
-      </article>
-    </main>
-
-  </body>
+                    <section class="rendering flex">
+                        <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+                        <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+                        <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+                    </section>
+                </section>
+            </article>
+        </main>
+    </body>
 </html>

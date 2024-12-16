@@ -1,60 +1,60 @@
 {
-  "name": "wiki-elements",
-  "version": "0.0.1",
-  "description": "A collection of WebComponents to share or interact with Wikipedia content",
-  "type": "module",
-  "main": "src/index.js",
-  "style": "src/style.css",
-  "scripts": {
-    "test": "light-server --quiet --serve . --port 7000 -w '*.html, *.js, *.css, src/**, doc/**'",
-    "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "eslint:check": "eslint .",
-    "eslint:fix": "npm run eslint:check -- --fix",
-    "format:css": "npm run lint:css -- --fix",
-    "format:js": "run-s prettier:fix eslint:fix",
-    "lint": "run-s format:css format:js",
-    "lint:css": "stylelint \"**/*.css\"",
-    "lint:js": "run-s prettier:check eslint:check",
-    "lint:ci": "run-p lint:css lint:js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/santhoshtr/wiki-elements.git"
-  },
-  "keywords": [
-    "WebComponents",
-    "CustomElements",
-    "wikitext-to-html",
-    "wikitext",
-    "Wikipedia",
-    "MediaWiki"
-  ],
-  "author": "Santhosh Thottingal",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/santhoshtr/wiki-elements/issues"
-  },
-  "homepage": "https://https://santhoshtr.github.io/wiki-elements",
-  "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "eslint": "^9.17.0",
-    "globals": "^15.13.0",
-    "light-server": "^2.9.1",
-    "prettier": "^3.4.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "stylelint": "^16.11.0",
-    "stylelint-config-standard": "^36.0.1",
-    "npm-run-all": "^4.1.5"
-  },
-  "files": [
-    "src/**",
-    "package.json",
-    "package-lock.json",
-    "custom-elements.json",
-    "README.md",
-    "LICENSE"
-  ]
+    "name": "wiki-elements",
+    "version": "0.0.1",
+    "description": "A collection of WebComponents to share or interact with Wikipedia content",
+    "type": "module",
+    "main": "src/index.js",
+    "scripts": {
+        "dev": "vite",
+        "prettier:check": "prettier --check .",
+        "prettier:fix": "prettier --write .",
+        "eslint:check": "eslint .",
+        "eslint:fix": "npm run eslint:check -- --fix",
+        "format:css": "npm run lint:css -- --fix",
+        "format:js": "run-s prettier:fix eslint:fix",
+        "lint": "run-s format:css format:js",
+        "lint:css": "stylelint \"**/*.css\"",
+        "lint:js": "run-s prettier:check eslint:check",
+        "lint:ci": "run-p lint:css lint:js",
+        "build": "vite build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/santhoshtr/wiki-elements.git"
+    },
+    "keywords": [
+        "WebComponents",
+        "CustomElements",
+        "wikitext-to-html",
+        "wikitext",
+        "Wikipedia",
+        "MediaWiki"
+    ],
+    "author": "Santhosh Thottingal",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/santhoshtr/wiki-elements/issues"
+    },
+    "homepage": "https://https://santhoshtr.github.io/wiki-elements",
+    "devDependencies": {
+        "@eslint/js": "^9.17.0",
+        "eslint": "^9.17.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-import": "^2.31.0",
+        "eslint-plugin-simple-import-sort": "^12.1.1",
+        "globals": "^15.13.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.4.0",
+        "stylelint": "^16.11.0",
+        "stylelint-config-standard": "^36.0.1",
+        "vite": "^6.0.3"
+    },
+    "files": [
+        "src/**",
+        "package.json",
+        "package-lock.json",
+        "custom-elements.json",
+        "README.md",
+        "LICENSE"
+    ]
 }

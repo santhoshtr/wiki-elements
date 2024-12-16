@@ -1,79 +1,92 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="/doc/logo.svg" sizes="any" type="image/svg+xml" />
+        <meta
+            name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+        />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="doc/style.css" />
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-    <link rel="icon" href="/doc/logo.svg" sizes="any" type="image/svg+xml" />
-    <meta name="description"
-      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
-    <meta name="supported-color-schemes" content="dark light" />
-    <meta name="color-scheme" content="dark light" />
-    <link rel="stylesheet" href="doc/style.css" />
+        <script src="doc/demo.js" type="module"></script>
+        <script src="doc/prism.js"></script>
+        <link rel="stylesheet" href="doc/prism.css" />
+        <script src="src/index.js" type="module"></script>
+    </head>
 
-    <script src="doc/demo.js" type="module"></script>
-    <script src="doc/prism.js" ></script>
-    <link rel="stylesheet" href="doc/prism.css" />
-    <script src="src/index.js" type="module"></script>
-  </head>
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none" id="menu-toggle" />
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav">
+            <a href="./">Introduction</a>
+            <h4>Components</h4>
+            <ul>
+                <li><a href="doc/wiki-article">wiki-article</a></li>
+                <li><a href="doc/wiki-image">wiki-image</a></li>
+                <li><a href="doc/wiki-video">wiki-video</a></li>
+                <li><a href="doc/wiki-map">wiki-map</a></li>
+                <li><a href="doc/wiki-graph">wiki-graph</a></li>
+                <li><a href="doc/wiki-profile">wiki-profile</a></li>
+                <li><a href="doc/wiki-wikitext">wiki-wikitext</a></li>
+                <li><a href="doc/wiki-user">wiki-user</a></li>
+                <li><a href="doc/wiki-machine-translation">wiki-machine-translation</a></li>
+                <li><a href="doc/wiki-language-selector">wiki-language-selector</a></li>
+                <li><a href="doc/wiki-3d-viewer">wiki-3d-viewer</a></li>
+            </ul>
 
-  <body>
-    <header class="header">
-      <span class="logo"></span>
-      <span class="site-title">wiki-elements</span>
-      <input type="checkbox" style="display: none;" id="menu-toggle">
-      <label for="menu-toggle" class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-    </header>
-    <nav class="nav"  >
-      <a href="./">Introduction</a>
-      <h4>Components</h4>
-      <ul>
-        <li><a href="doc/wiki-article">wiki-article</a></li>
-        <li><a href="doc/wiki-image">wiki-image</a></li>
-        <li><a href="doc/wiki-video">wiki-video</a></li>
-        <li><a href="doc/wiki-map">wiki-map</a></li>
-        <li><a href="doc/wiki-graph">wiki-graph</a></li>
-        <li><a href="doc/wiki-profile">wiki-profile</a></li>
-        <li><a href="doc/wiki-wikitext">wiki-wikitext</a></li>
-        <li><a href="doc/wiki-user">wiki-user</a></li>
-        <li><a href="doc/wiki-machine-translation">wiki-machine-translation</a></li>
-        <li><a href="doc/wiki-language-selector">wiki-language-selector</a></li>
-        <li><a href="doc/wiki-3d-viewer">wiki-3d-viewer</a></li>
-      </ul>
+            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
+        </nav>
 
-    <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
-
-    </nav>
-
-    <main>
+        <main>
             <article class="main">
-              <h2>wiki-elements</h2>
-              <p>             Seamlessly integrate Wikipedia's wealth of knowledge into your web projects with powerful, easy-to-use <a href="https://en.wikipedia.org/wiki/Web_Components">Web Components</a></p>
+                <h2>wiki-elements</h2>
+                <p>
+                    Seamlessly integrate Wikipedia's wealth of knowledge into your web projects with powerful,
+                    easy-to-use <a href="https://en.wikipedia.org/wiki/Web_Components">Web Components</a>
+                </p>
 
-             <ul>
-              <li>Instant access to Wikipedia's comprehensive, multilingual content</li>
-              <li>Zero configuration, lightweight, and performance-optimized components. Copy and paste it.</li>
-              <li> wiki-elements is standard Web Components that work with any framework or vanilla JavaScript</li>
-              <li>Generate shareable, attribution-ready links and embeds with built-in copyright information and source tracking.</li>
-              <li>All components are  <a href="https://web.dev/articles/rendering-on-the-web">Server-Side Rendering (SSR)</a>  friendly and supports <a href="https://web.dev/articles/declarative-shadow-dom">Declarative Shadow DOM</a></li>
-             </ul>
+                <ul>
+                    <li>Instant access to Wikipedia's comprehensive, multilingual content</li>
+                    <li>Zero configuration, lightweight, and performance-optimized components. Copy and paste it.</li>
+                    <li>wiki-elements is standard Web Components that work with any framework or vanilla JavaScript</li>
+                    <li>
+                        Generate shareable, attribution-ready links and embeds with built-in copyright information and
+                        source tracking.
+                    </li>
+                    <li>
+                        All components are
+                        <a href="https://web.dev/articles/rendering-on-the-web">Server-Side Rendering (SSR)</a> friendly
+                        and supports
+                        <a href="https://web.dev/articles/declarative-shadow-dom">Declarative Shadow DOM</a>
+                    </li>
+                </ul>
 
-              <h3>Why </h3>
-              <p>
-                Wikipedia is the world's largest and most comprehensive encyclopedia, with over 6 million articles in English alone. It's a treasure trove of knowledge, but integrating it into your web projects can be a challenge. wiki-elements makes it easy to embed Wikipedia content in your web pages, with a collection of powerful, easy-to-use Web Components that let you display Wikipedia articles, profiles, user pages, and more with just a few lines of code.
-              </p>
+                <h3>Why</h3>
+                <p>
+                    Wikipedia is the world's largest and most comprehensive encyclopedia, with over 6 million articles
+                    in English alone. It's a treasure trove of knowledge, but integrating it into your web projects can
+                    be a challenge. wiki-elements makes it easy to embed Wikipedia content in your web pages, with a
+                    collection of powerful, easy-to-use Web Components that let you display Wikipedia articles,
+                    profiles, user pages, and more with just a few lines of code.
+                </p>
 
-              <h3 id="#usage">Usage </h3>
-              <p>
-                To use wiki-elements in your project, include the following script tag in your HTML file:
-              </p>
-              <pre class="language-html">
+                <h3 id="#usage">Usage</h3>
+                <p>To use wiki-elements in your project, include the following script tag in your HTML file:</p>
+                <pre class="language-html">
                 <code>
                     &lt;script
                       src="https://santhoshtr.github.io/wiki-elements/src/index.js"
@@ -81,25 +94,21 @@
                     &lt;/script>
                 </code>
               </pre>
-              <p>
-                You can now use any of the wiki-elements in your project. For example, to display a Wikipedia article, use the <code>wiki-article</code> element:
-              </p>
-              <pre class="language-html">
+                <p>
+                    You can now use any of the wiki-elements in your project. For example, to display a Wikipedia
+                    article, use the <code>wiki-article</code> element:
+                </p>
+                <pre class="language-html">
                 <code>
                     &lt;wiki-article article="Culture of Greece">
                     &lt;/wiki-article>
                 </code>
               </pre>
-              <wiki-article language="en" article="Culture of Greece">
-              </wiki-article>
-              <p>
-                Now you can see the article about the Culture of Greece displayed on your web page.
-              </p>
+                <wiki-article language="en" article="Culture of Greece"> </wiki-article>
+                <p>Now you can see the article about the Culture of Greece displayed on your web page.</p>
 
-              <button onclick="window.location.href = 'doc/wiki-article.html';">Read documentation</button>
-          </article>
-    </main>
-
-  </body>
-
+                <button onclick="window.location.href = 'doc/wiki-article.html';">Read documentation</button>
+            </article>
+        </main>
+    </body>
 </html>

@@ -4,8 +4,8 @@
     }
 
     :host {
-       --text-color: CanvasText;
-       --background-color: Canvas;
+        --text-color: CanvasText;
+        --background-color: Canvas;
     }
 
     .wrapper {
@@ -23,7 +23,10 @@
     .suggestions-popover {
         position: absolute;
         position-anchor: --wiki-language-selector-input;
-        position-try-options: flip-block, flip-inline, flip-block flip-inline;
+        position-try-options:
+            flip-block,
+            flip-inline,
+            flip-block flip-inline;
         left: anchor(left);
         position-area: bottom right;
         position-try-fallbacks: flip-inline, flip-block;
@@ -39,12 +42,11 @@
     }
 
     .suggestions {
-       width: 100%;
+        width: 100%;
         list-style: none;
         background-color: inherit;
         margin: 0;
         padding: 0;
-
     }
 
     .container {

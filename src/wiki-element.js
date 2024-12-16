@@ -1,6 +1,6 @@
 import './utils/polyfills.js'
 
-class WikiElement extends HTMLElement {
+export default class WikiElement extends HTMLElement {
     constructor() {
         super()
         const supportsDeclarative = Object.prototype.hasOwnProperty.call(HTMLElement.prototype, 'attachInternals')
@@ -102,4 +102,4 @@ class WikiElement extends HTMLElement {
     }
 }
 
-export default WikiElement
+WikiElement

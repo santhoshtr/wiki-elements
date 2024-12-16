@@ -1,7 +1,6 @@
 import { addPrefetch, html } from './common.js'
 import WikiElement from './wiki-element.js'
 
-
 /**
  * Fetches language names and their autonyms from Wikipedia API.
  * @returns {Promise<Object<string, {autonym: string, name: string}>>} A promise that resolves to an object where keys are language codes and values are objects containing autonym and name.

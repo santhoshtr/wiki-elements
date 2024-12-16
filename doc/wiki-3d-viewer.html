@@ -1,71 +1,69 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta
+            name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+        />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-    <meta name="description"
-      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
-    <meta name="supported-color-schemes" content="dark light" />
-    <meta name="color-scheme" content="dark light" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="demo.js" type="module"></script>
-    <script src="../src/index.js" type="module"></script>
-    <script src="prism.js" defer ></script>
-    <link rel="stylesheet" href="prism.css" />
-  </head>
-
-  <body>
-    <header class="header">
-      <span class="logo"></span>
-      <span class="site-title">wiki-elements</span>
-      <input type="checkbox" style="display: none;" id="menu-toggle">
-      <label for="menu-toggle" class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-    </header>
-    <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
-    <main>
-
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none" id="menu-toggle" />
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
             <article class="main">
+                <!-- wiki-3d-viewer -->
+                <h3 id="wiki-3d-viewer">wiki-3d-viewer</h3>
+                <p>The <code>wiki-3d-viewer</code> element is a WebComponent to display 3D models in STL format.</p>
+                <h4 id="attributes">Attributes</h4>
+                <ul>
+                    <li><code>source</code>: The URL of the 3D model in STL format.</li>
+                </ul>
+                <h4 id="examples">Examples</h4>
 
-        <!-- wiki-3d-viewer -->
-        <h3 id="wiki-3d-viewer">wiki-3d-viewer</h3>
-        <p>
-          The <code>wiki-3d-viewer</code> element is a WebComponent to display 3D models in STL format.
-        </p>
-        <h4 id="attributes">Attributes</h4>
-        <ul>
-          <li><code>source</code>: The URL of the 3D model in STL format.</li>
-        </ul>
-        <h4 id="examples">Examples</h4>
-
-        <section class="example grid">
-          <pre><code class="language-html">
+                <section class="example grid">
+                    <pre><code class="language-html">
                                             &lt;wiki-3d-viewer source="https://commons.wikimedia.org/wiki/Special:Redirect/file/Moon%20elevation.stl"&gt;
                                             &lt;/wiki-3d-viewer&gt;
 
                             </code></pre>
-          <section class="rendering">
-            <wiki-3d-viewer source="../src/Moon_elevation.stl">
-            </wiki-3d-viewer>
-          </section>
+                    <section class="rendering">
+                        <wiki-3d-viewer source="../src/Moon_elevation.stl"> </wiki-3d-viewer>
+                    </section>
+                </section>
+            </article>
+        </main>
 
-
-          </article>
-    </main>
-
-    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css"
-      media="screen and (prefers-color-scheme: light)" />
-    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css"
-      media="screen and (prefers-color-scheme: dark)" />
-
-
-  </body>
-
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/github.css"
+            media="screen and (prefers-color-scheme: light)"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/styles/nord.css"
+            media="screen and (prefers-color-scheme: dark)"
+        />
+    </body>
 </html>

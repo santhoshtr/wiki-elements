@@ -1,95 +1,92 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-    <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-    <meta
-      name="description"
-      content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
-    />
-    <meta name="supported-color-schemes" content="dark light" />
-    <meta name="color-scheme" content="dark light" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="demo.js" type="module"></script>
-    <script src="../src/index.js" type="module"></script>
-    <script src="prism.js" defer></script>
-    <link rel="stylesheet" href="prism.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
+        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
+        <meta
+            name="description"
+            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
+        />
+        <meta name="supported-color-schemes" content="dark light" />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="demo.js" type="module"></script>
+        <script src="../src/index.js" type="module"></script>
+        <script src="prism.js" defer></script>
+        <link rel="stylesheet" href="prism.css" />
+    </head>
 
-  <body>
-    <header class="header">
-      <span class="logo"></span>
-      <span class="site-title">wiki-elements</span>
-      <input type="checkbox" style="display: none" id="menu-toggle" />
-      <label for="menu-toggle" class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-    </header>
-    <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
-    <main>
-      <article class="main">
-        <h3 id="wiki-graph">wiki-graph</h3>
-        <p>
-          The <code>wiki-graph</code> component is used to display a graph from a Wikimedia tabular data page.
-        </p>
-        <p>
-         This helps to easily visualize data from Wikimedia tabular data pages anywhere on the web. The graph is
-          rendered using the <a href="https://echarts.apache.org/">echarts</a> library.
-        </p>
-        <h4 id="attributes">Attributes</h4>
-        <ul>
-          <li><code>source</code>: The URL of the Wikimedia tabular data page.</li>
-        </ul>
-        <h4 id="examples">Examples</h4>
+    <body>
+        <header class="header">
+            <span class="logo"></span>
+            <span class="site-title">wiki-elements</span>
+            <input type="checkbox" style="display: none" id="menu-toggle" />
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </header>
+        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <main>
+            <article class="main">
+                <h3 id="wiki-graph">wiki-graph</h3>
+                <p>
+                    The <code>wiki-graph</code> component is used to display a graph from a Wikimedia tabular data page.
+                </p>
+                <p>
+                    This helps to easily visualize data from Wikimedia tabular data pages anywhere on the web. The graph
+                    is rendered using the <a href="https://echarts.apache.org/">echarts</a> library.
+                </p>
+                <h4 id="attributes">Attributes</h4>
+                <ul>
+                    <li><code>source</code>: The URL of the Wikimedia tabular data page.</li>
+                </ul>
+                <h4 id="examples">Examples</h4>
 
-        <section class="example grid">
-          <pre><code class="language-html">
+                <section class="example grid">
+                    <pre><code class="language-html">
                     &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab" &gt;
                     &lt;/wiki-graph&gt;
                 </code></pre>
 
-          <section class="rendering">
-            <wiki-graph
-              source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab"
-            >
-            </wiki-graph>
-          </section>
-        </section>
-        <section class="example grid">
-          <pre><code class="language-html">
+                    <section class="rendering">
+                        <wiki-graph
+                            source="https://commons.wikimedia.org/wiki/Data:COVID-19_cases_in_Santa_Clara_County,_California.tab"
+                        >
+                        </wiki-graph>
+                    </section>
+                </section>
+                <section class="example grid">
+                    <pre><code class="language-html">
                     &lt;wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"&gt;
                     &lt;/wiki-graph&gt;
 
                 </code></pre>
-          <section class="rendering">
-            <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab"> </wiki-graph>
-          </section>
-        </section>
+                    <section class="rendering">
+                        <wiki-graph source="https://commons.wikimedia.org/wiki/Data:Bea.gov/GDP_by_state.tab">
+                        </wiki-graph>
+                    </section>
+                </section>
 
-        <h4 id="features">Features</h4>
-        <p>
-          The <code>wiki-graph</code> component supports the following features:
-          <ul>
-            <li>Interactive
-              - The graph is interactive and supports tooltips, selection of axis, bar to line chart switching.
-            </li>
-            <li>Responsive -
-              The graph is responsive and adjusts to the size of the container.
-            </li>
-            <li>Lazy loaded -
-              The graph is loaded only when it is in the viewport. This helps to improve the performance of the page.
-            </li>
-            <li>
-              Data can be downloaded or can be viewed as table
-            </li>
-          </ul>
-        </p>
-      </article>
-    </main>
-  </body>
+                <h4 id="features">Features</h4>
+                <p>The <code>wiki-graph</code> component supports the following features:</p>
+                <ul>
+                    <li>
+                        Interactive - The graph is interactive and supports tooltips, selection of axis, bar to line
+                        chart switching.
+                    </li>
+                    <li>Responsive - The graph is responsive and adjusts to the size of the container.</li>
+                    <li>
+                        Lazy loaded - The graph is loaded only when it is in the viewport. This helps to improve the
+                        performance of the page.
+                    </li>
+                    <li>Data can be downloaded or can be viewed as table</li>
+                </ul>
+            </article>
+        </main>
+    </body>
 </html>

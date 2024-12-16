@@ -10,6 +10,5 @@
 - <https://www.youtube.com/watch?v=mtHf7crZZIQ>
 - <https://github.com/elix/elix/blob/main/src/core/ReactiveMixin.js>
 
-
-Support *.chart definitions
+Support \*.chart definitions
 <https://commons.wikimedia.beta.wmflabs.org/w/index.php?title=Data:1993_Canadian_federal_election.chart&action=edit>

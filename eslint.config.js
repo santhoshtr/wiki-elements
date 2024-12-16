@@ -1,19 +1,19 @@
-import globals from 'globals'
 import pluginJs from '@eslint/js'
-import importPlugin from 'eslint-plugin-import'
 import prettier from 'eslint-config-prettier'
+import importPlugin from 'eslint-plugin-import'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import globals from 'globals'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
     {
-        ignores: ['.git/*', 'src/libs/*', '.vscode/*', 'coverage/*', 'dist/*', 'node_modules/*'],
+        ignores: ['.git/*', 'src/libs/*', '.vscode/*', 'coverage/*', 'dist/*', 'node_modules/*', 'doc/prism.js'],
     },
     importPlugin.flatConfigs.recommended,
     pluginJs.configs.recommended,
     prettier,
     {
-        files: ['src/**/*.{js,mjs,cjs,ts,cts,mts}'],
+        files: ['*.js', 'src/**/*.js', 'doc/**/*.js'],
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -31,7 +31,9 @@ export default [
             'import/first': 'warn',
             'import/newline-after-import': 'warn',
             'import/no-duplicates': ['error', { 'prefer-inline': true }],
-            'import/order': 'off',
+            'import/order': 'error',
+            'import/namespace': 'warn',
+            'import/default': 'warn',
         },
     },
 ]

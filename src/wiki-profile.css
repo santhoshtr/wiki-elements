@@ -1,42 +1,46 @@
 @layer wiki-elements.wiki-profile {
-  :host {
-  --wiki-profile-size: 150px;
-  --wiki-border-radius: 50%;
-  --wiki-border-color: light-dark(hsl(219, 28%, 88%), hsl(220, 16%, 36%));
-   display: block;
-   width: 100%;
-  }
+    :host {
+        --wiki-profile-size: 150px;
+        --wiki-border-radius: 50%;
+        --wiki-border-color: light-dark(hsl(219deg 28% 88%), hsl(220deg 16% 36%));
 
-  .wiki-profile {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    align-items: stretch;
-    gap: 8px;
-
-    .thumbnail {
-      overflow: hidden;
-      border-radius: var(--wiki-border-radius);
-      img {
+        display: block;
         width: 100%;
-        aspect-ratio: 1;
-        object-fit: cover;
-        object-position: 50% 10%;
-        transition: transform .5s ease-in;
-        &:hover {
-          transform: scale(1.25);
-        }
-      }
     }
 
-    .title-header {
-      font-size: 1.2em;
-      margin: 0.25em 0;
-      padding: 0;
-      text-align: center;
-      .title {
-        text-decoration: none;
-      }
+    .wiki-profile {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        align-items: stretch;
+        gap: 8px;
+
+        .thumbnail {
+            overflow: hidden;
+            border-radius: var(--wiki-border-radius);
+
+            img {
+                width: 100%;
+                aspect-ratio: 1;
+                object-fit: cover;
+                object-position: 50% 10%;
+                transition: transform 0.5s ease-in;
+
+                &:hover {
+                    transform: scale(1.25);
+                }
+            }
+        }
+
+        .title-header {
+            font-size: 1.2em;
+            margin: 0.25em 0;
+            padding: 0;
+            text-align: center;
+
+            .title {
+                text-decoration: none;
+            }
+        }
     }
-  }
 }
