@@ -1,8 +1,16 @@
-import './libs/three.min.js'
-import './libs/OrbitControls.js'
-import './libs/STLLoader.js'
-
 import { addPrefetch, html } from './common.js'
+import { OrbitControls } from './libs/OrbitControls.js'
+import { STLLoader } from './libs/STLLoader.js'
+import {
+    HemisphereLight,
+    Matrix4,
+    Mesh,
+    MeshPhongMaterial,
+    PerspectiveCamera,
+    Scene,
+    Vector3,
+    WebGLRenderer,
+} from './libs/three.module.js'
 import LazyLoadMixin from './mixins/LazyLoadMixin.js'
 import WikiElement from './wiki-element.js'
 
@@ -60,9 +68,8 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     }
 
     STLViewer(elem, model, rotate = true, zoom = 2, callback = null) {
-        const THREE = window.THREE
-        var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-        var camera = new THREE.PerspectiveCamera(50, elem.clientWidth / elem.clientHeight, 1, 1000)
+        var renderer = new WebGLRenderer({ antialias: true, alpha: true })
+        var camera = new PerspectiveCamera(50, elem.clientWidth / elem.clientHeight, 1, 1000)
 
         renderer.setSize(elem.clientWidth, elem.clientHeight)
         elem.appendChild(renderer.domElement)
@@ -77,31 +84,31 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
             false
         )
 
-        var controls = new THREE.OrbitControls(camera, renderer.domElement)
+        var controls = new OrbitControls(camera, renderer.domElement)
         controls.enableDamping = true
-        controls.rotateSpeed = 0.05
+        controls.rotateSpeed = 0.75
         controls.dampingFactor = 0.1
-        controls.enableZoom = false
+        controls.enableZoom = true
         controls.enablePan = false
         controls.autoRotate = true
-        controls.autoRotateSpeed = 0.75
+        controls.autoRotateSpeed = 2
 
-        var scene = new window.THREE.Scene()
+        var scene = new Scene()
 
-        scene.add(new window.THREE.HemisphereLight(0xffffff, 0x080820, 1.5))
+        scene.add(new HemisphereLight(0xffffff, 0x080820, 1.5))
 
-        new window.THREE.STLLoader().load(model, function (geometry) {
-            var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, specular: 100, shininess: 100 })
-            var mesh = new THREE.Mesh(geometry, material)
+        new STLLoader().load(model, function (geometry) {
+            var material = new MeshPhongMaterial({ color: 0xcccccc, specular: 100, shininess: 100 })
+            var mesh = new Mesh(geometry, material)
             scene.add(mesh)
 
             // Compute the middle
-            var middle = new THREE.Vector3()
+            var middle = new Vector3()
             geometry.computeBoundingBox()
             geometry.boundingBox.getCenter(middle)
 
             // Center it
-            mesh.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z))
+            mesh.geometry.applyMatrix4(new Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z))
 
             // Rotate, if desired
             if (rotate) {
