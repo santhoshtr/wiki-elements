@@ -1,12 +1,8 @@
-import { addPrefetch, html } from './common.js'
-import * as THREE from './libs/threejs/build/three.module.js'
-import { STLLoader } from './libs/threejs/examples/jsm/loaders/STLLoader.js'
-import { TrackballControls } from './libs/threejs/examples/jsm/loaders/TrackballControls.js'
+import { addPrefetch, addScript, html } from './common.js'
 import LazyLoadMixin from './mixins/LazyLoadMixin.js'
 import WikiElement from './wiki-element.js'
 
-const styleURL = new URL('./wiki-3d-viewer.css', import.meta.url)
-
+const scriptURL = new URL('./libs/stl_viewer/stl_viewer.min.js', import.meta.url)
 class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     constructor() {
         super()
@@ -14,13 +10,16 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 
     static get template() {
         return html`
-            <div id="wiki-3d-viewer-container">
+            <section class="wiki-3d-viewer">
                 <progress id="loading"></progress>
-            </div>
-            <style>
-                @import url(${styleURL});
-            </style>
+                <div id="wiki-3d-viewer-container"></div>
+                <div class="info"></div>
+            </section>
         `
+    }
+
+    static get stylesheetURL() {
+        return new URL('./wiki-3d-viewer.css', import.meta.url)
     }
 
     static get properties() {
@@ -44,94 +43,44 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
         await this.init3d(this.source)
     }
 
+    async fetchImageData(filename) {
+        if (!filename.startsWith('File:')) {
+            filename = 'File:' + filename
+        }
+        const apiUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(filename)}&prop=imageinfo&iiprop=url|user|extmetadata&format=json&origin=*`
+        const response = await fetch(apiUrl)
+        const data = await response.json()
+        const page = Object.values(data.query.pages)[0]
+
+        return page.imageinfo[0]
+    }
+
     async init3d(stlUrl) {
+        await addScript(scriptURL)
+        const filename = stlUrl.split('/').pop()
+
         const container = this.shadowRoot.getElementById('wiki-3d-viewer-container')
-
-        const scene = new THREE.Scene()
-        const dimensions = {
-            width: Math.max(600, container.getClientRects()[0].width),
-            height: Math.max(600, container.getClientRects()[0].height),
-        }
-        // Camera setup
-        const camera = new THREE.PerspectiveCamera(60, dimensions.width / dimensions.height, 0.001, 1000)
-        camera.position.set(0, 0, 5)
-        camera.add(new THREE.PointLight(0xffffff, 0.3))
-
-        // Renderer setup
-        const renderer = new THREE.WebGLRenderer({ antialias: true })
-        renderer.setClearColor(0x222222)
-        renderer.setSize(dimensions.width, dimensions.height)
-        renderer.setPixelRatio(window.devicePixelRatio)
-        renderer.shadowMap.enabled = true
-        container.appendChild(renderer.domElement)
-
-        // Orbit controls for interaction
-        const controls = new TrackballControls(camera, renderer.domElement)
-        controls.rotateSpeed = 4
-        controls.zoomSpeed = 4
-        controls.panSpeed = 4
-
-        // Lighting
-
-        scene.add(new THREE.AmbientLight(0xffffff, 0.5))
-
-        const light = new THREE.DirectionalLight(0xffffff, 0.8)
-        light.position.set(-100, 50, 25).normalize()
-        scene.add(light)
-
-        // STL Loader
-        const loader = new STLLoader()
-        await loader.load(stlUrl, (geometry) => {
-            const material = new THREE.MeshPhongMaterial({
-                color: 0xf0ebe8,
-                shininess: 5,
-                flatShading: true,
-                side: THREE.DoubleSide,
-            })
-            const object = new THREE.Mesh(geometry, material)
-
-            // Center the model
-            geometry.center()
-            camera.lookAt(scene.position)
-            // Scale the model to fit the view
-            const box = new THREE.Box3().setFromObject(object)
-            const size = box.getSize(new THREE.Vector3())
-            const maxDim = Math.max(size.x, size.y, size.z)
-            const scaleFactor = 3 / maxDim
-            object.scale.set(scaleFactor, scaleFactor, scaleFactor)
-
-            scene.add(object)
-
-            // center
-            // object.geometry.center()
-            // object.geometry.computeBoundingSphere()
-
-            // const radius = object.geometry.boundingSphere.radius
-            // camera.position.set(-radius * 1, -radius * 1, radius * 0.2)
-            renderer.render(scene, camera)
+        const imageData = await this.fetchImageData(filename)
+        // eslint-disable-next-line no-unused-vars
+        const stl_viewer = new window.StlViewer(container, {
+            models: [{ id: 0, filename: imageData.url }],
+            auto_rotate: true,
+            all_loaded_callback: () => {
+                this.progress.style.display = 'none'
+            },
         })
 
-        // Window resize handling
-        window.addEventListener('resize', () => {
-            camera.aspect = dimensions.width / dimensions.height
-            camera.updateProjectionMatrix()
-            renderer.setSize(dimensions.width, dimensions.height)
-        })
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate)
-            controls.update()
-            renderer.render(scene, camera)
-        }
-        animate()
-        this.progress.style.display = 'none'
-        // Return cleanup function if needed
-        return () => {
-            document.getElementById('viewer').removeChild(renderer.domElement)
-            controls.dispose()
-            renderer.dispose()
-        }
+        const attribution = this.shadowRoot.querySelector('.info')
+        const author = imageData.user
+        const description = imageData.extmetadata.ImageDescription.value
+        const license = imageData.extmetadata.LicenseShortName.value
+        const descriptionElement = document.createElement('p')
+        descriptionElement.innerHTML = description
+        attribution.appendChild(descriptionElement)
+        const metaElement = document.createElement('p')
+        const commonsUrl = imageData.descriptionurl
+        metaElement.innerHTML = `${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`
+        attribution.appendChild(metaElement)
     }
 }
 
