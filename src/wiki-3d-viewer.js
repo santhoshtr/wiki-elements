@@ -1,8 +1,11 @@
-import { addPrefetch, addScript, html } from './common.js'
+import './libs/three.min.js'
+import './libs/OrbitControls.js'
+import './libs/STLLoader.js'
+
+import { addPrefetch, html } from './common.js'
 import LazyLoadMixin from './mixins/LazyLoadMixin.js'
 import WikiElement from './wiki-element.js'
 
-const scriptURL = new URL('./libs/stl_viewer/stl_viewer.min.js', import.meta.url)
 class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     constructor() {
         super()
@@ -33,6 +36,7 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
     connectedCallback() {
         super.connectedCallback()
         addPrefetch('preconnect', 'https://commons.wikimedia.org')
+        addPrefetch('preconnect', 'https://upload.wikimedia.org')
     }
 
     async render() {
@@ -55,19 +59,83 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
         return page.imageinfo[0]
     }
 
+    STLViewer(elem, model, rotate = true, zoom = 2, callback = null) {
+        const THREE = window.THREE
+        var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+        var camera = new THREE.PerspectiveCamera(50, elem.clientWidth / elem.clientHeight, 1, 1000)
+
+        renderer.setSize(elem.clientWidth, elem.clientHeight)
+        elem.appendChild(renderer.domElement)
+
+        window.addEventListener(
+            'resize',
+            function () {
+                renderer.setSize(elem.clientWidth, elem.clientHeight)
+                camera.aspect = elem.clientWidth / elem.clientHeight
+                camera.updateProjectionMatrix()
+            },
+            false
+        )
+
+        var controls = new THREE.OrbitControls(camera, renderer.domElement)
+        controls.enableDamping = true
+        controls.rotateSpeed = 0.05
+        controls.dampingFactor = 0.1
+        controls.enableZoom = false
+        controls.enablePan = false
+        controls.autoRotate = true
+        controls.autoRotateSpeed = 0.75
+
+        var scene = new window.THREE.Scene()
+
+        scene.add(new window.THREE.HemisphereLight(0xffffff, 0x080820, 1.5))
+
+        new window.THREE.STLLoader().load(model, function (geometry) {
+            var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, specular: 100, shininess: 100 })
+            var mesh = new THREE.Mesh(geometry, material)
+            scene.add(mesh)
+
+            // Compute the middle
+            var middle = new THREE.Vector3()
+            geometry.computeBoundingBox()
+            geometry.boundingBox.getCenter(middle)
+
+            // Center it
+            mesh.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z))
+
+            // Rotate, if desired
+            if (rotate) {
+                mesh.rotation.x = -Math.PI / 2
+            }
+
+            // Pull the camera away as needed
+            var largestDimension = Math.max(
+                geometry.boundingBox.max.x,
+                geometry.boundingBox.max.y,
+                geometry.boundingBox.max.z
+            )
+            camera.position.z = largestDimension * zoom
+
+            var animate = function () {
+                requestAnimationFrame(animate)
+                controls.update()
+                renderer.render(scene, camera)
+            }
+            animate()
+            if (callback) {
+                callback()
+            }
+        })
+    }
+
     async init3d(stlUrl) {
-        await addScript(scriptURL)
         const filename = stlUrl.split('/').pop()
 
         const container = this.shadowRoot.getElementById('wiki-3d-viewer-container')
         const imageData = await this.fetchImageData(filename)
-        // eslint-disable-next-line no-unused-vars
-        const stl_viewer = new window.StlViewer(container, {
-            models: [{ id: 0, filename: imageData.url }],
-            auto_rotate: true,
-            all_loaded_callback: () => {
-                this.progress.style.display = 'none'
-            },
+
+        this.STLViewer(container, imageData.url, true, 3, () => {
+            this.progress.style.display = 'none'
         })
 
         const attribution = this.shadowRoot.querySelector('.info')
