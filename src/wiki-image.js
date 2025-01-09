@@ -12,7 +12,7 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
     static get template() {
         return html`
             <figure>
-                <img alt="Wikimedia Commons image" loading="lazy" />
+                <img alt="Wikimedia Commons image" />
                 <figcaption></figcaption>
             </figure>
             <style>
@@ -25,6 +25,27 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
         return {
             source: {
                 type: String,
+            },
+            loading: {
+                type: String,
+                options: ['lazy', 'eager'],
+                default: 'lazy',
+            },
+            decoding: {
+                type: String,
+                options: ['sync', 'async', 'auto'],
+                default: 'auto',
+            },
+            fetchpriority: {
+                type: String,
+                options: ['auto', 'high', 'low'],
+                default: 'auto',
+            },
+            height: {
+                type: Number,
+            },
+            width: {
+                type: Number,
             },
         }
     }
@@ -91,6 +112,19 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
             img.setAttribute('sizes', this.shadowRoot.querySelector('figure').clientWidth + 'px')
         }
         imageSizesSetter.bind(this)()
+        if (this.width && this.height) {
+            img.setAttribute('width', this.width)
+            img.setAttribute('height', this.height)
+        }
+        if (this.loading) {
+            img.setAttribute('loading', this.loading)
+        }
+        if (this.decoding) {
+            img.setAttribute('decoding', this.decoding)
+        }
+        if (this.fetchpriority) {
+            img.setAttribute('fetchpriority', this.fetchpriority)
+        }
         window.addEventListener('resize', debounce(imageSizesSetter.bind(this), 300))
     }
 }

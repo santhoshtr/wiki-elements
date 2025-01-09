@@ -42,11 +42,35 @@
                     Image caption and attribution to the author of the image is automatically added to the image. The
                     image is displayed in a responsive way.
                 </p>
-                <h4>Attributes</h4>
+                <h4 id="attributes">Attributes</h4>
                 <ul>
                     <li><code>source</code>: The source of the image. It can be a file name or a URL.</li>
+                    <li><code>width</code>: The intrinsic width of the image in pixels. Must be an integer without a unit.
+                    </li>
+                    <li><code>height</code>: The intrinsic height of the image in pixels. Must be an integer without a unit.
+                    </li>
+                    <li><code>loading</code>:
+                        <ul>
+                            <li><code>lazy</code>: The image will be loaded lazily.</li>
+                            <li><code>eager</code>: The image will be loaded eagerly.</li>
+                        </ul>
+                    </li>
+                    <li><code>fetchpriority</code>:
+                        <ul>
+                            <li><code>auto</code>: The browser will determine the priority of fetching the image.</li>
+                            <li><code>high</code>: The image will be fetched with high priority.</li>
+                            <li><code>low</code>: The image will be fetched with low priority.</li>
+                        </ul>
+                    </li>
+                    <li><code>decoding</code>:
+                        <ul>
+                            <li><code>auto</code>: The browser will determine the decoding strategy.</li>
+                            <li><code>sync</code>: The image will be decoded synchronously.</li>
+                            <li><code>async</code>: The image will be decoded asynchronously.</li>
+                        </ul>
+                    </li>
                 </ul>
-                <h4>Examples</h4>
+                <h4 id="examples">Examples</h4>
                 <section class="example grid">
                     <pre><code class="language-html" >
                     &lt;wiki-image source="File:Pont_Royal_and_Musée_d'Orsay,_Paris_10_July_2020.jpg"&gt;
