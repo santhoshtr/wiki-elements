@@ -1,4 +1,4 @@
-import { addPrefetch, getSourceSetFromCommonsUrl, html } from './common.js'
+import { addPrefetch, debounce, getSourceSetFromCommonsUrl, html } from './common.js'
 import LazyLoadMixin from './mixins/LazyLoadMixin.js'
 import WikiElement from './wiki-element.js'
 
@@ -74,6 +74,7 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
         const srcset = getSourceSetFromCommonsUrl(imageData.url)
         img.setAttribute('srcset', srcset)
         img.setAttribute('src', imageData.url)
+        img.setAttribute('sizes', this.shadowRoot.querySelector('figure').clientWidth + 'px')
 
         // Set attribution
         const author = imageData.user
@@ -86,6 +87,11 @@ class WikiImage extends LazyLoadMixin(WikiElement) {
         metaElement.innerHTML = `${author} | ${license} | <a href="${commonsUrl}">Wikimedia Commons</a>`
         attribution.appendChild(metaElement)
         img.setAttribute('alt', description)
+        function imageSizesSetter() {
+            img.setAttribute('sizes', this.shadowRoot.querySelector('figure').clientWidth + 'px')
+        }
+        imageSizesSetter.bind(this)()
+        window.addEventListener('resize', debounce(imageSizesSetter.bind(this), 300))
     }
 }
 
