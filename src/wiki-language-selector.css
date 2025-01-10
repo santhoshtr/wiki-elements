@@ -12,12 +12,15 @@
         border: 1px solid ButtonBorder;
         display: inline-block;
         font-size: 1em;
+        anchor-name: --wiki-language-selector-input;
     }
 
     input {
         padding: 0.5em;
         font-size: 1em;
-        anchor-name: --wiki-language-selector-input;
+        border: none;
+        outline: none;
+        width: 100%;
     }
 
     .suggestions-popover {

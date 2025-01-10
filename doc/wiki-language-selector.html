@@ -65,10 +65,20 @@
                         <code>data-languages</code> (optional): The set of language codes valid for the context. If not
                         provided, the component will use all language codes from <code>data-languages</code>.
                     </li>
+
+                </ul>
+                <h4 id="events">Events</h4>
+                <ul>
                     <li>
-                        <code>onselect</code> (optional): The callback function to be called when a language is
-                        selected. The function receives object with keys 'value', 'name' and 'autonym'.
+                        <code>select</code>:  Emitted when a language is selected. The event detail contains the following keys and values:
+                        <ul>
+                            <li><code>value</code>: The language code of the selected language.</li>
+                            <li><code>name</code>: The name of the selected language.</li>
+                            <li><code>autonym</code>: The autonym of the selected language.</li>
+                        </ul>
                     </li>
+
+
                 </ul>
                 <h4 id="examples">Examples</h4>
                 <section class="example grid">
@@ -98,14 +108,14 @@
                             &lt;template shadowrootmode="open">
                                 &lt;section class="container">
                                      &lt;!-- Add a header, allow more customization by marking it as a slot -->
-                                    &lt;slot name="wiki-langaugeselector-header">
+                                    &lt;slot name="wiki-languageselector-header">
                                         &lt;p>Choose a language - Default header&lt;/p>
                                     &lt;/slot>
-                                    &lt;form>
+                                    &lt;div class="wrapper" part="wrapper">
                                         &lt;input id="wikilanguageselector-search" type="search" part="input" autocomplete="off" />
                                     &lt;/form>
                                 &lt;/section>
-                                &lt;div class="suggestions-popover" popover>
+                                &lt;div class="suggestions-popover" popover part="popover">
                                     &lt;p class="suggestions-header">Suggestions&lt;/p>
                                     &lt;ul part="suggestions" class="suggestions">&lt;/ul>
                                     &lt;!-- Add an actions section at the end of menu -->
@@ -120,6 +130,7 @@
                                         flex-direction: column;
                                         padding: 1em;
                                         border-bottom: 1px solid CanvasText;
+                                        width: 30ch;
                                     }
 
                                     .suggestions-header {
@@ -145,15 +156,15 @@
                     </code>
                 </pre>
                 <p>And it will render as below:</p>
-                <wiki-language-selector>
+                <wiki-language-selector >
                     <template shadowrootmode="open">
                         <section class="container">
-                            <slot name="wiki-langaugeselector-header">
+                            <slot name="wiki-languageselector-header">
                                 <p>Choose a language - Default header</p>
                             </slot>
-                            <form>
+                            <div class="wrapper" part="wrapper">
                                 <input id="wikilanguageselector-search" type="search" part="input" autocomplete="off" />
-                            </form>
+                            </div>
                         </section>
                         <div class="suggestions-popover" popover>
                             <p class="suggestions-header">Suggestions</p>
@@ -168,6 +179,7 @@
                                 flex-direction: column;
                                 padding: 1em;
                                 border-bottom: 1px solid CanvasText;
+                                width: 30ch;
                             }
 
                             .suggestions-header {
@@ -187,7 +199,7 @@
                             }
                         </script>
                     </template>
-                    <p slot="wiki-langaugeselector-header">Choose a language</p>
+                    <p slot="wiki-languageselector-header">Choose a language</p>
                 </wiki-language-selector>
 
                 <p>

@@ -46,9 +46,9 @@ class WikiLanguageSelector extends WikiElement {
 
     static get template() {
         return html`
-            <form>
+            <div class="wrapper" part="wrapper">
                 <input id="wikilanguageselector-search" type="search" part="input" autocomplete="off" />
-            </form>
+            </div>
             <div class="suggestions-popover" popover>
                 <ul part="suggestions" class="suggestions"></ul>
             </div>
@@ -66,9 +66,6 @@ class WikiLanguageSelector extends WikiElement {
             },
             'data-languages': {
                 type: Object,
-            },
-            onselect: {
-                type: Function,
             },
         }
     }
@@ -211,18 +208,14 @@ class WikiLanguageSelector extends WikiElement {
         this.selectedValue = suggestion
         this.dispatchEvent(
             new CustomEvent('select', {
-                value: suggestion,
-                name: selectedLanguage.name,
-                autonym: selectedLanguage.autonym,
+                bubbles: true,
+                detail: {
+                    value: suggestion,
+                    name: selectedLanguage.name,
+                    autonym: selectedLanguage.autonym,
+                },
             })
         )
-        if (this.onselect) {
-            this.onselect({
-                value: suggestion,
-                name: selectedLanguage.name,
-                autonym: selectedLanguage.autonym,
-            })
-        }
     }
 }
 
@@ -230,8 +223,3 @@ if (!customElements.get('wiki-language-selector')) {
     customElements.define('wiki-language-selector', WikiLanguageSelector)
 }
 
-// const autoinput = document.querySelector('autocomplete-input')
-
-// autoinput.addEventListener('select', (value) => {
-//     console.log(value)
-// })

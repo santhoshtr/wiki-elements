@@ -56,8 +56,7 @@ export default class WikiElement extends HTMLElement {
                     return JSON.parse(value)
                 }
                 return value
-            case Function:
-                return value
+
             default:
                 return value
         }
