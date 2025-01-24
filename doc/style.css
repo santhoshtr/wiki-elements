@@ -1,8 +1,47 @@
-@import url('https://unpkg.com/open-props') layer(base);
-@import url('https://unpkg.com/open-props/normalize.min.css') layer(base);
-@import url('https://unpkg.com/open-props/buttons.min.css') layer(base);
+@layer base{
+    * {
+        box-sizing: border-box;
+    }
 
-@layer demo {
+    :root {
+        --base-color: light-dark(oklch(100% 0.002 247deg), oklch(0% 0.02 247deg));
+        --surface-1: light-dark(oklch(from var(--base-color) calc(l - 0.02) c h), oklch(from var(--base-color) calc(l + 0.2) c h));
+        --surface-2: light-dark(oklch(from var(--base-color) calc(l - 0.1) c h), oklch(from var(--base-color) calc(l + 0.3) c h));
+        --border-color: light-dark(oklch(from var(--base-color) calc(l - 0.15) c h), oklch(from var(--base-color) calc(l + 0.4) c h));
+        --text-1: light-dark(oklch(from var(--base-color) calc(l - 0.8) c h), oklch(from var(--base-color) calc(l + 0.98) c h));
+        --font-sans: 'Inter', sans-serif;
+        --font-serif: 'Merriweather', serif;
+        --font-mono: 'Fira Code', monospace;
+        --link: light-dark(hsl(255deg 52.7% 43.9%), hsl(228deg 94% 67.1%));
+        --font-size-1: 1.2em;
+        --font-weight-1: 100;
+        --font-weight-2: 200;
+        --font-weight-3: 300;
+        --font-weight-4: 400;
+        --font-weight-5: 500;
+        --font-weight-6: 600;
+        --font-weight-7: 700;
+        --font-weight-8: 800;
+        --font-weight-9: 900;
+        --border-size-1: 1px;
+        --size-1: 0.25em;
+        --size-2: 0.5em;
+        --size-3: 1em;
+    }
+
+    input, select, button {
+        font-family: var(--font-sans);
+        padding: var(--size-2);
+    }
+
+    p, li, h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        padding: 0;
+        max-inline-size: 60ch;
+    }
+}
+
+@layer documentation {
     body {
         font-family: var(--font-sans);
         line-height: 1.5;
@@ -42,7 +81,7 @@
         border-bottom: var(--border-size-1) solid var(--text-2);
 
         .site-title {
-            font-size: var(--font-size-fluid-1);
+            font-size: var(--font-size-1);
             font-weight: var(--font-weight-7);
             color: var(--text-1);
         }
@@ -86,10 +125,11 @@
             text-decoration: none;
             text-wrap: nowrap;
             font-size: 0.9em;
-        }
-
-        a:visited {
             color: var(--link);
+
+            &:visited {
+                color: var(--link);
+            }
         }
     }
 
@@ -167,6 +207,7 @@
         grid-template-rows: auto;
         gap: 0.5em;
         overflow: hidden;
+        max-inline-size: min(100vw,1000px);
 
         .rendering {
             resize: both;
