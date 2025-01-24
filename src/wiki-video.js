@@ -19,7 +19,7 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
     static get template() {
         return html`
             <figure>
-                <video controls preload="metadata">Your browser does not support the video tag.</video>
+                <video controls preload="metadata"></video>
                 <figcaption></figcaption>
             </figure>
             <style>
@@ -74,6 +74,25 @@ class WikiVideo extends LazyLoadMixin(WikiElement) {
         player.setAttribute('poster', poster)
         player.appendChild(source_el)
 
+        // Add transcoded sources
+        const variants = [
+            ['480p.vp9.webm', 854, 480, 'video/webm; codecs="vp9, opus"'],
+            ['720p.vp9.webm', 1280, 720, 'video/webm; codecs="vp9, opus"'],
+            ['1080p.vp9.webm', 1920, 1080, 'video/webm; codecs="vp9, opus"'],
+            ['240p.vp9.webm', 426, 240, 'video/webm; codecs="vp9, opus"'],
+            ['360p.webm', 640, 360, 'video/webm; codecs="vp8, vorbis"'],
+            ['360p.vp9.webm', 640, 360, 'video/webm; codecs="vp9, opus"'],
+            ['webm.144p.mjpeg.mov', 256, 144, 'video/quicktime'],
+        ]
+        variants.forEach(([key, width, height, type]) => {
+            const source = document.createElement('source')
+            source.src = `${videoData.url.replace('/commons', '/commons/transcoded')}/${video_file_name}.${key}`
+            source.type = type
+            source.dataset.transcodekey = key
+            source.dataset.width = width
+            source.dataset.height = height
+            player.appendChild(source)
+        })
         // Set attribution
         const descriptionElement = document.createElement('h1')
 
