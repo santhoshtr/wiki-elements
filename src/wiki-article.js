@@ -25,6 +25,9 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
                 default: 'card',
                 options: ['compact', 'card', 'simple'],
             },
+            'data-article': {
+                type: Object,
+            },
         }
     }
 
@@ -58,7 +61,11 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
     }
 
     async render() {
-        this.articleData = await this.fetchArticleData()
+        if (this['data-article']) {
+            this.articleData = this['data-article']
+        } else {
+            this.articleData = await this.fetchArticleData()
+        }
         await this.updateArticle()
     }
 
@@ -132,11 +139,34 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
     }
 
     async updateArticle() {
-        const { title, description, extract, lang, dir, content_urls } = this.articleData
+        let { title, description, extract, lang, dir, content_urls } = this.articleData
         this.lang = lang || this.language
         this.dir = dir
         this.shadowRoot.querySelector('.wiki-article').dir = dir
         this.shadowRoot.querySelector('.title').innerText = title
+
+        if (!content_urls) {
+            // construct content_urls from title and language
+            const titleEncoded = encodeURIComponent(title.replace(/ /g, '_'))
+            const lang = this.lang || this.language
+            const domain = `${lang}.wikipedia.org`
+            const base = `https://${domain}/wiki/${titleEncoded}`
+            content_urls = {
+                desktop: {
+                    page: base,
+                    edit: `${base}?action=edit`,
+                    revisions: `${base}?action=history`,
+                    talk: `${base}?action=discussion`,
+                },
+                mobile: {
+                    page: `https://${domain}/wiki/${titleEncoded}?useformat=mobile`,
+                    edit: `https://${domain}/w/index.php?title=${titleEncoded}&action=edit`,
+                    revisions: `https://${domain}/w/index.php?title=${titleEncoded}&action=history`,
+                    talk: `https://${domain}/wiki/${titleEncoded}?action=discussion`,
+                },
+            }
+        }
+
         this.shadowRoot.querySelector('.title').href = content_urls.desktop.page
         this.shadowRoot.querySelector('.edit').href = content_urls.desktop.edit
         this.shadowRoot.querySelector('.history').href = content_urls.desktop.revisions

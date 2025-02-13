@@ -53,7 +53,7 @@ export default class WikiElement extends HTMLElement {
             case Array:
             case Object:
                 if (typeof value === 'string') {
-                    return JSON.parse(value)
+                    return JSON.parse(decodeURIComponent(value))
                 }
                 return value
 
