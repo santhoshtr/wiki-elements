@@ -59,7 +59,6 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 
     async render() {
         this.articleData = await this.fetchArticleData()
-        this.orientation = null
         await this.updateArticle()
     }
 
