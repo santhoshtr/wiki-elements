@@ -220,7 +220,7 @@
                 font-size: var(--font-size-body);
                 text-wrap: pretty;
                 text-align: start;
-                overflow: auto;
+                overflow: hidden;
                 max-height: 7lh;
                 max-width: clamp(20ch, 100cqi, 50ch);
                 scrollbar-width: none;
