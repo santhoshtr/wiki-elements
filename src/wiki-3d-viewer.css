@@ -1,23 +1,21 @@
 @layer wiki-elements.wiki-3d-viewer {
-    :host {
-        display: block;
-        width: 100%;
-        height: 100%;
+	:host {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
 
-    }
+	.wiki-3d-viewer {
+		display: grid;
+		grid-template-rows: auto 4lh;
+		min-height: 600px;
+		min-width: 600px;
+		height: 100%;
+		width: 100%;
+	}
 
-    .wiki-3d-viewer{
-        display: grid;
-        grid-template-rows: auto 4lh;
-        min-height: 600px;
-        min-width: 600px;
-        height: 100%;
-        width: 100%;
-    }
-
-    #wiki-3d-viewer-container{
-        min-height: 600px;
-        min-width: 600px;
-    }
-
+	#wiki-3d-viewer-container {
+		min-height: 600px;
+		min-width: 600px;
+	}
 }

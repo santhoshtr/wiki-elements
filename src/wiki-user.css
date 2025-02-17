@@ -1,49 +1,49 @@
 @layer wiki-user {
-    :host {
-        box-sizing: border-box;
+	:host {
+		box-sizing: border-box;
 
-        * {
-            box-sizing: border-box;
-        }
-    }
+		* {
+			box-sizing: border-box;
+		}
+	}
 
-    .wiki-user {
-        border: 1px solid #ccc;
-        border-radius: 0.5em;
-        width: fit-content;
-        padding: 0 1em;
-        display: grid;
-        justify-items: center;
-        gap: 0.5em;
+	.wiki-user {
+		border: 1px solid #ccc;
+		border-radius: 0.5em;
+		width: fit-content;
+		padding: 0 1em;
+		display: grid;
+		justify-items: center;
+		gap: 0.5em;
 
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto;
-            object-fit: cover;
-        }
+		.avatar {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			overflow: hidden;
+			margin: 0 auto;
+			object-fit: cover;
+		}
 
-        .user-label {
-            font-size: 0.9em;
-            margin: 0;
-        }
+		.user-label {
+			font-size: 0.9em;
+			margin: 0;
+		}
 
-        .username {
-            font-size: 1.5em;
-            margin: 0;
-        }
+		.username {
+			font-size: 1.5em;
+			margin: 0;
+		}
 
-        .editcount-wrapper,
-        .wikicount-wrapper,
-        .registration-wrapper {
-            font-size: 1em;
+		.editcount-wrapper,
+		.wikicount-wrapper,
+		.registration-wrapper {
+			font-size: 1em;
 
-            span {
-                padding: 0.5em;
-                font-weight: bold;
-            }
-        }
-    }
+			span {
+				padding: 0.5em;
+				font-weight: bold;
+			}
+		}
+	}
 }

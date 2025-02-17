@@ -1,360 +1,363 @@
 @layer wiki-elements.wiki-article {
-    @property --image-width {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 500;
-    }
+	@property --image-width {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 500;
+	}
 
-    @property --image-height {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 320;
-    }
+	@property --image-height {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 320;
+	}
 
-    @property --container-height {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 300;
-    }
+	@property --container-height {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 300;
+	}
 
-    @property --image-scale {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 1;
-    }
+	@property --image-scale {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 1;
+	}
 
-    @property --l {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 1;
-    }
+	@property --l {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 1;
+	}
 
-    @property --l-threshold {
-        syntax: '<number>';
-        inherits: false;
-        initial-value: 0.66;
-    }
+	@property --l-threshold {
+		syntax: "<number>";
+		inherits: false;
+		initial-value: 0.66;
+	}
 
-    @property --dominant-color {
-        syntax: '<color>';
-        inherits: false;
-        initial-value: transparent;
-    }
+	@property --dominant-color {
+		syntax: "<color>";
+		inherits: false;
+		initial-value: transparent;
+	}
 
-    @property --continuous-color-bottom {
-        syntax: '<color>';
-        inherits: false;
-        initial-value: transparent;
-    }
+	@property --continuous-color-bottom {
+		syntax: "<color>";
+		inherits: false;
+		initial-value: transparent;
+	}
 
-    @property --continuous-color-left {
-        syntax: '<color>';
-        inherits: false;
-        initial-value: transparent;
-    }
+	@property --continuous-color-left {
+		syntax: "<color>";
+		inherits: false;
+		initial-value: transparent;
+	}
 
-    :host {
-        --wiki-article-border-radius: 0.5rem;
-        --dominant-color: var(--wiki-article-background-color);
+	:host {
+		--wiki-article-border-radius: 0.5rem;
+		--dominant-color: var(--wiki-article-background-color);
 
-        display: block;
-        max-width: 800px;
-        max-height: 800px;
-        box-sizing: border-box;
-        container-type: inline-size;
-        container-name: wiki-article;
+		display: block;
+		max-width: 800px;
+		max-height: 800px;
+		box-sizing: border-box;
+		container-type: inline-size;
+		container-name: wiki-article;
 
-        * {
-            box-sizing: border-box;
-        }
-    }
+		* {
+			box-sizing: border-box;
+		}
+	}
 
-    .wiki-article {
-        --font-size-title: 1.4em;
-        --font-size-meta: 1em;
-        --font-size-body: 1.1em;
-        --container-height: 300;
-        --dominant-color: var(--continuous-color-left);
-        --l-threshold: 0.6;
+	.wiki-article {
+		--font-size-title: 1.4em;
+		--font-size-meta: 1em;
+		--font-size-body: 1.1em;
+		--container-height: 300;
+		--dominant-color: var(--continuous-color-left);
+		--l-threshold: 0.6;
 
-        @container wiki-article (max-width: 720px) {
-            --dominant-color: var(--continuous-color-bottom);
-            --container-height: 600;
-        }
+		@container wiki-article (max-width: 720px) {
+			--dominant-color: var(--continuous-color-bottom);
+			--container-height: 600;
+		}
 
-        --wiki-article-background-color: oklch(from var(--dominant-color) l c h);
-        --wiki-article-text-color: oklch(from var(--dominant-color) 0.01deg c h);
-        --wiki-article-border-color: oklch(from var(--dominant-color) 0.8deg c h);
+		--wiki-article-background-color: oklch(from var(--dominant-color) l c h);
+		--wiki-article-text-color: oklch(from var(--dominant-color) 0.01deg c h);
+		--wiki-article-border-color: oklch(from var(--dominant-color) 0.8deg c h);
 
-        @supports (color: oklch(from red l c h)) {
-            /* Thanks to https://lea.verou.me/blog/2024/contrast-color/ */
-            --diff: calc(var(--l-threshold) - l);
-            --wiki-article-text-color: oklch(
-                from var(--dominant-color) clamp(0.05, max(min(var(--diff) * infinity, 1), 0), 0.95) c h
-            );
-        }
+		@supports (color: oklch(from red l c h)) {
+			/* Thanks to https://lea.verou.me/blog/2024/contrast-color/ */
+			--diff: calc(var(--l-threshold) - l);
+			--wiki-article-text-color: oklch(
+				from var(--dominant-color)
+					clamp(0.05, max(min(var(--diff) * infinity, 1), 0), 0.95) c h
+			);
+		}
 
-        @supports (color: contrast-color(red)) {
-            --wiki-article-text-color: contrast-color(var(--dominant-color));
-        }
+		@supports (color: contrast-color(red)) {
+			--wiki-article-text-color: contrast-color(var(--dominant-color));
+		}
 
-        --wiki-article-text-secondary-color: oklch(from var(--wiki-article-text-color) calc(l + 0.04) c h);
-        --image-scale: calc(var(--container-height) / var(--image-height));
+		--wiki-article-text-secondary-color: oklch(
+			from var(--wiki-article-text-color) calc(l + 0.04) c h
+		);
+		--image-scale: calc(var(--container-height) / var(--image-height));
 
-        width: 100cqi;
-        height: calc(var(--container-height) * 1px);
-        display: flex;
-        overflow: hidden;
-        position: relative;
-        background-color: var(--wiki-article-background-color);
-        border: 1px solid var(--wiki-article-border-color);
-        border-radius: var(--wiki-article-border-radius);
-        color: var(--wiki-article-text-color);
-        align-items: center;
-        transition:
-            background-color 0.3s ease,
-            color 0.3s ease;
+		width: 100cqi;
+		height: calc(var(--container-height) * 1px);
+		display: flex;
+		overflow: hidden;
+		position: relative;
+		background-color: var(--wiki-article-background-color);
+		border: 1px solid var(--wiki-article-border-color);
+		border-radius: var(--wiki-article-border-radius);
+		color: var(--wiki-article-text-color);
+		align-items: center;
+		transition: background-color 0.3s ease, color 0.3s ease;
 
-        .image {
-            object-fit: contain;
-            height: 100%;
-            width: auto;
-            position: absolute;
-            inset-block-start: 0;
-            inset-inline-end: 0;
-            z-index: 1;
+		.image {
+			object-fit: contain;
+			height: 100%;
+			width: auto;
+			position: absolute;
+			inset-block-start: 0;
+			inset-inline-end: 0;
+			z-index: 1;
 
-            &.empty {
-                display: none;
-            }
+			&.empty {
+				display: none;
+			}
 
-            @container wiki-article (max-width: 720px) {
-                height: auto;
-                width: 100%;
-            }
-        }
+			@container wiki-article (max-width: 720px) {
+				height: auto;
+				width: 100%;
+			}
+		}
 
-        .overlay {
-            position: absolute;
-            inset-block-start: 0;
-            inset-inline-start: 0;
-            width: 100cqi;
-            height: 100%;
-            background: linear-gradient(
-                to right,
-                oklch(from var(--dominant-color) calc(l - 0.1) c h),
-                var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width) * 1px)),
-                transparent 90%
-            );
-            z-index: 2;
+		.overlay {
+			position: absolute;
+			inset-block-start: 0;
+			inset-inline-start: 0;
+			width: 100cqi;
+			height: 100%;
+			background: linear-gradient(
+				to right,
+				oklch(from var(--dominant-color) calc(l - 0.1) c h),
+				var(--dominant-color)
+					calc(100cqi - (var(--image-scale) * var(--image-width) * 1px)),
+				transparent 90%
+			);
+			z-index: 2;
 
-            @container wiki-article (max-width: 720px) {
-                --image-scale: calc(100cqi / var(--image-width));
+			@container wiki-article (max-width: 720px) {
+				--image-scale: calc(100cqi / var(--image-width));
 
-                background: linear-gradient(
-                    to bottom,
-                    transparent,
-                    var(--dominant-color) calc(var(--image-scale) * var(--image-height))
-                );
-            }
-        }
+				background: linear-gradient(
+					to bottom,
+					transparent,
+					var(--dominant-color) calc(var(--image-scale) * var(--image-height))
+				);
+			}
+		}
 
-        .image.tall + .overlay {
-            display: none;
-        }
+		.image.tall + .overlay {
+			display: none;
+		}
 
-        &:has(.image.empty) .overlay {
-            display: none;
-        }
+		&:has(.image.empty) .overlay {
+			display: none;
+		}
 
-        &:has(.image.landscape) .overlay {
-            position: absolute;
-            inset-block-start: 0;
-            inset-inline-end: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
+		&:has(.image.landscape) .overlay {
+			position: absolute;
+			inset-block-start: 0;
+			inset-inline-end: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 2;
+		}
 
-        &:has(.image.landscape)[dir='rtl'] .overlay {
-            background: linear-gradient(
-                to left,
-                oklch(from var(--dominant-color) calc(l - 0.1) c h),
-                var(--dominant-color) calc(100cqi - (var(--image-scale) * var(--image-width)) * 1px),
-                transparent 90%
-            );
-        }
+		&:has(.image.landscape)[dir="rtl"] .overlay {
+			background: linear-gradient(
+				to left,
+				oklch(from var(--dominant-color) calc(l - 0.1) c h),
+				var(--dominant-color)
+					calc(100cqi - (var(--image-scale) * var(--image-width)) * 1px),
+				transparent 90%
+			);
+		}
 
-        .content {
-            width: 100cqi;
-            height: 100%;
-            max-height: 100%;
-            display: grid;
-            grid-template-rows: auto;
-            overflow: hidden;
-            padding: clamp(0.8em, 100cqi, 1em);
-            z-index: 2;
-            align-self: start;
-            color: var(--wiki-article-text-color);
+		.content {
+			width: 100cqi;
+			height: 100%;
+			max-height: 100%;
+			display: grid;
+			grid-template-rows: auto;
+			overflow: hidden;
+			padding: clamp(0.8em, 100cqi, 1em);
+			z-index: 2;
+			align-self: start;
+			color: var(--wiki-article-text-color);
 
-            @container wiki-article (max-width: 720px) {
-                align-self: end;
-                align-content: end;
-            }
+			@container wiki-article (max-width: 720px) {
+				align-self: end;
+				align-content: end;
+			}
 
-            .title-header {
-                font-size: var(--font-size-title);
-                margin: 0.25em 0;
-                padding: 0;
-                line-height: 1.1;
+			.title-header {
+				font-size: var(--font-size-title);
+				margin: 0.25em 0;
+				padding: 0;
+				line-height: 1.1;
 
-                .title {
-                    text-decoration: none;
-                    text-wrap: balance;
-                    color: currentcolor;
-                }
-            }
+				.title {
+					text-decoration: none;
+					text-wrap: balance;
+					color: currentcolor;
+				}
+			}
 
-            .extract {
-                margin-top: 10px;
-                font-size: var(--font-size-body);
-                text-wrap: pretty;
-                text-align: start;
-                overflow: hidden;
-                max-height: 7lh;
-                max-width: clamp(20ch, 100cqi, 50ch);
-                scrollbar-width: none;
-                line-height: 1.5;
-            }
+			.extract {
+				margin-top: 10px;
+				font-size: var(--font-size-body);
+				text-wrap: pretty;
+				text-align: start;
+				overflow: hidden;
+				max-height: 7lh;
+				max-width: clamp(20ch, 100cqi, 50ch);
+				scrollbar-width: none;
+				line-height: 1.5;
+			}
 
-            .description {
-                margin-top: 10px;
-                font-size: 1.1em;
-                text-align: pretty;
-                overflow: auto;
-                max-height: 7lh;
-                display: none;
-                max-width: clamp(20ch, 100cqi, 50ch);
-                scrollbar-width: none;
-                line-height: 1.5;
-            }
+			.description {
+				margin-top: 10px;
+				font-size: 1.1em;
+				text-align: pretty;
+				overflow: auto;
+				max-height: 7lh;
+				display: none;
+				max-width: clamp(20ch, 100cqi, 50ch);
+				scrollbar-width: none;
+				line-height: 1.5;
+			}
 
-            .meta {
-                gap: 4px;
-                display: flex;
-                flex-wrap: wrap;
-                color: var(--wiki-article-text-secondary-color);
-                align-items: center;
-                align-content: center;
-                font-size: var(--font-size-meta);
-                margin: 0;
-                overflow: hidden;
-                font-weight: 400;
+			.meta {
+				gap: 4px;
+				display: flex;
+				flex-wrap: wrap;
+				color: var(--wiki-article-text-secondary-color);
+				align-items: center;
+				align-content: center;
+				font-size: var(--font-size-meta);
+				margin: 0;
+				overflow: hidden;
+				font-weight: 400;
 
-                .icon {
-                    svg {
-                        width: 12px;
-                        height: 12px;
-                        fill: var(--wiki-article-text-secondary-color);
-                    }
-                }
+				.icon {
+					svg {
+						width: 12px;
+						height: 12px;
+						fill: var(--wiki-article-text-secondary-color);
+					}
+				}
 
-                a {
-                    text-decoration: none;
-                    color: var(--wiki-article-text-secondary-color);
-                }
-            }
-        }
-    }
+				a {
+					text-decoration: none;
+					color: var(--wiki-article-text-secondary-color);
+				}
+			}
+		}
+	}
 
-    .wiki-article.simple {
-        height: 300px;
-        max-height: 300px;
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-rows: 1fr;
-        background-color: transparent;
-        color: currentcolor;
-        border-color: currentcolor;
+	.wiki-article.simple {
+		height: 300px;
+		max-height: 300px;
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		grid-template-rows: 1fr;
+		background-color: transparent;
+		color: currentcolor;
+		border-color: currentcolor;
 
-        &.portrait {
-            grid-template-columns: 1fr;
-            grid-template-rows: 10lh 12lh;
-        }
+		&.portrait {
+			grid-template-columns: 1fr;
+			grid-template-rows: 10lh 12lh;
+		}
 
-        .content {
-            width: 100%;
-            background: transparent;
-            color: currentcolor;
-            padding: 0.25em;
+		.content {
+			width: 100%;
+			background: transparent;
+			color: currentcolor;
+			padding: 0.25em;
 
-            .description {
-                font-size: 1em;
-            }
-        }
+			.description {
+				font-size: 1em;
+			}
+		}
 
-        .image {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 50% 33%;
-        }
+		.image {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: 50% 33%;
+		}
 
-        .overlay {
-            display: none;
-        }
-    }
+		.overlay {
+			display: none;
+		}
+	}
 
-    .wiki-article.compact {
-        height: 100px;
-        max-height: 100px;
-        min-height: 100px;
-        display: grid;
-        grid-template-columns: 100px auto;
-        grid-template-rows: 1fr;
-        background-color: transparent;
-        color: currentcolor;
-        border: 0;
+	.wiki-article.compact {
+		height: 100px;
+		max-height: 100px;
+		min-height: 100px;
+		display: grid;
+		grid-template-columns: 100px auto;
+		grid-template-rows: 1fr;
+		background-color: transparent;
+		color: currentcolor;
+		border: 0;
 
-        .content {
-            width: 100%;
-            background: transparent;
-            color: currentcolor;
-            padding: 0.25em;
+		.content {
+			width: 100%;
+			background: transparent;
+			color: currentcolor;
+			padding: 0.25em;
 
-            .title-header {
-                font-size: 1.1em;
-                padding: 0.25em;
-            }
+			.title-header {
+				font-size: 1.1em;
+				padding: 0.25em;
+			}
 
-            .description {
-                margin-top: 0;
-                display: block;
-                padding: 0.25em;
-                line-height: 1.2;
-                font-size: 1em;
-            }
-        }
+			.description {
+				margin-top: 0;
+				display: block;
+				padding: 0.25em;
+				line-height: 1.2;
+				font-size: 1em;
+			}
+		}
 
-        .image {
-            position: relative;
-            aspect-ratio: 1;
-            height: 100px;
-            object-fit: cover;
-            object-position: 50% 33%;
-        }
+		.image {
+			position: relative;
+			aspect-ratio: 1;
+			height: 100px;
+			object-fit: cover;
+			object-position: 50% 33%;
+		}
 
-        .overlay {
-            display: none;
-        }
+		.overlay {
+			display: none;
+		}
 
-        .extract {
-            display: none;
-        }
+		.extract {
+			display: none;
+		}
 
-        .meta {
-            display: none;
-        }
-    }
+		.meta {
+			display: none;
+		}
+	}
 }

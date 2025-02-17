@@ -1,76 +1,73 @@
 @layer wiki-elements.wiki-language-selector {
-    * {
-        box-sizing: border-box;
-    }
+	* {
+		box-sizing: border-box;
+	}
 
-    :host {
-        --text-color: CanvasText;
-        --background-color: Canvas;
-    }
+	:host {
+		--text-color: CanvasText;
+		--background-color: Canvas;
+	}
 
-    .wrapper {
-        border: 1px solid ButtonBorder;
-        display: inline-block;
-        font-size: 1em;
-        anchor-name: --wiki-language-selector-input;
-    }
+	.wrapper {
+		border: 1px solid ButtonBorder;
+		display: inline-block;
+		font-size: 1em;
+		anchor-name: --wiki-language-selector-input;
+	}
 
-    input {
-        padding: 0.5em;
-        font-size: 1em;
-        border: none;
-        outline: none;
-        width: 100%;
-    }
+	input {
+		padding: 0.5em;
+		font-size: 1em;
+		border: none;
+		outline: none;
+		width: 100%;
+	}
 
-    .suggestions-popover {
-        position: absolute;
-        position-anchor: --wiki-language-selector-input;
-        position-try-options:
-            flip-block,
-            flip-inline,
-            flip-block flip-inline;
-        left: anchor(left);
-        position-area: bottom right;
-        position-try-fallbacks: flip-inline, flip-block;
-        position-try-order: most-width;
-        width: fit-content;
-        min-width: 20ch;
-        max-height: 400px;
-        overflow: auto;
-        margin: 0;
-        padding: 0;
-        border: none;
-        box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    }
+	.suggestions-popover {
+		position: absolute;
+		position-anchor: --wiki-language-selector-input;
+		position-try-options: flip-block, flip-inline, flip-block flip-inline;
+		left: anchor(left);
+		position-area: bottom right;
+		position-try-fallbacks: flip-inline, flip-block;
+		position-try-order: most-width;
+		width: fit-content;
+		min-width: 20ch;
+		max-height: 400px;
+		overflow: auto;
+		margin: 0;
+		padding: 0;
+		border: none;
+		box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+	}
 
-    .suggestions {
-        width: 100%;
-        list-style: none;
-        background-color: inherit;
-        margin: 0;
-        padding: 0;
-    }
+	.suggestions {
+		width: 100%;
+		list-style: none;
+		background-color: inherit;
+		margin: 0;
+		padding: 0;
+	}
 
-    .container {
-        padding: 8px;
-        border: 2px solid;
-    }
+	.container {
+		padding: 8px;
+		border: 2px solid;
+	}
 
-    .suggestion {
-        background-color: inherit;
-        cursor: pointer;
-        padding: 0.5em;
-        margin: 0.25em 0;
-        width: 100%;
-    }
+	.suggestion {
+		background-color: inherit;
+		cursor: pointer;
+		padding: 0.5em;
+		margin: 0.25em 0;
+		width: 100%;
+	}
 
-    .suggestion.hidden {
-        display: none;
-    }
+	.suggestion.hidden {
+		display: none;
+	}
 
-    .suggestion.active {
-        background: SelectedItem;
-        color: SelectedItemText;
-    }
+	.suggestion.active {
+		background: SelectedItem;
+		color: SelectedItemText;
+	}
 }

@@ -1,27 +1,23 @@
-import { html } from './common.js'
-import LazyLoadMixin from './mixins/LazyLoadMixin.js'
-import WikiElement from './wiki-element.js'
+import { html } from "./common.js";
+import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
+import WikiElement from "./wiki-element.js";
 
-const styleURL = new URL('./wiki-profile.css', import.meta.url)
+const styleURL = new URL("./wiki-profile.css", import.meta.url);
 
 class WikiProfile extends LazyLoadMixin(WikiElement) {
-    constructor() {
-        super()
-    }
+	static get properties() {
+		return {
+			article: {
+				type: String,
+			},
+			language: {
+				type: String,
+			},
+		};
+	}
 
-    static get properties() {
-        return {
-            article: {
-                type: String,
-            },
-            language: {
-                type: String,
-            },
-        }
-    }
-
-    static get template() {
-        return html`
+	static get template() {
+		return html`
             <div class="wiki-profile">
                 <picture class="thumbnail">
                     <source class="webp" type="image/webp" />
@@ -38,57 +34,53 @@ class WikiProfile extends LazyLoadMixin(WikiElement) {
             <style>
                 @import url(${styleURL});
             </style>
-        `
-    }
+        `;
+	}
 
-    connectedCallback() {
-        super.connectedCallback()
-    }
+	connectedCallback() {
+		super.connectedCallback();
+	}
 
-    async render() {
-        const articleData = await this.fetchArticleData()
-        this.updateArticle(articleData)
-    }
+	async render() {
+		const articleData = await this.fetchArticleData();
+		this.updateArticle(articleData);
+	}
 
-    async fetchArticleData() {
-        const url = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(this.article)}?redirect=True`
-        try {
-            const response = await fetch(url)
-            if (!response.ok) {
-                throw new Error('Network response was not ok')
-            }
-            return await response.json()
-        } catch (error) {
-            this.querySelector('.description').innerText = 'Failed to load article.'
-            console.error('Fetch error:', error)
-        }
-    }
+	async fetchArticleData() {
+		const url = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(this.article)}?redirect=True`;
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			return await response.json();
+		} catch (error) {
+			this.querySelector(".description").innerText = "Failed to load article.";
+			console.error("Fetch error:", error);
+		}
+	}
 
-    updateArticle(data) {
-        const { title, thumbnail, lang, dir, content_urls } = data
-        this.lang = lang | this.language
-        this.dir = dir
-        this.shadowRoot.querySelector('.title').innerText = title
-        this.shadowRoot.querySelector('.title').href = content_urls.desktop.page
+	updateArticle(data) {
+		const { title, thumbnail, lang, dir, content_urls } = data;
+		this.lang = lang | this.language;
+		this.dir = dir;
+		this.shadowRoot.querySelector(".title").innerText = title;
+		this.shadowRoot.querySelector(".title").href = content_urls.desktop.page;
 
-        if (thumbnail && thumbnail.source) {
-            if (!thumbnail.source.includes('/wikipedia/commons')) {
-                // not a commons image. local wiki image
-                this.shadowRoot.querySelector('.thumbnail > .webp')?.remove()
-                this.shadowRoot.querySelector('.thumbnail > .png')?.remove()
-            } else {
-                this.shadowRoot.querySelector('.thumbnail > .webp').srcset = thumbnail.source.replace(
-                    /\.(jpg|png|jpeg)$/,
-                    '.webp'
-                )
-                this.shadowRoot.querySelector('.thumbnail > .png').srcset = thumbnail.source.replace(
-                    /\.(jpg|webp|jpeg)$/,
-                    '.png'
-                )
-            }
-            this.shadowRoot.querySelector('.thumbnail > img').src = thumbnail.source
-        }
-    }
+		if (thumbnail && thumbnail.source) {
+			if (!thumbnail.source.includes("/wikipedia/commons")) {
+				// not a commons image. local wiki image
+				this.shadowRoot.querySelector(".thumbnail > .webp")?.remove();
+				this.shadowRoot.querySelector(".thumbnail > .png")?.remove();
+			} else {
+				this.shadowRoot.querySelector(".thumbnail > .webp").srcset =
+					thumbnail.source.replace(/\.(jpg|png|jpeg)$/, ".webp");
+				this.shadowRoot.querySelector(".thumbnail > .png").srcset =
+					thumbnail.source.replace(/\.(jpg|webp|jpeg)$/, ".png");
+			}
+			this.shadowRoot.querySelector(".thumbnail > img").src = thumbnail.source;
+		}
+	}
 }
 
-customElements.define('wiki-profile', WikiProfile)
+customElements.define("wiki-profile", WikiProfile);
