@@ -12,12 +12,13 @@
 		// Declarative Shadow DOM is supported, no need to polyfill.
 		return;
 	}
-	root.querySelectorAll("template[shadowrootmode]").forEach((template) => {
+
+	for (const template of root.querySelectorAll("template[shadowrootmode]")) {
 		const mode = template.getAttribute("shadowrootmode");
 		const shadowRoot = template.parentNode.attachShadow({ mode });
 
 		shadowRoot.appendChild(template.content);
 		template.remove();
 		attachShadowRoots(shadowRoot);
-	});
+	}
 })(document);

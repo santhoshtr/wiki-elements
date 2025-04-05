@@ -1,7 +1,7 @@
 import { getSourceSetFromCommonsUrl, html } from "./common.js";
 import { editIcon, historyIcon, talkIcon } from "./icons.js";
+import { FastAverageColor } from "./libs/fast-average-color.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
-import { getContinuousColor } from "./utils/color.js";
 import WikiElement from "./wiki-element.js";
 
 const styleURL = new URL("./wiki-article.css", import.meta.url);
@@ -34,12 +34,15 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 	static get template() {
 		return html`
             <div class="wiki-article">
-                <img
-                    class="image"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp"
-                    alt=""
-                />
-                <div class="overlay"></div>
+			 	<div class="image-container">
+					<img
+						class="image"
+						src=""
+						alt=""
+						crossorigin="anonymous"
+					/>
+					<div class="overlay"></div>
+                </div>
                 <div class="content">
                     <h2 class="title-header">
                         <a class="title" href="" target="_blank"></a>
@@ -91,6 +94,21 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		}
 	}
 
+	getDominantColor(image, isBottom = true) {
+		const fac = new FastAverageColor();
+		const height = image.naturalHeight;
+		const size = 50;
+		const options = {
+			height: size,
+			algorithm: "simple",
+		};
+		if (isBottom) {
+			options.top = isBottom ? height - size : height;
+		}
+		const color = fac.getColor(image, options);
+		return color;
+	}
+
 	async updateImage() {
 		const imageData = this.articleData.thumbnail;
 
@@ -100,11 +118,10 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		// resets
 		picture.src = null;
 		picture.classList.add("empty");
-		picture.classList.remove("portrait", "landscape", "tall", "wide");
 		wikiarticleEl.classList.remove("card", "simple", "compact");
 		wikiarticleEl.classList.add(this.layout);
 
-		if (imageData && imageData.source) {
+		if (imageData?.source) {
 			picture.classList.remove("empty");
 			const srcset = getSourceSetFromCommonsUrl(imageData.source);
 			picture.src = imageData.source;
@@ -113,41 +130,25 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 				"(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw";
 
 			if (this.layout === "card") {
-				const isPortrait = imageData.height / imageData.width > 1.2;
-				const isWide = imageData.width / imageData.height >= 16 / 9;
-				const isTall = imageData.height / imageData.width >= 16 / 9;
-
-				if (isTall) {
-					picture.classList.add("tall");
-				}
-				if (isWide) {
-					picture.classList.add("wide");
-				}
-				if (isPortrait) {
-					picture.classList.add("portrait");
+				const onload = (img) => {
+					const dominantColor = this.getDominantColor(img, true);
+					this.style.setProperty("--continuous-color", dominantColor.rgba);
+					this.style.setProperty(
+						"--is-dark-image",
+						dominantColor.isDark ? 1 : 0,
+					);
+				};
+				if (picture.complete) {
+					onload(picture);
 				} else {
-					picture.classList.add("landscape");
+					picture.addEventListener("load", () => {
+						onload(picture);
+					});
+					picture.addEventListener("error", () => {
+						picture.src =
+							"https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp";
+					});
 				}
-				this.style.setProperty("--image-width", imageData.width);
-				this.style.setProperty("--image-height", imageData.height);
-
-				// Set the color themes
-				const bottomDominantColor = await getContinuousColor(
-					imageData.source,
-					"bottom",
-				);
-				const leftDominantColor = await getContinuousColor(
-					imageData.source,
-					"left",
-				);
-				this.style.setProperty(
-					"--continuous-color-bottom",
-					`rgba(${bottomDominantColor.join(",")})`,
-				);
-				this.style.setProperty(
-					"--continuous-color-left",
-					`rgba(${leftDominantColor.join(",")})`,
-				);
 			}
 		}
 	}

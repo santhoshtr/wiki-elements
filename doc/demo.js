@@ -12,7 +12,7 @@ function generateTableOfContents() {
 		const level = Number.parseInt(heading.tagName[1]);
 		const li = document.createElement("li");
 		const a = document.createElement("a");
-		a.href = "#" + heading.id;
+		a.href = `#${heading.id}`;
 		a.textContent = heading.textContent;
 		li.append(a);
 		if (level === lastLevel) {
