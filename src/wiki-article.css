@@ -46,6 +46,7 @@
 		border-radius: var(--wiki-article-border-radius);
 		color: var(--wiki-article-text-color);
 		align-items: center;
+		font-family: sans-serif;
 		transition: background-color 0.3s ease, color 0.3s ease;
 
 		.image-container {
