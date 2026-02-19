@@ -3,7 +3,7 @@ import "./utils/polyfills.js";
 export default class WikiElement extends HTMLElement {
 	constructor() {
 		super();
-		const supportsDeclarative = Object.prototype.hasOwnProperty.call(
+		const supportsDeclarative = Object.hasOwn(
 			HTMLElement.prototype,
 			"attachInternals",
 		);
@@ -31,7 +31,7 @@ export default class WikiElement extends HTMLElement {
 	initializeProperties() {
 		const props = this.constructor.properties;
 		for (const [name, config] of Object.entries(props)) {
-			if (!Object.prototype.hasOwnProperty.call(this, name)) {
+			if (!Object.hasOwn(this, name)) {
 				const value = this.getAttribute(name) || config.default;
 				if (config.options && !config.options.includes(value)) {
 					console.warn(
@@ -93,7 +93,7 @@ export default class WikiElement extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return Object.keys(this.properties);
+		return Object.keys(WikiElement.properties);
 	}
 
 	static get template() {

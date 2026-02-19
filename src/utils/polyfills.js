@@ -2,10 +2,7 @@
 // Polyfill for declarative Shadow DOM
 (function attachShadowRoots(root) {
 	function supportsDeclarativeShadowDOM() {
-		return Object.prototype.hasOwnProperty.call(
-			HTMLTemplateElement.prototype,
-			"shadowRootMode",
-		);
+		return Object.hasOwn(HTMLTemplateElement.prototype, "shadowRootMode");
 	}
 
 	if (supportsDeclarativeShadowDOM()) {
