@@ -1,18 +1,9 @@
 import { addPrefetch, html } from "./common.js";
-import { OrbitControls } from "./libs/OrbitControls.js";
-import { STLLoader } from "./libs/STLLoader.js";
-import {
-	HemisphereLight,
-	Matrix4,
-	Mesh,
-	MeshPhongMaterial,
-	PerspectiveCamera,
-	Scene,
-	Vector3,
-	WebGLRenderer,
-} from "./libs/three.module.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 import WikiElement from "./wiki-element.js";
+
+const THREE_CDN = "https://esm.sh/three";
+let _threeModules = null;
 
 class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 	static get template() {
@@ -41,6 +32,20 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 		super.connectedCallback();
 		addPrefetch("preconnect", "https://commons.wikimedia.org");
 		addPrefetch("preconnect", "https://upload.wikimedia.org");
+		addPrefetch("preconnect", "https://esm.sh");
+	}
+
+	async _loadThree() {
+		if (_threeModules) {
+			return _threeModules;
+		}
+		const [THREE, { OrbitControls }, { STLLoader }] = await Promise.all([
+			import(THREE_CDN),
+			import(`${THREE_CDN}/examples/jsm/controls/OrbitControls`),
+			import(`${THREE_CDN}/examples/jsm/loaders/STLLoader`),
+		]);
+		_threeModules = { THREE, OrbitControls, STLLoader };
+		return _threeModules;
 	}
 
 	async render() {
@@ -48,7 +53,8 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 			return;
 		}
 		this.progress = this.shadowRoot.getElementById("loading");
-		await this.init3d(this.source);
+		const three = await this._loadThree();
+		await this.init3d(this.source, three);
 	}
 
 	async fetchImageData(filename) {
@@ -63,9 +69,16 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 		return page.imageinfo[0];
 	}
 
-	STLViewer(elem, model, rotate = true, zoom = 2, callback = null) {
-		const renderer = new WebGLRenderer({ antialias: true, alpha: true });
-		const camera = new PerspectiveCamera(
+	STLViewer(
+		elem,
+		model,
+		{ THREE, OrbitControls, STLLoader },
+		rotate = true,
+		zoom = 2,
+		callback = null,
+	) {
+		const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+		const camera = new THREE.PerspectiveCamera(
 			50,
 			elem.clientWidth / elem.clientHeight,
 			1,
@@ -94,27 +107,27 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 		controls.autoRotate = true;
 		controls.autoRotateSpeed = 2;
 
-		const scene = new Scene();
+		const scene = new THREE.Scene();
 
-		scene.add(new HemisphereLight(0xffffff, 0x080820, 1.5));
+		scene.add(new THREE.HemisphereLight(0xffffff, 0x080820, 1.5));
 
 		new STLLoader().load(model, (geometry) => {
-			const material = new MeshPhongMaterial({
+			const material = new THREE.MeshPhongMaterial({
 				color: 0xcccccc,
 				specular: 100,
 				shininess: 100,
 			});
-			const mesh = new Mesh(geometry, material);
+			const mesh = new THREE.Mesh(geometry, material);
 			scene.add(mesh);
 
 			// Compute the middle
-			const middle = new Vector3();
+			const middle = new THREE.Vector3();
 			geometry.computeBoundingBox();
 			geometry.boundingBox.getCenter(middle);
 
 			// Center it
 			mesh.geometry.applyMatrix4(
-				new Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z),
+				new THREE.Matrix4().makeTranslation(-middle.x, -middle.y, -middle.z),
 			);
 
 			// Rotate, if desired
@@ -142,7 +155,7 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 		});
 	}
 
-	async init3d(stlUrl) {
+	async init3d(stlUrl, three) {
 		const filename = stlUrl.split("/").pop();
 
 		const container = this.shadowRoot.getElementById(
@@ -150,7 +163,7 @@ class Wiki3DViewer extends LazyLoadMixin(WikiElement) {
 		);
 		const imageData = await this.fetchImageData(filename);
 
-		this.STLViewer(container, imageData.url, true, 3, () => {
+		this.STLViewer(container, imageData.url, three, true, 3, () => {
 			this.progress.style.display = "none";
 		});
 
