@@ -1,8 +1,10 @@
-import { getSourceSetFromCommonsUrl, html } from "./common.js";
+import { addPrefetch, getSourceSetFromCommonsUrl, html } from "./common.js";
 import { editIcon, historyIcon, talkIcon } from "./icons.js";
-import { FastAverageColor } from "./libs/fast-average-color.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 import WikiElement from "./wiki-element.js";
+
+const FAC_CDN = "https://esm.sh/fast-average-color";
+let _facModule = null;
 
 const styleURL = new URL("./wiki-article.css", import.meta.url);
 
@@ -63,6 +65,20 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
         `;
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		addPrefetch("preconnect", "https://esm.sh");
+	}
+
+	async _loadFac() {
+		if (_facModule) {
+			return _facModule;
+		}
+		const { FastAverageColor } = await import(FAC_CDN);
+		_facModule = FastAverageColor;
+		return _facModule;
+	}
+
 	async render() {
 		if (this["data-article"]) {
 			this.articleData = this["data-article"];
@@ -94,7 +110,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		}
 	}
 
-	getDominantColor(image, isBottom = true) {
+	async getDominantColor(image, isBottom = true) {
+		const FastAverageColor = await this._loadFac();
 		const fac = new FastAverageColor();
 		const height = image.naturalHeight;
 		const size = 50;
@@ -130,8 +147,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 				"(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw";
 
 			if (this.layout === "card") {
-				const onload = (img) => {
-					const dominantColor = this.getDominantColor(img, true);
+				const onload = async (img) => {
+					const dominantColor = await this.getDominantColor(img, true);
 					this.style.setProperty("--continuous-color", dominantColor.rgba);
 					this.style.setProperty(
 						"--is-dark-image",

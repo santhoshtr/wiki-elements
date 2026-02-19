@@ -39,8 +39,5 @@
         "custom-elements.json",
         "README.md",
         "LICENSE"
-    ],
-    "dependencies": {
-        "fast-average-color": "^9.5.0"
-    }
+    ]
 }
