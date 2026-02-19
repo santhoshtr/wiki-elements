@@ -8,7 +8,8 @@
 		"dev": "vite",
 		"lint": "npx biome check --write src",
 		"build:doc": "node doc/build.js",
-		"build": "npm run build:doc && vite build"
+		"build:doc:prod": "node doc/build.js --prod",
+		"build": "vite build && npm run build:doc:prod"
 	},
 	"repository": {
 		"type": "git",

@@ -3,9 +3,10 @@
 /**
  * Build script: renders doc/src/*.njk templates → doc/*.html using Nunjucks.
  * Run with: node doc/build.js
+ * Run with: node doc/build.js --prod   (uses dist bundle, copies dist/ into doc/dist/)
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import nunjucks from "nunjucks";
@@ -13,6 +14,21 @@ import nunjucks from "nunjucks";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const srcDir = join(__dirname, "src");
 const outDir = __dirname; // doc/
+
+const isProd = process.argv.includes("--prod");
+
+if (isProd) {
+	// Copy dist/wiki-elements.js into doc/dist/ so doc/ is self-contained for Pages deployment.
+	const distSrc = join(__dirname, "../dist/wiki-elements.js");
+	const distDestDir = join(outDir, "dist");
+	mkdirSync(distDestDir, { recursive: true });
+	copyFileSync(distSrc, join(distDestDir, "wiki-elements.js"));
+	console.log("  copied dist/wiki-elements.js → doc/dist/wiki-elements.js");
+}
+
+// scriptpath: in dev, point at raw src so Vite HMR works.
+// In prod, point at the bundled file inside doc/dist/.
+const scriptpath = isProd ? "dist/wiki-elements.js" : "../src/index.js";
 
 // Configure nunjucks to load templates from doc/src/
 const env = nunjucks.configure(srcDir, { autoescape: false });
@@ -100,6 +116,7 @@ for (const page of pages) {
 	const html = env.render(page.template, {
 		slug: page.slug,
 		rootpath: page.rootpath,
+		scriptpath,
 	});
 	const outPath = join(outDir, page.output);
 	writeFileSync(outPath, html, "utf8");
