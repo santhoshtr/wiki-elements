@@ -12,3 +12,8 @@
 
 Support \*.chart definitions
 <https://commons.wikimedia.beta.wmflabs.org/w/index.php?title=Data:1993_Canadian_federal_election.chart&action=edit>
+
+
+## Manifest
+* Refer https://daverupert.com/2025/10/custom-elements-manifest-killer-feature/ to learn how to generate the manifest
+automatically
