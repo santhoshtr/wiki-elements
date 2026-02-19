@@ -6,10 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
         <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-        <meta
-            name="description"
-            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
-        />
+        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
         <meta name="supported-color-schemes" content="dark light" />
         <meta name="color-scheme" content="dark light" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui.css" />
@@ -19,6 +16,7 @@
         <script src="../src/index.js" type="module"></script>
         <script src="prism.js" defer></script>
         <link rel="stylesheet" href="prism.css" />
+        
     </head>
 
     <body>
@@ -32,36 +30,56 @@
                 <span></span>
             </label>
         </header>
-        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <nav class="nav">
+            <a href="./" >Introduction</a>
+            <h4>Components</h4>
+            <ul>
+                <li><a href="wiki-article" >wiki-article</a></li>
+                <li><a href="wiki-image" >wiki-image</a></li>
+                <li><a href="wiki-video" aria-current="page">wiki-video</a></li>
+                <li><a href="wiki-map" >wiki-map</a></li>
+                <li><a href="wiki-graph" >wiki-graph</a></li>
+                <li><a href="wiki-profile" >wiki-profile</a></li>
+                <li><a href="wiki-wikitext" >wiki-wikitext</a></li>
+                <li><a href="wiki-user" >wiki-user</a></li>
+                <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
+                <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
+                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
+            </ul>
+            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
+        </nav>
         <main>
-            <article class="main">
-                <h3 id="wiki-video">wiki-video</h3>
+            
+<article class="main">
+    <h3 id="wiki-video">wiki-video</h3>
 
-                <p>
-                    The <code>wiki-video</code> element is a custom element that displays a video from Wikimedia
-                    Commons.
-                </p>
-                <p>Video caption and attribution to the author of the image is automatically added.</p>
-                <h4 id="attributes">Attributes</h4>
-                <ul>
-                    <li>
-                        <code>source</code>: The source of the video. It can be a URL or a file name from Wikimedia
-                        Commons.
-                    </li>
-                </ul>
-                <h4 id="examples">Examples</h4>
+    <p>
+        The <code>wiki-video</code> element is a custom element that displays a video from Wikimedia
+        Commons.
+    </p>
+    <p>Video caption and attribution to the author of the image is automatically added.</p>
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li>
+            <code>source</code>: The source of the video. It can be a URL or a file name from Wikimedia
+            Commons.
+        </li>
+    </ul>
+    <h4 id="examples">Examples</h4>
 
-                <section class="example grid">
-                    <pre><code class="language-html" >
-                      &lt;wiki-video source="File:Train_Crimean_Bridge_2019.webm"&gt;
-                    &lt;/wiki-video&gt;
+    <section class="example grid">
+        <pre><code class="language-html" >
+          &lt;wiki-video source="File:Train_Crimean_Bridge_2019.webm"&gt;
+        &lt;/wiki-video&gt;
 
-                </code></pre>
-                    <section class="rendering">
-                        <wiki-video source="File:Train_Crimean_Bridge_2019.webm"> </wiki-video>
-                    </section>
-                </section>
-            </article>
+    </code></pre>
+        <section class="rendering">
+            <wiki-video source="File:Train_Crimean_Bridge_2019.webm"> </wiki-video>
+        </section>
+    </section>
+</article>
+
         </main>
+        
     </body>
 </html>

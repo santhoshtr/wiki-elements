@@ -1,0 +1,68 @@
+{% extends "_layout.njk" %}
+{% block content %}
+<article class="main">
+    <h3 id="wiki-map">wiki-map</h3>
+    <p>
+        The <code>wiki-map</code> component is used to display a map of a location. The location can be
+        specified by providing the latitude and longitude of the location, or by providing the name of the
+        location in the form of an article from Wikipedia. The map can also be sourced from a Wikimedia
+        Commons map file.
+    </p>
+
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li><code>latitude</code>: The latitude of the location.</li>
+        <li><code>longitude</code>: The longitude of the location.</li>
+        <li><code>article</code>: The name of the location in the form of an article from Wikipedia.</li>
+        <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
+        <li><code>source</code>: The URL of the Wikimedia Commons map file.</li>
+    </ul>
+
+    <h4 id="examples">Examples</h4>
+    <p>
+        Draw a map by giving the wikipedia article about the place. For example to draw a map of Banaras, we
+        can use the following code
+    </p>
+
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map article="Banaras" language="en"&gt;
+        &lt;/wiki-map&gt;
+    </code></pre>
+        <section class="rendering">
+            <wiki-map article="Banaras" language="en"></wiki-map>
+        </section>
+    </section>
+    <p>We can also provide longitude and latitude values</p>
+
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map longitude="76.9545" latitude="8.4906"&gt;
+        &lt;/wiki-map&gt;
+
+    </code></pre>
+        <section class="rendering">
+            <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
+        </section>
+    </section>
+    <p>In the following example, the source is taken from a .map file in Wikimedia commons</p>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"&gt;
+        &lt;/wiki-map&gt;
+
+      </code></pre>
+        <section class="rendering">
+            <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
+        </section>
+    </section>
+    <h4 id="features">Features</h4>
+
+    The <code>wiki-map</code> component supports the following features:
+    <ul>
+        <li>Interactive</li>
+        <li>Responsive</li>
+        <li>Lazy loaded</li>
+    </ul>
+</article>
+{% endblock %}

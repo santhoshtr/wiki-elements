@@ -1,0 +1,51 @@
+{% extends "_layout.njk" %}
+{% block content %}
+<article class="main">
+    <h3>wiki-profile</h3>
+    <p>
+        The <code>wiki-profile</code> element is a WebComponent to display the profile image of a person by
+        giving the name.
+    </p>
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
+        <li><code>article</code>: The title of the article.</li>
+    </ul>
+    <h4 id="examples">Examples</h4>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Barack Obama"&gt;
+        &lt;/wiki-profile&gt;
+    </code></pre>
+        <section class="rendering" style="width: 300px">
+            <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
+        </section>
+    </section>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Albert Einstein"&gt;
+        &lt;/wiki-profile&gt;
+    </code></pre>
+        <section class="rendering" style="width: 300px">
+            <wiki-profile language="en" article="Albert Einstein"> </wiki-profile>
+        </section>
+    </section>
+
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
+        &lt;/wiki-profile&gt;
+        &lt;wiki-profile language="en" article="Julia Roberts"&gt;
+        &lt;/wiki-profile&gt;
+        &lt;wiki-profile language="en" article="Mahershala Ali"&gt;
+        &lt;/wiki-profile&gt;
+
+    </code></pre>
+        <section class="rendering flex">
+            <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+            <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+            <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+        </section>
+    </section>
+</article>
+{% endblock %}

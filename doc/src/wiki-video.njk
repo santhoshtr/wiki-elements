@@ -1,0 +1,31 @@
+{% extends "_layout.njk" %}
+{% block content %}
+<article class="main">
+    <h3 id="wiki-video">wiki-video</h3>
+
+    <p>
+        The <code>wiki-video</code> element is a custom element that displays a video from Wikimedia
+        Commons.
+    </p>
+    <p>Video caption and attribution to the author of the image is automatically added.</p>
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li>
+            <code>source</code>: The source of the video. It can be a URL or a file name from Wikimedia
+            Commons.
+        </li>
+    </ul>
+    <h4 id="examples">Examples</h4>
+
+    <section class="example grid">
+        <pre><code class="language-html" >
+          &lt;wiki-video source="File:Train_Crimean_Bridge_2019.webm"&gt;
+        &lt;/wiki-video&gt;
+
+    </code></pre>
+        <section class="rendering">
+            <wiki-video source="File:Train_Crimean_Bridge_2019.webm"> </wiki-video>
+        </section>
+    </section>
+</article>
+{% endblock %}

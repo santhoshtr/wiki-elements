@@ -31,7 +31,7 @@
             </label>
         </header>
         <nav class="nav">
-            <a href="./" >Introduction</a>
+            <a href="./" aria-current="page">Introduction</a>
             <h4>Components</h4>
             <ul>
                 <li><a href="wiki-article" >wiki-article</a></li>
@@ -44,32 +44,68 @@
                 <li><a href="wiki-user" >wiki-user</a></li>
                 <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
                 <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
-                <li><a href="wiki-3d-viewer" aria-current="page">wiki-3d-viewer</a></li>
+                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
             </ul>
             <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
         </nav>
         <main>
             
 <article class="main">
-    <!-- wiki-3d-viewer -->
-    <h3 id="wiki-3d-viewer">wiki-3d-viewer</h3>
-    <p>The <code>wiki-3d-viewer</code> element is a WebComponent to display 3D models in STL format.</p>
-    <h4 id="attributes">Attributes</h4>
+    <h2>wiki-elements</h2>
+    <p>
+        Seamlessly integrate Wikipedia's wealth of knowledge into your web projects with powerful,
+        easy-to-use <a href="https://en.wikipedia.org/wiki/Web_Components">Web Components</a>
+    </p>
+
     <ul>
-        <li><code>source</code>: The URL of the 3D model in STL format.</li>
+        <li>Instant access to Wikipedia's comprehensive, multilingual content</li>
+        <li>Zero configuration, lightweight, and performance-optimized components. Copy and paste it.</li>
+        <li>wiki-elements is standard Web Components that work with any framework or vanilla JavaScript</li>
+        <li>
+            Generate shareable, attribution-ready links and embeds with built-in copyright information and
+            source tracking.
+        </li>
+        <li>
+            All components are
+            <a href="https://web.dev/articles/rendering-on-the-web">Server-Side Rendering (SSR)</a> friendly
+            and supports
+            <a href="https://web.dev/articles/declarative-shadow-dom">Declarative Shadow DOM</a>
+        </li>
     </ul>
-    <h4 id="examples">Examples</h4>
 
-    <section class="example grid">
-        <pre><code class="language-html">
-                                &lt;wiki-3d-viewer source="https://commons.wikimedia.org/wiki/File:WikipediaGlobeOnePiece.stl"&gt;
-                                &lt;/wiki-3d-viewer&gt;
+    <h3>Why</h3>
+    <p>
+        Wikipedia is the world's largest and most comprehensive encyclopedia, with over 6 million articles
+        in English alone. It's a treasure trove of knowledge, but integrating it into your web projects can
+        be a challenge. wiki-elements makes it easy to embed Wikipedia content in your web pages, with a
+        collection of powerful, easy-to-use Web Components that let you display Wikipedia articles,
+        profiles, user pages, and more with just a few lines of code.
+    </p>
 
-                </code></pre>
-        <section class="rendering">
-            <wiki-3d-viewer source="https://commons.wikimedia.org/wiki/File:WikipediaGlobeOnePiece.stl"> </wiki-3d-viewer>
-        </section>
-    </section>
+    <h3 id="#usage">Usage</h3>
+    <p>To use wiki-elements in your project, include the following script tag in your HTML file:</p>
+    <pre class="language-html">
+    <code>
+        &lt;script
+          src="https://santhoshtr.github.io/wiki-elements/src/index.js"
+          type="module">
+        &lt;/script>
+    </code>
+  </pre>
+    <p>
+        You can now use any of the wiki-elements in your project. For example, to display a Wikipedia
+        article, use the <code>wiki-article</code> element:
+    </p>
+    <pre class="language-html">
+    <code>
+        &lt;wiki-article article="Culture of Greece">
+        &lt;/wiki-article>
+    </code>
+  </pre>
+    <wiki-article language="en" article="Culture of Greece"> </wiki-article>
+    <p>Now you can see the article about the Culture of Greece displayed on your web page.</p>
+
+    <button type="button" onclick="window.location.href = 'wiki-article.html';">Read documentation</button>
 </article>
 
         </main>

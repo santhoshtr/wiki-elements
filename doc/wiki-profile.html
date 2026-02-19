@@ -6,10 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
         <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-        <meta
-            name="description"
-            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
-        />
+        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
         <meta name="supported-color-schemes" content="dark light" />
         <meta name="color-scheme" content="dark light" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui.css" />
@@ -19,6 +16,7 @@
         <script src="../src/index.js" type="module"></script>
         <script src="prism.js" defer></script>
         <link rel="stylesheet" href="prism.css" />
+        
     </head>
 
     <body>
@@ -32,56 +30,76 @@
                 <span></span>
             </label>
         </header>
-        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <nav class="nav">
+            <a href="./" >Introduction</a>
+            <h4>Components</h4>
+            <ul>
+                <li><a href="wiki-article" >wiki-article</a></li>
+                <li><a href="wiki-image" >wiki-image</a></li>
+                <li><a href="wiki-video" >wiki-video</a></li>
+                <li><a href="wiki-map" >wiki-map</a></li>
+                <li><a href="wiki-graph" >wiki-graph</a></li>
+                <li><a href="wiki-profile" aria-current="page">wiki-profile</a></li>
+                <li><a href="wiki-wikitext" >wiki-wikitext</a></li>
+                <li><a href="wiki-user" >wiki-user</a></li>
+                <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
+                <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
+                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
+            </ul>
+            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
+        </nav>
         <main>
-            <article class="main">
-                <h3>wiki-profile</h3>
-                <p>
-                    The <code>wiki-profile</code> element is a WebComponent to display the profile image of a person by
-                    giving the name.
-                </p>
-                <h4 id="attributes">Attributes</h4>
-                <ul>
-                    <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
-                    <li><code>article</code>: The title of the article.</li>
-                </ul>
-                <h4 id="examples">Examples</h4>
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-profile language="en" article="Barack Obama"&gt;
-                    &lt;/wiki-profile&gt;
-                </code></pre>
-                    <section class="rendering" style="width: 300px">
-                        <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
-                    </section>
-                </section>
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-profile language="en" article="Albert Einstein"&gt;
-                    &lt;/wiki-profile&gt;
-                </code></pre>
-                    <section class="rendering" style="width: 300px">
-                        <wiki-profile language="en" article="Albert Einstein"> </wiki-profile>
-                    </section>
-                </section>
+            
+<article class="main">
+    <h3>wiki-profile</h3>
+    <p>
+        The <code>wiki-profile</code> element is a WebComponent to display the profile image of a person by
+        giving the name.
+    </p>
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
+        <li><code>article</code>: The title of the article.</li>
+    </ul>
+    <h4 id="examples">Examples</h4>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Barack Obama"&gt;
+        &lt;/wiki-profile&gt;
+    </code></pre>
+        <section class="rendering" style="width: 300px">
+            <wiki-profile language="en" article="Barack Obama"> </wiki-profile>
+        </section>
+    </section>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Albert Einstein"&gt;
+        &lt;/wiki-profile&gt;
+    </code></pre>
+        <section class="rendering" style="width: 300px">
+            <wiki-profile language="en" article="Albert Einstein"> </wiki-profile>
+        </section>
+    </section>
 
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
-                    &lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Julia Roberts"&gt;
-                    &lt;/wiki-profile&gt;
-                    &lt;wiki-profile language="en" article="Mahershala Ali"&gt;
-                    &lt;/wiki-profile&gt;
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-profile language="en" article="Ethan Hawk"&gt;
+        &lt;/wiki-profile&gt;
+        &lt;wiki-profile language="en" article="Julia Roberts"&gt;
+        &lt;/wiki-profile&gt;
+        &lt;wiki-profile language="en" article="Mahershala Ali"&gt;
+        &lt;/wiki-profile&gt;
 
-                </code></pre>
-                    <section class="rendering flex">
-                        <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
-                        <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
-                        <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
-                    </section>
-                </section>
-            </article>
+    </code></pre>
+        <section class="rendering flex">
+            <wiki-profile language="en" article="Ethan Hawk"></wiki-profile>
+            <wiki-profile language="en" article="Julia Roberts"></wiki-profile>
+            <wiki-profile language="en" article="Mahershala Ali"></wiki-profile>
+        </section>
+    </section>
+</article>
+
         </main>
+        
     </body>
 </html>

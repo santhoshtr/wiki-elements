@@ -6,10 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
         <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-        <meta
-            name="description"
-            content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content"
-        />
+        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
         <meta name="supported-color-schemes" content="dark light" />
         <meta name="color-scheme" content="dark light" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui.css" />
@@ -19,6 +16,7 @@
         <script src="../src/index.js" type="module"></script>
         <script src="prism.js" defer></script>
         <link rel="stylesheet" href="prism.css" />
+        
     </head>
 
     <body>
@@ -32,73 +30,93 @@
                 <span></span>
             </label>
         </header>
-        <nav class="nav" data-src="nav.html" data-type="text/html"></nav>
+        <nav class="nav">
+            <a href="./" >Introduction</a>
+            <h4>Components</h4>
+            <ul>
+                <li><a href="wiki-article" >wiki-article</a></li>
+                <li><a href="wiki-image" >wiki-image</a></li>
+                <li><a href="wiki-video" >wiki-video</a></li>
+                <li><a href="wiki-map" aria-current="page">wiki-map</a></li>
+                <li><a href="wiki-graph" >wiki-graph</a></li>
+                <li><a href="wiki-profile" >wiki-profile</a></li>
+                <li><a href="wiki-wikitext" >wiki-wikitext</a></li>
+                <li><a href="wiki-user" >wiki-user</a></li>
+                <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
+                <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
+                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
+            </ul>
+            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
+        </nav>
         <main>
-            <article class="main">
-                <h3 id="wiki-map">wiki-map</h3>
-                <p>
-                    The <code>wiki-map</code> component is used to display a map of a location. The location can be
-                    specified by providing the latitude and longitude of the location, or by providing the name of the
-                    location in the form of an article from Wikipedia. The map can also be sourced from a Wikimedia
-                    Commons map file.
-                </p>
+            
+<article class="main">
+    <h3 id="wiki-map">wiki-map</h3>
+    <p>
+        The <code>wiki-map</code> component is used to display a map of a location. The location can be
+        specified by providing the latitude and longitude of the location, or by providing the name of the
+        location in the form of an article from Wikipedia. The map can also be sourced from a Wikimedia
+        Commons map file.
+    </p>
 
-                <h4 id="attributes">Attributes</h4>
-                <ul>
-                    <li><code>latitude</code>: The latitude of the location.</li>
-                    <li><code>longitude</code>: The longitude of the location.</li>
-                    <li><code>article</code>: The name of the location in the form of an article from Wikipedia.</li>
-                    <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
-                    <li><code>source</code>: The URL of the Wikimedia Commons map file.</li>
-                </ul>
+    <h4 id="attributes">Attributes</h4>
+    <ul>
+        <li><code>latitude</code>: The latitude of the location.</li>
+        <li><code>longitude</code>: The longitude of the location.</li>
+        <li><code>article</code>: The name of the location in the form of an article from Wikipedia.</li>
+        <li><code>language</code>: The language code of the article. Default is <code>en</code>.</li>
+        <li><code>source</code>: The URL of the Wikimedia Commons map file.</li>
+    </ul>
 
-                <h4 id="examples">Examples</h4>
-                <p>
-                    Draw a map by giving the wikipedia article about the place. For example to draw a map of Banaras, we
-                    can use the following code
-                </p>
+    <h4 id="examples">Examples</h4>
+    <p>
+        Draw a map by giving the wikipedia article about the place. For example to draw a map of Banaras, we
+        can use the following code
+    </p>
 
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-map article="Banaras" language="en"&gt;
-                    &lt;/wiki-map&gt;
-                </code></pre>
-                    <section class="rendering">
-                        <wiki-map article="Banaras" language="en"></wiki-map>
-                    </section>
-                </section>
-                <p>We can also provide longitude and latitude values</p>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map article="Banaras" language="en"&gt;
+        &lt;/wiki-map&gt;
+    </code></pre>
+        <section class="rendering">
+            <wiki-map article="Banaras" language="en"></wiki-map>
+        </section>
+    </section>
+    <p>We can also provide longitude and latitude values</p>
 
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-map longitude="76.9545" latitude="8.4906"&gt;
-                    &lt;/wiki-map&gt;
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map longitude="76.9545" latitude="8.4906"&gt;
+        &lt;/wiki-map&gt;
 
-                </code></pre>
-                    <section class="rendering">
-                        <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
-                    </section>
-                </section>
-                <p>In the following example, the source is taken from a .map file in Wikimedia commons</p>
-                <section class="example">
-                    <pre><code class="language-html" >
-                    &lt;wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"&gt;
-                    &lt;/wiki-map&gt;
+    </code></pre>
+        <section class="rendering">
+            <wiki-map longitude="76.9545" latitude="8.4906"></wiki-map>
+        </section>
+    </section>
+    <p>In the following example, the source is taken from a .map file in Wikimedia commons</p>
+    <section class="example">
+        <pre><code class="language-html" >
+        &lt;wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"&gt;
+        &lt;/wiki-map&gt;
 
-              </code></pre>
-                    <section class="rendering">
-                        <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
-                    </section>
-                </section>
-                <h4 id="features">Features</h4>
+      </code></pre>
+        <section class="rendering">
+            <wiki-map source="https://commons.wikimedia.org/wiki/Data:India/Kerala/Wayanad.map"></wiki-map>
+        </section>
+    </section>
+    <h4 id="features">Features</h4>
 
-                The <code>wiki-map</code> component supports the following features:
-                <ul>
-                    <li>Interactive</li>
-                    <li>Responsive</li>
-                    <li>Lazy loaded</li>
-                </ul>
-            </article>
+    The <code>wiki-map</code> component supports the following features:
+    <ul>
+        <li>Interactive</li>
+        <li>Responsive</li>
+        <li>Lazy loaded</li>
+    </ul>
+</article>
+
         </main>
+        
     </body>
 </html>

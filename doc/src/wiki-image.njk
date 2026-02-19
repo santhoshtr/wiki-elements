@@ -1,55 +1,5 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
-        <meta name="supported-color-schemes" content="dark light" />
-        <meta name="color-scheme" content="dark light" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui-mode-dark.css" media="( prefers-color-scheme: dark )" />
-        <link rel="stylesheet" href="style.css" />
-        <script src="demo.js" type="module"></script>
-        <script src="../src/index.js" type="module"></script>
-        <script src="prism.js" defer></script>
-        <link rel="stylesheet" href="prism.css" />
-        
-    </head>
-
-    <body>
-        <header class="header">
-            <span class="logo"></span>
-            <span class="site-title">wiki-elements</span>
-            <input type="checkbox" style="display: none" id="menu-toggle" />
-            <label for="menu-toggle" class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-        </header>
-        <nav class="nav">
-            <a href="./" >Introduction</a>
-            <h4>Components</h4>
-            <ul>
-                <li><a href="wiki-article" >wiki-article</a></li>
-                <li><a href="wiki-image" aria-current="page">wiki-image</a></li>
-                <li><a href="wiki-video" >wiki-video</a></li>
-                <li><a href="wiki-map" >wiki-map</a></li>
-                <li><a href="wiki-graph" >wiki-graph</a></li>
-                <li><a href="wiki-profile" >wiki-profile</a></li>
-                <li><a href="wiki-wikitext" >wiki-wikitext</a></li>
-                <li><a href="wiki-user" >wiki-user</a></li>
-                <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
-                <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
-                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
-            </ul>
-            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
-        </nav>
-        <main>
-            
+{% extends "_layout.njk" %}
+{% block content %}
 <article class="main">
     <h3 id="wiki-image">wiki-image</h3>
     <p>
@@ -111,8 +61,4 @@
         </section>
     </section>
 </article>
-
-        </main>
-        
-    </body>
-</html>
+{% endblock %}

@@ -1,55 +1,5 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>wiki-elements: A collection of WebComponents to share or interact with Wikipedia content</title>
-        <link rel="icon" href="logo.svg" sizes="any" type="image/svg+xml" />
-        <meta name="description" content="wiki-elements: A collection of WebComponents to share or interact with Wikipedia content" />
-        <meta name="supported-color-schemes" content="dark light" />
-        <meta name="color-scheme" content="dark light" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@wikimedia/codex-design-tokens/theme-wikimedia-ui-mode-dark.css" media="( prefers-color-scheme: dark )" />
-        <link rel="stylesheet" href="style.css" />
-        <script src="demo.js" type="module"></script>
-        <script src="../src/index.js" type="module"></script>
-        <script src="prism.js" defer></script>
-        <link rel="stylesheet" href="prism.css" />
-        
-    </head>
-
-    <body>
-        <header class="header">
-            <span class="logo"></span>
-            <span class="site-title">wiki-elements</span>
-            <input type="checkbox" style="display: none" id="menu-toggle" />
-            <label for="menu-toggle" class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-        </header>
-        <nav class="nav">
-            <a href="./" >Introduction</a>
-            <h4>Components</h4>
-            <ul>
-                <li><a href="wiki-article" aria-current="page">wiki-article</a></li>
-                <li><a href="wiki-image" >wiki-image</a></li>
-                <li><a href="wiki-video" >wiki-video</a></li>
-                <li><a href="wiki-map" >wiki-map</a></li>
-                <li><a href="wiki-graph" >wiki-graph</a></li>
-                <li><a href="wiki-profile" >wiki-profile</a></li>
-                <li><a href="wiki-wikitext" >wiki-wikitext</a></li>
-                <li><a href="wiki-user" >wiki-user</a></li>
-                <li><a href="wiki-machine-translation" >wiki-machine-translation</a></li>
-                <li><a href="wiki-language-selector" >wiki-language-selector</a></li>
-                <li><a href="wiki-3d-viewer" >wiki-3d-viewer</a></li>
-            </ul>
-            <a href="https://github.com/santhoshtr/wiki-elements">Source code</a>
-        </nav>
-        <main>
-            
+{% extends "_layout.njk" %}
+{% block content %}
 <article class="main">
     <h3 id="wiki-article">wiki-article</h3>
     <p>
@@ -176,8 +126,4 @@
                 data-article="%7B%22type%22%3A%22standard%22%2C%22title%22%3A%22Alan%20Turing%22%2C%22displaytitle%22%3A%22%3Cspan%20class%3D%5C%22mw-page-title-main%5C%22%3EAlan%20Turing%3C%2Fspan%3E%22%2C%22namespace%22%3A%7B%22id%22%3A0%2C%22text%22%3A%22%22%7D%2C%22wikibase_item%22%3A%22Q7251%22%2C%22titles%22%3A%7B%22canonical%22%3A%22Alan_Turing%22%2C%22normalized%22%3A%22Alan%20Turing%22%2C%22display%22%3A%22%3Cspan%20class%3D%5C%22mw-page-title-main%5C%22%3EAlan%20Turing%3C%2Fspan%3E%22%7D%2C%22pageid%22%3A1208%2C%22thumbnail%22%3A%7B%22source%22%3A%22https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2Ff%2Ff8%2FAlan_Turing_%25281951%2529.jpg%2F320px-Alan_Turing_%25281951%2529.jpg%22%2C%22width%22%3A320%2C%22height%22%3A427%7D%2C%22originalimage%22%3A%7B%22source%22%3A%22https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Ff%2Ff8%2FAlan_Turing_%25281951%2529.jpg%22%2C%22width%22%3A800%2C%22height%22%3A1067%7D%2C%22lang%22%3A%22en%22%2C%22dir%22%3A%22ltr%22%2C%22revision%22%3A%221275425276%22%2C%22tid%22%3A%22ac7ece0b-e99a-11ef-8cb7-1131c173aea1%22%2C%22timestamp%22%3A%222025-02-12T23%3A40%3A00Z%22%2C%22description%22%3A%22English%20computer%20scientist%20(1912%E2%80%931954)%22%2C%22description_source%22%3A%22local%22%2C%22content_urls%22%3A%7B%22desktop%22%3A%7B%22page%22%3A%22https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAlan_Turing%22%2C%22revisions%22%3A%22https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAlan_Turing%3Faction%3Dhistory%22%2C%22edit%22%3A%22https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FAlan_Turing%3Faction%3Dedit%22%2C%22talk%22%3A%22https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FTalk%3AAlan_Turing%22%7D%2C%22mobile%22%3A%7B%22page%22%3A%22https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FAlan_Turing%22%2C%22revisions%22%3A%22https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FSpecial%3AHistory%2FAlan_Turing%22%2C%22edit%22%3A%22https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FAlan_Turing%3Faction%3Dedit%22%2C%22talk%22%3A%22https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FTalk%3AAlan_Turing%22%7D%7D%2C%22extract%22%3A%22Alan%20Mathison%20Turing%20was%20an%20English%20mathematician%2C%20computer%20scientist%2C%20logician%2C%20cryptanalyst%2C%20philosopher%20and%20theoretical%20biologist.%20He%20was%20highly%20influential%20in%20the%20development%20of%20theoretical%20computer%20science%2C%20providing%20a%20formalisation%20of%20the%20concepts%20of%20algorithm%20and%20computation%20with%20the%20Turing%20machine%2C%20which%20can%20be%20considered%20a%20model%20of%20a%20general-purpose%20computer.%20Turing%20is%20widely%20considered%20to%20be%20the%20father%20of%20theoretical%20computer%20science.%22%2C%22extract_html%22%3A%22%3Cp%3E%3Cb%3EAlan%20Mathison%20Turing%3C%2Fb%3E%20was%20an%20English%20mathematician%2C%20computer%20scientist%2C%20logician%2C%20cryptanalyst%2C%20philosopher%20and%20theoretical%20biologist.%20He%20was%20highly%20influential%20in%20the%20development%20of%20theoretical%20computer%20science%2C%20providing%20a%20formalisation%20of%20the%20concepts%20of%20algorithm%20and%20computation%20with%20the%20Turing%20machine%2C%20which%20can%20be%20considered%20a%20model%20of%20a%20general-purpose%20computer.%20Turing%20is%20widely%20considered%20to%20be%20the%20father%20of%20theoretical%20computer%20science.%3C%2Fp%3E%22%7D"%2FTalk%3AAlan_Turing%22%7D%7D%2C%22extract%22%3A%22Alan%20Mathison%20Turing%20was%20an%20English%20mathematician%2C%20computer%20scientist%2C%20logician%2C%20cryptanalyst%2C%20philosopher%20and%20theoretical%20biologist.%20He%20was%20highly%20influential%20in%20the%20development%20of%20theoretical%20computer%20science%2C%20providing%20a%20formalisation%20of%20the%20concepts%20of%20algorithm%20and%20computation%20with%20the%20Turing%20machine%2C%20which%20can%20be%20considered%20a%20model%20of%20a%20general-purpose%20computer.%20Turing%20is%20widely%20considered%20to%20be%20the%20father%20of%20theoretical%20computer%20science.%22%2C%22extract_html%22%3A%22%3Cp%3E%3Cb%3EAlan%20Mathison%20Turing%3C%2Fb%3E%20was%20an%20English%20mathematician%2C%20computer%20scientist%2C%20logician%2C%20cryptanalyst%2C%20philosopher%20and%20theoretical%20biologist.%20He%20was%20highly%20influential%20in%20the%20development%20of%20theoretical%20computer%20science%2C%20providing%20a%20formalisation%20of%20the%20concepts%20of%20algorithm%20and%20computation%20with%20the%20Turing%20machine%2C%20which%20can%20be%20considered%20a%20model%20of%20a%20general-purpose%20computer.%20Turing%20is%20widely%20considered%20to%20be%20the%20father%20of%20theoretical%20computer%20science.%3C%2Fp%3E%22%7D">        </section>
     </section>
 </article>
-
-        </main>
-        
-    </body>
-</html>
+{% endblock %}

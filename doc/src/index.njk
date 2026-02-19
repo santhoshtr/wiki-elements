@@ -1,0 +1,60 @@
+{% extends "_layout.njk" %}
+{% block content %}
+<article class="main">
+    <h2>wiki-elements</h2>
+    <p>
+        Seamlessly integrate Wikipedia's wealth of knowledge into your web projects with powerful,
+        easy-to-use <a href="https://en.wikipedia.org/wiki/Web_Components">Web Components</a>
+    </p>
+
+    <ul>
+        <li>Instant access to Wikipedia's comprehensive, multilingual content</li>
+        <li>Zero configuration, lightweight, and performance-optimized components. Copy and paste it.</li>
+        <li>wiki-elements is standard Web Components that work with any framework or vanilla JavaScript</li>
+        <li>
+            Generate shareable, attribution-ready links and embeds with built-in copyright information and
+            source tracking.
+        </li>
+        <li>
+            All components are
+            <a href="https://web.dev/articles/rendering-on-the-web">Server-Side Rendering (SSR)</a> friendly
+            and supports
+            <a href="https://web.dev/articles/declarative-shadow-dom">Declarative Shadow DOM</a>
+        </li>
+    </ul>
+
+    <h3>Why</h3>
+    <p>
+        Wikipedia is the world's largest and most comprehensive encyclopedia, with over 6 million articles
+        in English alone. It's a treasure trove of knowledge, but integrating it into your web projects can
+        be a challenge. wiki-elements makes it easy to embed Wikipedia content in your web pages, with a
+        collection of powerful, easy-to-use Web Components that let you display Wikipedia articles,
+        profiles, user pages, and more with just a few lines of code.
+    </p>
+
+    <h3 id="#usage">Usage</h3>
+    <p>To use wiki-elements in your project, include the following script tag in your HTML file:</p>
+    <pre class="language-html">
+    <code>
+        &lt;script
+          src="https://santhoshtr.github.io/wiki-elements/src/index.js"
+          type="module">
+        &lt;/script>
+    </code>
+  </pre>
+    <p>
+        You can now use any of the wiki-elements in your project. For example, to display a Wikipedia
+        article, use the <code>wiki-article</code> element:
+    </p>
+    <pre class="language-html">
+    <code>
+        &lt;wiki-article article="Culture of Greece">
+        &lt;/wiki-article>
+    </code>
+  </pre>
+    <wiki-article language="en" article="Culture of Greece"> </wiki-article>
+    <p>Now you can see the article about the Culture of Greece displayed on your web page.</p>
+
+    <button type="button" onclick="window.location.href = 'wiki-article.html';">Read documentation</button>
+</article>
+{% endblock %}

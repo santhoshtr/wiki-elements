@@ -3,8 +3,8 @@ function generateTableOfContents() {
 	toc.id = "toc";
 	toc.classList.add("article-nav");
 
-	// Find all h2 and h3 elements
-	const headings = document.querySelectorAll("article h4, article h5 ");
+	// Find all h4 and h5 elements inside the article
+	const headings = document.querySelectorAll("article h4, article h5");
 	const stack = [];
 	let lastLevel = 2;
 	let lastList = toc;
@@ -34,41 +34,13 @@ function generateTableOfContents() {
 		lastLevel = level;
 	}
 
-	// Find the nav item that matches the current URL
-	const currentURL = new URL(window.location.href);
-	const currentPath = currentURL.pathname.split("/").pop();
-	const currentNavItem = document.querySelector(`a[href*="${currentPath}"]`);
-	currentNavItem.classList.add("active");
-	// append to active nav
-	currentNavItem.append(toc);
+	// Append TOC to the active nav item
+	const activeNavItem = document.querySelector('.nav a[aria-current="page"]');
+	if (activeNavItem) {
+		activeNavItem.append(toc);
+	}
 }
 
-function buildNav() {
-	document
-		.querySelectorAll('[data-src][data-type="text/html"]')
-		.forEach((element) => {
-			var src = element.getAttribute("data-src");
-			var html = element.getAttribute("data-type") === "text/html";
-			var contentProperty = html ? "innerHTML" : "textContent";
-
-			fetch(src)
-				.then((response) => response.text())
-				.then((data) => {
-					element[contentProperty] = data;
-
-					// Run JS
-					element.querySelectorAll("script").forEach((script) => {
-						var parent = script.parentNode;
-						parent.removeChild(script);
-						document.head.appendChild(script);
-					});
-					generateTableOfContents();
-				})
-				.catch((error) => {
-					console.error("Error fetching data:", error);
-				});
-		});
-}
 function init() {
 	if (
 		HTMLScriptElement.supports &&
@@ -89,7 +61,7 @@ function init() {
 		specScript.textContent = JSON.stringify(specRules);
 		document.body.append(specScript);
 	}
-	buildNav();
+	generateTableOfContents();
 }
 
 document.addEventListener("DOMContentLoaded", init);

@@ -1,43 +1,45 @@
 {
-    "name": "wiki-elements",
-    "version": "0.0.1",
-    "description": "A collection of WebComponents to share or interact with Wikipedia content",
-    "type": "module",
-    "main": "src/index.js",
-    "scripts": {
-        "dev": "vite",
-        "lint": "npx biome check --write src",
-        "build": "vite build"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/santhoshtr/wiki-elements.git"
-    },
-    "keywords": [
-        "WebComponents",
-        "CustomElements",
-        "wikitext-to-html",
-        "wikitext",
-        "Wikipedia",
-        "MediaWiki"
-    ],
-    "author": "Santhosh Thottingal",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/santhoshtr/wiki-elements/issues"
-    },
-    "homepage": "https://https://santhoshtr.github.io/wiki-elements",
-    "devDependencies": {
-        "@biomejs/biome": "2.4.2",
-        "npm-run-all": "^4.1.5",
-        "vite": "^7.3.1"
-    },
-    "files": [
-        "src/**",
-        "package.json",
-        "package-lock.json",
-        "custom-elements.json",
-        "README.md",
-        "LICENSE"
-    ]
+	"name": "wiki-elements",
+	"version": "0.0.1",
+	"description": "A collection of WebComponents to share or interact with Wikipedia content",
+	"type": "module",
+	"main": "src/index.js",
+	"scripts": {
+		"dev": "vite",
+		"lint": "npx biome check --write src",
+		"build:doc": "node doc/build.js",
+		"build": "npm run build:doc && vite build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/santhoshtr/wiki-elements.git"
+	},
+	"keywords": [
+		"WebComponents",
+		"CustomElements",
+		"wikitext-to-html",
+		"wikitext",
+		"Wikipedia",
+		"MediaWiki"
+	],
+	"author": "Santhosh Thottingal",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/santhoshtr/wiki-elements/issues"
+	},
+	"homepage": "https://https://santhoshtr.github.io/wiki-elements",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.2",
+		"npm-run-all": "^4.1.5",
+		"nunjucks": "^3.2.4",
+		"vite": "^7.3.1"
+	},
+	"files": [
+		"src/**",
+		"package.json",
+		"package-lock.json",
+		"custom-elements.json",
+		"README.md",
+		"LICENSE"
+	]
 }
