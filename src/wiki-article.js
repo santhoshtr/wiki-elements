@@ -88,6 +88,9 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			if (!this.article || !this.language) {
 				return;
 			}
+			// Apply layout first so the skeleton shimmer has the correct
+			// dimensions (e.g. figure needs aspect-ratio from the card class).
+			this._applyLayout();
 			this._setProgress(true);
 			data = await this._fetchArticleData();
 		}
