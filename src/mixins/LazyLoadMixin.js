@@ -2,7 +2,6 @@ const LazyLoadMixin = (superClass) =>
 	class extends superClass {
 		constructor() {
 			super();
-			this._isRendered = false;
 			this._observer = null;
 		}
 
@@ -54,7 +53,6 @@ const LazyLoadMixin = (superClass) =>
 		render() {
 			// This method should be overridden in the component class
 			console.warn("Render method not implemented");
-			this._isRendered = true;
 		}
 	};
 
