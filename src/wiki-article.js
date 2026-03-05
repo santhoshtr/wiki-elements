@@ -112,7 +112,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			return;
 		}
 		this._applyLayout();
-		await this._updateArticle(data);
+		this._updateArticle(data);
 		this._setProgress(false);
 	}
 
@@ -157,7 +157,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		}
 	}
 
-	async _updateArticle(data) {
+	_updateArticle(data) {
 		const {
 			title,
 			extract,
@@ -179,10 +179,13 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		sr.querySelector("p").textContent = extract || "";
 		sr.querySelector("footer a").href = pageUrl;
 
-		await this._updateImage(thumbnail, originalimage, title);
+		this._updateImage(thumbnail, originalimage, title);
 	}
 
-	async _updateImage(thumbnail, originalimage, alt) {
+	// Not async: color extraction + theme happen in an image load callback,
+	// not in the method body itself. The await in the old code resolved
+	// immediately and gave a false impression of waiting for the theme.
+	_updateImage(thumbnail, originalimage, alt) {
 		const img = this.shadowRoot.querySelector("img");
 
 		if (!thumbnail?.source) {
