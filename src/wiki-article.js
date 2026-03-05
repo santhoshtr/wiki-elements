@@ -71,7 +71,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			article: { type: String },
 			language: { type: String, default: "en" },
 			layout: { type: String, default: "card", options: ["card", "compact"] },
-			"data-article": { type: Object },
+			"article-data": { type: Object },
 		};
 	}
 
@@ -108,8 +108,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		const { signal } = this._abortController;
 
 		let data;
-		if (this["data-article"]) {
-			data = this["data-article"];
+		if (this["article-data"]) {
+			data = this["article-data"];
 		} else {
 			if (!this.article || !this.language) {
 				return;
