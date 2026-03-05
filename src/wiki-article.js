@@ -42,6 +42,13 @@ function rgbToHsl(r, g, b) {
 // must be meaningfully wide before we switch the card layout.
 const LANDSCAPE_RATIO_THRESHOLD = 1.6;
 
+// Shared 64×64 canvas for color extraction. Created once per module,
+// reused across all wiki-article instances to avoid repeated allocation.
+const _colorCanvas = document.createElement("canvas");
+_colorCanvas.width = 64;
+_colorCanvas.height = 64;
+const _colorCtx = _colorCanvas.getContext("2d");
+
 const ARROW_ICON = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
     <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
@@ -223,12 +230,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 
 	_extractColor(img) {
 		try {
-			const cv = document.createElement("canvas");
-			cv.width = 64;
-			cv.height = 64;
-			const cx = cv.getContext("2d");
-			cx.drawImage(img, 0, 0, 64, 64);
-			const px = cx.getImageData(0, 0, 64, 64).data;
+			_colorCtx.drawImage(img, 0, 0, 64, 64);
+			const px = _colorCtx.getImageData(0, 0, 64, 64).data;
 			let rs = 0;
 			let gs = 0;
 			let bs = 0;
