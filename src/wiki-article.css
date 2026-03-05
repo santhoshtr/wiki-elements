@@ -1,4 +1,21 @@
 @layer wiki-elements.wiki-article {
+	/*
+	 * Colour space note
+	 * -----------------
+	 * This file intentionally mixes two colour spaces:
+	 *
+	 *   oklch()  — used for static design tokens (text, backgrounds, borders)
+	 *              where perceptual uniformity and light/dark theming matter.
+	 *
+	 *   hsl() / hsla()  — used for the dynamic, image-derived theme colours
+	 *              (--card-h, --card-s, --card-accent, --card-shadow, scrims).
+	 *              These are bare-number hue/saturation tokens set by JS after
+	 *              color extraction. CSS relative colour syntax
+	 *              (`oklch(from …)`) would allow a pure-oklch approach, but
+	 *              it has incomplete cross-browser support for arithmetic on
+	 *              bare custom properties. hsl() with numeric tokens is the
+	 *              pragmatic choice here until relative color is universal.
+	 */
 	:host {
 		--wiki-article-border-radius: 0.5rem;
 		--card-h: 220;
