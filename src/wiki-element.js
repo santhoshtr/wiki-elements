@@ -93,7 +93,8 @@ export default class WikiElement extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return Object.keys(WikiElement.properties);
+		// biome-ignore lint/complexity/noThisInStatic: we need 'this`
+		return Object.keys(this.properties);
 	}
 
 	static get template() {

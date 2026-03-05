@@ -1,214 +1,305 @@
-import { addPrefetch, getSourceSetFromCommonsUrl, html } from "./common.js";
-import { editIcon, historyIcon, talkIcon } from "./icons.js";
+import { html } from "./common.js";
 import LazyLoadMixin from "./mixins/LazyLoadMixin.js";
 import WikiElement from "./wiki-element.js";
 
-const FAC_CDN = "https://esm.sh/fast-average-color";
-let _facModule = null;
-
 const styleURL = new URL("./wiki-article.css", import.meta.url);
 
-class WikiArticle extends LazyLoadMixin(WikiElement) {
-	constructor() {
-		super();
-		this.articleData = null;
-	}
+function clamp(v, lo, hi) {
+	return Math.min(Math.max(v, lo), hi);
+}
 
+function rgbToHsl(r, g, b) {
+	r /= 255;
+	g /= 255;
+	b /= 255;
+	const mx = Math.max(r, g, b);
+	const mn = Math.min(r, g, b);
+	let h;
+	let s;
+	const l = (mx + mn) / 2;
+	if (mx === mn) {
+		h = s = 0;
+	} else {
+		const d = mx - mn;
+		s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+		switch (mx) {
+			case r:
+				h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+				break;
+			case g:
+				h = ((b - r) / d + 2) / 6;
+				break;
+			case b:
+				h = ((r - g) / d + 4) / 6;
+				break;
+		}
+	}
+	return [h * 360, s * 100, l * 100];
+}
+
+// Minimum width/height ratio to classify an image as landscape.
+// 1.6 avoids treating near-square images as landscape — the image
+// must be meaningfully wide before we switch the card layout.
+const LANDSCAPE_RATIO_THRESHOLD = 1.6;
+
+const ARROW_ICON = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+class WikiArticle extends LazyLoadMixin(WikiElement) {
 	static get properties() {
 		return {
-			article: {
-				type: String,
-			},
-			language: {
-				type: String,
-			},
-			layout: {
-				type: String,
-				default: "card",
-				options: ["compact", "card", "simple"],
-			},
-			"data-article": {
-				type: Object,
-			},
+			article: { type: String },
+			language: { type: String, default: "en" },
+			layout: { type: String, default: "card", options: ["card", "compact"] },
+			"data-article": { type: Object },
 		};
 	}
 
 	static get template() {
 		return html`
             <div class="wiki-article">
-			 	<div class="image-container">
-					<img
-						class="image"
-						src=""
-						alt=""
-						crossorigin="anonymous"
-					/>
-					<div class="overlay"></div>
-                </div>
-                <div class="content">
-                    <h2 class="title-header">
-                        <a class="title" href="" target="_blank"></a>
-                    </h2>
-                    <h2 class="meta attribution">
-                        From wikipedia, the free encylopedia
-                        <a class="edit icon" href="" target="_blank">${editIcon}</a>
-                        <a class="history icon" href="" target="_blank">${historyIcon}</a>
-                        <a class="talk icon" href="" target="_blank">${talkIcon}</a>
-                    </h2>
-                    <p class="description">Loading...</p>
-                    <p class="extract">Loading...</p>
-                </div>
+                <figure>
+                    <img crossorigin="anonymous" loading="lazy" alt="" src="" />
+                </figure>
+                <figcaption>
+                    <div class="wiki-article-accent"></div>
+                    <h2></h2>
+                    <p></p>
+                    <footer>
+                        <a href="" target="_blank" rel="noopener">
+                            Read article ${ARROW_ICON}
+                        </a>
+                        <span class="wiki-article-logo">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia" width="20" height="20" />
+                        </span>
+                    </footer>
+                </figcaption>
             </div>
-            <style>
-                @import url(${styleURL});
-            </style>
+            <style>@import url(${styleURL});</style>
         `;
 	}
 
-	connectedCallback() {
-		super.connectedCallback();
-		addPrefetch("preconnect", "https://esm.sh");
-	}
-
-	async _loadFac() {
-		if (_facModule) {
-			return _facModule;
-		}
-		const { FastAverageColor } = await import(FAC_CDN);
-		_facModule = FastAverageColor;
-		return _facModule;
-	}
-
 	async render() {
+		let data;
 		if (this["data-article"]) {
-			this.articleData = this["data-article"];
+			data = this["data-article"];
 		} else {
-			this.articleData = await this.fetchArticleData();
+			if (!this.article || !this.language) {
+				return;
+			}
+			this._setProgress(true);
+			data = await this._fetchArticleData();
 		}
-		await this.updateArticle();
+		if (!data) {
+			this._setProgress(false);
+			this._setError(true);
+			return;
+		}
+		this._applyLayout();
+		await this._updateArticle(data);
+		this._setProgress(false);
 	}
 
-	async fetchArticleData() {
-		if (!this.article) {
-			return;
+	_setProgress(on) {
+		if (on) {
+			this.internals?.states?.add("progress");
+		} else {
+			this.internals?.states?.delete("progress");
 		}
-		if (!this.language) {
-			return;
+	}
+
+	_setError(on) {
+		if (on) {
+			this.internals?.states?.add("error");
+		} else {
+			this.internals?.states?.delete("error");
 		}
+	}
+
+	_applyLayout() {
+		const root = this.shadowRoot.querySelector(".wiki-article");
+		root.classList.remove("card", "compact");
+		root.classList.add(this.layout || "card");
+	}
+
+	async _fetchArticleData() {
 		const url = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(this.article)}?redirect=true`;
 		try {
 			const response = await fetch(url);
 			if (!response.ok) {
-				throw new Error("Network response was not ok");
+				throw new Error(`HTTP ${response.status}`);
 			}
-			const data = await response.json();
-			return data;
+			return await response.json();
 		} catch (error) {
-			this.shadowRoot.querySelector(".description").innerText =
-				"Failed to load article.";
-			console.error("Fetch error:", error);
+			console.error("wiki-article fetch error:", error);
+			return null;
 		}
 	}
 
-	async getDominantColor(image, isBottom = true) {
-		const FastAverageColor = await this._loadFac();
-		const fac = new FastAverageColor();
-		const height = image.naturalHeight;
-		const size = 50;
-		const options = {
-			height: size,
-			algorithm: "simple",
-		};
-		if (isBottom) {
-			options.top = isBottom ? height - size : height;
-		}
-		const color = fac.getColor(image, options);
-		return color;
+	async _updateArticle(data) {
+		const {
+			title,
+			extract,
+			lang,
+			dir,
+			content_urls,
+			thumbnail,
+			originalimage,
+		} = data;
+		const sr = this.shadowRoot;
+
+		sr.querySelector(".wiki-article").dir = dir || "";
+
+		const pageUrl =
+			content_urls?.desktop?.page ??
+			`https://${lang || this.language}.wikipedia.org/wiki/${encodeURIComponent(title)}`;
+
+		sr.querySelector("h2").textContent = title;
+		sr.querySelector("p").textContent = extract || "";
+		sr.querySelector("footer a").href = pageUrl;
+
+		await this._updateImage(thumbnail, originalimage, title);
 	}
 
-	async updateImage() {
-		const imageData = this.articleData.thumbnail;
+	async _updateImage(thumbnail, originalimage, alt) {
+		const img = this.shadowRoot.querySelector("img");
 
-		const picture = this.shadowRoot.querySelector(".image");
-		const wikiarticleEl = this.shadowRoot.querySelector(".wiki-article");
+		if (!thumbnail?.source) {
+			img.removeAttribute("src");
+			return;
+		}
 
-		// resets
-		picture.src = null;
-		picture.classList.add("empty");
-		wikiarticleEl.classList.remove("card", "simple", "compact");
-		wikiarticleEl.classList.add(this.layout);
+		img.alt = alt || "";
+		// Wikipedia thumbnail URLs encode the width as /NNNpx-. We pin
+		// to 640px — enough for the card without over-fetching.
+		img.src = thumbnail.source.replace(/\/\d+px-/, "/960px-");
 
-		if (imageData?.source) {
-			picture.classList.remove("empty");
-			const srcset = getSourceSetFromCommonsUrl(imageData.source);
-			picture.src = imageData.source;
-			picture.srcset = srcset;
-			picture.sizes =
-				"(min-width: 100ch) 33.3vw, (min-width: 200ch) 50vw, 100vw";
+		if (this.layout === "card") {
+			// Detect landscape from the API's reported original dimensions.
+			// This is cheap — no image download needed at this stage.
+			// We use originalimage (full res) dims rather than the thumbnail
+			// dims, because thumbnails are often cropped and unreliable.
+			const isLandscape =
+				originalimage?.width && originalimage?.height
+					? originalimage.width / originalimage.height >
+						LANDSCAPE_RATIO_THRESHOLD
+					: false;
 
-			if (this.layout === "card") {
-				const onload = async (img) => {
-					const dominantColor = await this.getDominantColor(img, true);
-					this.style.setProperty("--continuous-color", dominantColor.rgba);
-					this.style.setProperty(
-						"--is-dark-image",
-						dominantColor.isDark ? 1 : 0,
-					);
-				};
-				if (picture.complete) {
-					onload(picture);
-				} else {
-					picture.addEventListener("load", () => {
-						onload(picture);
-					});
-					picture.addEventListener("error", () => {
-						picture.src =
-							"https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/220px-Wikipedia-logo-v2.svg.webp";
-					});
+			const onLoad = () => {
+				const hsl = this._extractColor(img);
+				this._applyTheme(hsl, isLandscape);
+			};
+			if (img.complete && img.naturalWidth) {
+				onLoad();
+			} else {
+				img.addEventListener("load", onLoad, { once: true });
+			}
+		}
+	}
+
+	_extractColor(img) {
+		try {
+			const cv = document.createElement("canvas");
+			cv.width = 64;
+			cv.height = 64;
+			const cx = cv.getContext("2d");
+			cx.drawImage(img, 0, 0, 64, 64);
+			const px = cx.getImageData(0, 0, 64, 64).data;
+			let rs = 0;
+			let gs = 0;
+			let bs = 0;
+			let n = 0;
+			for (let i = 0; i < px.length; i += 16) {
+				const r = px[i];
+				const g = px[i + 1];
+				const b = px[i + 2];
+				const a = px[i + 3];
+				if (a < 128) {
+					continue;
+				}
+				const br = (r + g + b) / 3;
+				if (br < 25 || br > 230) {
+					continue;
+				}
+				if (Math.max(r, g, b) - Math.min(r, g, b) < 20) {
+					continue;
+				}
+				rs += r;
+				gs += g;
+				bs += b;
+				n++;
+			}
+			if (n < 20) {
+				rs = gs = bs = n = 0;
+				for (let i = 0; i < px.length; i += 8) {
+					const r = px[i];
+					const g = px[i + 1];
+					const b = px[i + 2];
+					const a = px[i + 3];
+					if (a < 128) {
+						continue;
+					}
+					const br = (r + g + b) / 3;
+					if (br < 15 || br > 240) {
+						continue;
+					}
+					rs += r;
+					gs += g;
+					bs += b;
+					n++;
 				}
 			}
+			return n > 0 ? rgbToHsl(rs / n, gs / n, bs / n) : null;
+		} catch {
+			return null;
 		}
 	}
 
-	async updateArticle() {
-		let { title, description, extract, lang, dir, content_urls } =
-			this.articleData;
-		this.lang = lang || this.language;
-		this.dir = dir;
-		this.shadowRoot.querySelector(".wiki-article").dir = dir;
-		this.shadowRoot.querySelector(".title").innerText = title;
+	_applyTheme(hsl, isLandscape = false) {
+		const card = this.shadowRoot.querySelector(".wiki-article");
+		const figcaption = this.shadowRoot.querySelector("figcaption");
 
-		if (!content_urls) {
-			// construct content_urls from title and language
-			const titleEncoded = encodeURIComponent(title.replace(/ /g, "_"));
-			const lang = this.lang || this.language;
-			const domain = `${lang}.wikipedia.org`;
-			const base = `https://${domain}/wiki/${titleEncoded}`;
-			content_urls = {
-				desktop: {
-					page: base,
-					edit: `${base}?action=edit`,
-					revisions: `${base}?action=history`,
-					talk: `${base}?action=discussion`,
-				},
-				mobile: {
-					page: `https://${domain}/wiki/${titleEncoded}?useformat=mobile`,
-					edit: `https://${domain}/w/index.php?title=${titleEncoded}&action=edit`,
-					revisions: `https://${domain}/w/index.php?title=${titleEncoded}&action=history`,
-					talk: `https://${domain}/wiki/${titleEncoded}?action=discussion`,
-				},
-			};
+		// Derive accent and shadow colors from the extracted image hue.
+		// Fallback [220, 55, 45] is Wikipedia blue.
+		const [h, s, l] = hsl || [220, 55, 45];
+		const accentS = clamp(s, 50, 80);
+		const accentL = clamp(l * 0.85, 56, 76);
+
+		this.style.setProperty("--card-h", h | 0);
+		this.style.setProperty("--card-s", `${accentS | 0}%`);
+		this.style.setProperty(
+			"--card-accent",
+			`hsl(${h | 0}, ${accentS.toFixed(1)}%, ${accentL.toFixed(1)}%)`,
+		);
+		this.style.setProperty(
+			"--card-shadow",
+			`hsla(${h | 0}, ${Math.min(s * 0.6, 45).toFixed(1)}%, 5%, 0.72)`,
+		);
+
+		// Toggle the layout class — all structural CSS differences between
+		// portrait and landscape are handled in the stylesheet via this class.
+		card.classList.toggle("is-landscape", isLandscape);
+
+		if (isLandscape) {
+			// Landscape: figcaption sits below the image in normal flow.
+			// Its background is a dark gradient connector (set in CSS using
+			// --card-h/--card-s), so we leave it alone here.
+		} else {
+			// Portrait: figcaption overlays the image bottom. Apply a subtle
+			// hue-tinted glass tint so the panel picks up the image's colour.
+			const glassHint = `hsla(${h | 0}, ${Math.min(s * 0.28, 24).toFixed(1)}%, 98%, 0.12)`;
+			figcaption.style.background = glassHint;
 		}
 
-		this.shadowRoot.querySelector(".title").href = content_urls.desktop.page;
-		this.shadowRoot.querySelector(".edit").href = content_urls.desktop.edit;
-		this.shadowRoot.querySelector(".history").href =
-			content_urls.desktop.revisions;
-		this.shadowRoot.querySelector(".talk").href = content_urls.desktop.talk;
-		this.shadowRoot.querySelector(".description").innerText = description;
-		this.shadowRoot.querySelector(".extract").innerText = extract;
-
-		await this.updateImage();
+		// Fade the card in after the theme is applied to avoid a flash of
+		// default colors before color extraction completes.
+		card.style.opacity = "0";
+		requestAnimationFrame(() =>
+			requestAnimationFrame(() => {
+				card.style.opacity = "1";
+			}),
+		);
 	}
 }
 

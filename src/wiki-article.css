@@ -1,252 +1,334 @@
 @layer wiki-elements.wiki-article {
-	@property --continuous-color {
-		syntax: "<color>";
-		inherits: false;
-		initial-value: transparent;
-	}
-
-	@property --is-dark-image {
-		syntax: "<number>";
-		inherits: false;
-		initial-value: 1;
-	}
-
 	:host {
-		--wiki-article-border-radius: 1rem;
+		--wiki-article-border-radius: 0.5rem;
+		--card-h: 220;
+		--card-s: 65%;
+		--card-accent: hsl(220, 65%, 68%);
+		--card-shadow: hsla(220, 33%, 5%, 0.72);
 
 		display: block;
 		max-width: 400px;
 		box-sizing: border-box;
-		container-type: inline-size;
-		container-name: wiki-article;
+	}
 
-		* {
-			box-sizing: border-box;
+	:host(:state(progress)) .wiki-article {
+		& figure {
+			background: linear-gradient(
+				90deg,
+				oklch(0.25 0 0 / 0.6) 25%,
+				oklch(0.32 0 0 / 0.6) 50%,
+				oklch(0.25 0 0 / 0.6) 75%
+			);
+			background-size: 200% 100%;
+			animation: wk-shimmer 1.6s infinite;
+		}
+
+		& figcaption {
+			backdrop-filter: none;
+		}
+
+		& h2,
+		& p {
+			background: linear-gradient(
+				90deg,
+				oklch(1 0 0 / 0.07) 25%,
+				oklch(1 0 0 / 0.13) 50%,
+				oklch(1 0 0 / 0.07) 75%
+			);
+			background-size: 200% 100%;
+			animation: wk-shimmer 1.6s infinite;
+			color: transparent;
+			border-radius: 4px;
+			min-height: 1em;
+		}
+	}
+
+	:host(:state(error)) .wiki-article {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 200px;
+		color: oklch(0.6 0.15 25);
+		font-size: 0.85rem;
+		font-family: sans-serif;
+	}
+
+	@keyframes wk-shimmer {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
 		}
 	}
 
 	.wiki-article {
-		--font-size-title: 1.25em;
-		--font-size-meta: 0.9em;
-		--font-size-body: 1em;
-
-		--wiki-article-background-color: oklch(from var(--continuous-color) l c h);
-		--wiki-article-text-color: oklch(
-			from var(--continuous-color) calc(l * var(--is-dark-image) * 100) c h
-		);
-		--wiki-article-text-secondary-color: oklch(
-			from var(--wiki-article-text-color) calc(l + 0.04) c h
-		);
-
-		width: 100cqi;
-		display: block;
-		overflow: hidden;
 		position: relative;
-		background-color: var(--wiki-article-background-color);
 		border-radius: var(--wiki-article-border-radius);
-		color: var(--wiki-article-text-color);
-		align-items: center;
-		font-family: sans-serif;
-		transition:
-			background-color 0.3s ease,
-			color 0.3s ease;
-
-		.image-container {
-			position: relative;
-			overflow: hidden;
-			border-radius: var(--border-radius);
-			img {
-				display: block;
-				position: relative;
-				width: 100%;
-				height: auto;
-			}
-
-			.overlay {
-				content: " ";
-				position: absolute;
-				top: 50%;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				--gradient-start-color: rgb(from var(--continuous-color) r g b / 0);
-				background: linear-gradient(
-					var(--gradient-start-color) 0%,
-					var(--continuous-color) 100%
-				);
-				z-index: 1;
-			}
-		}
-
-		.content {
-			width: 100cqi;
-			height: 100%;
-			max-height: 100%;
-			display: grid;
-			grid-template-rows: auto;
-			overflow: hidden;
-			padding: clamp(0.8em, 100cqi, 1em);
-			z-index: 2;
-			align-self: start;
-			color: var(--wiki-article-text-color);
-
-			@container wiki-article (max-width: 720px) {
-				align-self: end;
-				align-content: end;
-			}
-
-			.title-header {
-				font-size: var(--font-size-title);
-				margin: 0.25em 0;
-				padding: 0;
-				line-height: 1.1;
-
-				.title {
-					text-decoration: none;
-					text-wrap: balance;
-					color: currentcolor;
-				}
-			}
-
-			.extract {
-				margin-top: 10px;
-				font-size: var(--font-size-body);
-				text-wrap: pretty;
-				text-align: start;
-				overflow: hidden;
-				max-height: 7lh;
-				max-width: clamp(20ch, 100cqi, 50ch);
-				scrollbar-width: none;
-				line-height: 1.5;
-			}
-
-			.description {
-				margin-top: 10px;
-				font-size: 1.1em;
-				text-align: pretty;
-				overflow: auto;
-				max-height: 7lh;
-				display: none;
-				max-width: clamp(20ch, 100cqi, 50ch);
-				scrollbar-width: none;
-				line-height: 1.5;
-			}
-
-			.meta {
-				gap: 4px;
-				display: flex;
-				flex-wrap: wrap;
-				color: var(--wiki-article-text-secondary-color);
-				align-items: center;
-				align-content: center;
-				font-size: var(--font-size-meta);
-				margin: 0;
-				overflow: hidden;
-				font-weight: 400;
-
-				.icon {
-					svg {
-						width: 12px;
-						height: 12px;
-						fill: var(--wiki-article-text-secondary-color);
-					}
-				}
-
-				a {
-					text-decoration: none;
-					color: var(--wiki-article-text-secondary-color);
-				}
-			}
-		}
+		overflow: hidden;
+		box-shadow:
+			0 8px 48px var(--card-shadow),
+			0 0 0 1px oklch(1 0 0 / 0.18);
+		cursor: pointer;
 	}
 
-	.wiki-article.simple {
-		height: 300px;
-		max-height: 300px;
-		display: grid;
-		grid-template-columns: 1fr 2fr;
-		grid-template-rows: 1fr;
-		background-color: transparent;
-		color: currentcolor;
-		border-color: currentcolor;
+	/* ── Card layout (default) ── */
+	.wiki-article.card {
+		background: transparent;
+		/* opacity starts at 0; JS sets it to 1 via requestAnimationFrame
+		   after color extraction, avoiding a flash of default colors */
+		opacity: 1;
+		transition:
+			opacity 0.38s ease,
+			transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+			box-shadow 0.32s ease;
 
-		&.portrait {
-			grid-template-columns: 1fr;
-			grid-template-rows: 10lh 12lh;
-		}
-
-		.content {
+		/* ── Portrait (default): image fills card as a tall 3:4 canvas.
+		   figcaption is absolutely positioned over the lower portion,
+		   creating the layered glass-over-image effect. ── */
+		& figure {
+			position: relative;
 			width: 100%;
-			background: transparent;
-			color: currentcolor;
-			padding: 0.25em;
+			aspect-ratio: 3 / 4;
+			overflow: hidden;
+			margin: 0;
+			background: hsl(var(--card-h), var(--card-s), 20%);
 
-			.description {
-				font-size: 1em;
+			/* Scrim: dark gradient at the bottom so the glass panel
+			   sits on a dark base regardless of image brightness */
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					to bottom,
+					transparent 0%,
+					transparent 28%,
+					hsla(var(--card-h), calc(var(--card-s) * 0.6), 8%, 0.42) 60%,
+					hsla(var(--card-h), calc(var(--card-s) * 0.6), 6%, 0.84) 100%
+				);
+				pointer-events: none;
+				transition: background 0.5s ease;
+			}
+
+			/* Grain texture overlay — adds subtle film-grain depth */
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+				mix-blend-mode: overlay;
+				pointer-events: none;
 			}
 		}
 
-		.image {
-			position: relative;
+		/* Portrait: bias image to top — subjects are usually upper-body */
+		& img {
+			display: block;
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-			object-position: 50% 33%;
+			object-position: center top;
+			transition: transform 0.55s ease;
 		}
 
-		.overlay {
-			display: none;
+		/* Portrait: glass panel overlays the image bottom */
+		& figcaption {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: 1.3rem 1.4rem 1.4rem;
+			background: oklch(1 0 0 / 0.1);
+			backdrop-filter: blur(22px) saturate(1.6) brightness(1.08);
+			border-top: 1px solid oklch(1 0 0 / 0.18);
+			transition: background 0.5s ease;
+		}
+
+		/* ── Landscape override (.is-landscape added by JS when
+		   originalimage.width / originalimage.height > 1.6).
+		   Image strip is capped at 58% height; figcaption flows
+		   below it in normal document flow. ── */
+		&.is-landscape {
+			/* Stack image strip and body panel vertically */
+			display: flex;
+			flex-direction: column;
+
+			& figure {
+				/* Replace aspect-ratio with a fixed height so the card's
+				   total height stays predictable for wide images */
+				aspect-ratio: unset;
+				height: 58%;
+				min-height: 160px; /* floor for very small card widths */
+
+				/* Lighter scrim — just a soft fade at the bottom edge of
+				   the image strip to blend into the body section below */
+				&::after {
+					background: linear-gradient(
+						to bottom,
+						transparent 0%,
+						transparent 55%,
+						hsla(var(--card-h), calc(var(--card-s) * 0.5), 8%, 0.55) 100%
+					);
+				}
+			}
+
+			/* Landscape: center — horizon/wide scenes are mid-frame */
+			& img {
+				object-position: center center;
+			}
+
+			/* Landscape body: static flow below image.
+			   Background is a dark gradient connector that visually
+			   bridges the image scrim above into the panel below.
+			   JS leaves this background alone; CSS owns it entirely. */
+			& figcaption {
+				position: static;
+				background: linear-gradient(
+					to bottom,
+					hsla(var(--card-h), calc(var(--card-s) * 0.5), 8%, 0.9) 0%,
+					hsla(var(--card-h), calc(var(--card-s) * 0.3), 10%, 0.82) 100%
+				);
+				border-top: 1px solid oklch(1 0 0 / 0.1);
+				backdrop-filter: blur(12px) saturate(1.4);
+			}
+		}
+
+		& .wiki-article-accent {
+			position: absolute;
+			top: 0;
+			left: 1.4rem;
+			width: 2.2rem;
+			height: 2.5px;
+			background: var(--card-accent);
+			border-radius: 0 0 3px 3px;
+			opacity: 0.9;
+		}
+
+		& h2 {
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: 1.15rem;
+			font-weight: 700;
+			line-height: 1.25;
+			letter-spacing: -0.01em;
+			color: oklch(0.97 0 0);
+			margin: 0.45rem 0 0.5rem;
+			text-shadow: 0 1px 8px oklch(0 0 0 / 0.4);
+		}
+
+		& p {
+			font-size: 0.79rem;
+			line-height: 1.65;
+			color: oklch(1 0 0 / 0.72);
+			font-style: italic;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-shadow: 0 1px 6px oklch(0 0 0 / 0.3);
+			font-family: Georgia, "Times New Roman", serif;
+			margin: 0;
+		}
+
+		& footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 0.9rem;
+			padding-top: 0.65rem;
+			border-top: 1px solid oklch(1 0 0 / 0.14);
+
+			& a {
+				font-size: 0.67rem;
+				letter-spacing: 0.13em;
+				text-transform: uppercase;
+				color: var(--card-accent);
+				display: flex;
+				align-items: center;
+				gap: 0.35rem;
+				text-decoration: none;
+				font-style: normal;
+				font-weight: 400;
+				filter: drop-shadow(0 1px 4px oklch(0 0 0 / 0.4));
+
+				& svg {
+					transition: transform 0.2s ease;
+				}
+			}
+		}
+
+		& .wiki-article-logo {
+			opacity: 0.8;
+			transition: opacity 0.2s;
+			width: 20px;
 		}
 	}
 
+	/* ── Compact layout ── */
 	.wiki-article.compact {
 		height: 100px;
-		max-height: 100px;
-		min-height: 100px;
 		display: grid;
-		grid-template-columns: 100px auto;
-		grid-template-rows: 1fr;
-		background-color: transparent;
-		color: currentcolor;
-		border: 0;
+		grid-template-columns: 100px 1fr;
+		box-shadow: none;
+		border-radius: 0.5rem;
+		border: 1px solid currentcolor;
 
-		.content {
+		&:hover {
+			transform: none;
+
+			& img {
+				transform: none;
+			}
+		}
+
+		& figure {
+			overflow: hidden;
+			margin: 0;
+		}
+
+		& img {
+			display: block;
 			width: 100%;
-			background: transparent;
-			color: currentcolor;
-			padding: 0.25em;
-
-			.title-header {
-				font-size: 1.1em;
-				padding: 0.25em;
-			}
-
-			.description {
-				margin-top: 0;
-				display: block;
-				padding: 0.25em;
-				line-height: 1.2;
-				font-size: 1em;
-			}
-		}
-
-		.image {
-			position: relative;
-			aspect-ratio: 1;
-			height: 100px;
+			height: 100%;
 			object-fit: cover;
-			object-position: 50% 33%;
+			object-position: center 33%;
 		}
 
-		.overlay {
+		& figcaption {
+			padding: 0.4rem 0.6rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			backdrop-filter: none;
+		}
+
+		& .wiki-article-accent {
 			display: none;
 		}
 
-		.extract {
-			display: none;
+		& h2 {
+			font-size: 0.95rem;
+			font-weight: 600;
+			line-height: 1.2;
+			color: currentcolor;
+			margin: 0;
 		}
 
-		.meta {
+		& p {
+			font-size: 0.78rem;
+			line-height: 1.3;
+			color: currentcolor;
+			opacity: 0.75;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			margin-top: 0.2rem;
+			font-style: normal;
+		}
+
+		& footer {
 			display: none;
 		}
 	}

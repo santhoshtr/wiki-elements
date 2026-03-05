@@ -147,7 +147,7 @@ const getSourceSetFromCommonsUrl = (url) => {
 	}
 	// replace jpg, png, jpeg with webp
 	// When webp is widely supported, we can use this
-	// filename = filename.replace(/\.(jpg|png|jpeg)$/, ".webp");
+	filename = filename.replace(/\.(jpg|png|jpeg)$/, ".webp");
 
 	const srcset = sizes.map(
 		(width) => `${urlPrefix}/${srcsetImgName}/${width}px-${filename} ${width}w`,
