@@ -54,6 +54,18 @@ const ARROW_ICON = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" 
 </svg>`;
 
 class WikiArticle extends LazyLoadMixin(WikiElement) {
+	constructor() {
+		super();
+		// Cache stable shadow DOM nodes once after the base class sets up
+		// the shadow root, avoiding repeated querySelector on every render.
+		const sr = this.shadowRoot;
+		this._root = sr.querySelector(".wiki-article");
+		this._articleImg = sr.querySelector("figure > img");
+		this._title = sr.querySelector("h2");
+		this._desc = sr.querySelector("p");
+		this._link = sr.querySelector("footer a");
+	}
+
 	static get properties() {
 		return {
 			article: { type: String },
@@ -140,9 +152,8 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 	}
 
 	_applyLayout() {
-		const root = this.shadowRoot.querySelector(".wiki-article");
-		root.classList.remove("card", "compact");
-		root.classList.add(this.layout || "card");
+		this._root.classList.remove("card", "compact");
+		this._root.classList.add(this.layout || "card");
 	}
 
 	async _fetchArticleData(signal) {
@@ -174,17 +185,16 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			thumbnail,
 			originalimage,
 		} = data;
-		const sr = this.shadowRoot;
 
-		sr.querySelector(".wiki-article").dir = dir || "";
+		this._root.dir = dir || "";
 
 		const pageUrl =
 			content_urls?.desktop?.page ??
 			`https://${lang || this.language}.wikipedia.org/wiki/${encodeURIComponent(title)}`;
 
-		sr.querySelector("h2").textContent = title;
-		sr.querySelector("p").textContent = extract || "";
-		sr.querySelector("footer a").href = pageUrl;
+		this._title.textContent = title;
+		this._desc.textContent = extract || "";
+		this._link.href = pageUrl;
 
 		this._updateImage(thumbnail, originalimage, title);
 	}
@@ -193,7 +203,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 	// not in the method body itself. The await in the old code resolved
 	// immediately and gave a false impression of waiting for the theme.
 	_updateImage(thumbnail, originalimage, alt) {
-		const img = this.shadowRoot.querySelector("img");
+		const img = this._articleImg;
 
 		if (!thumbnail?.source) {
 			img.removeAttribute("src");
@@ -283,7 +293,7 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 	}
 
 	_applyTheme(hsl, isLandscape = false) {
-		const card = this.shadowRoot.querySelector(".wiki-article");
+		const card = this._root;
 
 		// Derive accent and shadow colors from the extracted image hue.
 		// Fallback [220, 55, 45] is Wikipedia blue.
