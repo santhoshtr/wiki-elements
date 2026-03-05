@@ -148,19 +148,17 @@
 
 		/* ── Landscape override (.is-landscape added by JS when
 		   originalimage.width / originalimage.height > 1.6).
-		   Image strip is capped at 58% height; figcaption flows
-		   below it in normal document flow. ── */
+		   Image strip is capped at 58% of the card height; figcaption
+		   flows below the img in normal flow inside the figure. ── */
 		&.is-landscape {
-			/* Stack image strip and body panel vertically */
-			display: flex;
-			flex-direction: column;
-
 			& figure {
+				/* figure becomes a flex column so figcaption flows below img */
+				display: flex;
+				flex-direction: column;
 				/* Replace aspect-ratio with a fixed height so the card's
 				   total height stays predictable for wide images */
 				aspect-ratio: unset;
-				height: 58%;
-				min-height: 160px; /* floor for very small card widths */
+				height: 340px;
 
 				/* Lighter scrim — just a soft fade at the bottom edge of
 				   the image strip to blend into the body section below */
@@ -174,8 +172,10 @@
 				}
 			}
 
-			/* Landscape: center — horizon/wide scenes are mid-frame */
+			/* img takes remaining space above figcaption */
 			& img {
+				flex: 1;
+				min-height: 0;
 				object-position: center center;
 			}
 
@@ -268,8 +268,6 @@
 	/* ── Compact layout ── */
 	.wiki-article.compact {
 		height: 100px;
-		display: grid;
-		grid-template-columns: 100px 1fr;
 		box-shadow: none;
 		border-radius: 0.5rem;
 		border: 1px solid currentcolor;
@@ -282,9 +280,13 @@
 			}
 		}
 
+		/* figure acts as the layout container: thumbnail left, caption right */
 		& figure {
-			overflow: hidden;
+			display: grid;
+			grid-template-columns: 100px 1fr;
+			height: 100%;
 			margin: 0;
+			overflow: hidden;
 		}
 
 		& img {
@@ -296,6 +298,7 @@
 		}
 
 		& figcaption {
+			position: static;
 			padding: 0.4rem 0.6rem;
 			display: flex;
 			flex-direction: column;

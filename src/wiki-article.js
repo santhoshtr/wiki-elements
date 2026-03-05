@@ -61,20 +61,20 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
             <div class="wiki-article">
                 <figure>
                     <img crossorigin="anonymous" loading="lazy" alt="" src="" />
+                    <figcaption>
+                        <div class="wiki-article-accent"></div>
+                        <h2></h2>
+                        <p></p>
+                        <footer>
+                            <a href="" target="_blank" rel="noopener">
+                                Read article ${ARROW_ICON}
+                            </a>
+                            <span class="wiki-article-logo">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia" width="20" height="20" loading="lazy" />
+                            </span>
+                        </footer>
+                    </figcaption>
                 </figure>
-                <figcaption>
-                    <div class="wiki-article-accent"></div>
-                    <h2></h2>
-                    <p></p>
-                    <footer>
-                        <a href="" target="_blank" rel="noopener">
-                            Read article ${ARROW_ICON}
-                        </a>
-                        <span class="wiki-article-logo">
-                            <img src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia" width="20" height="20" />
-                        </span>
-                    </footer>
-                </figcaption>
             </div>
             <style>@import url(${styleURL});</style>
         `;
