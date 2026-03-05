@@ -168,6 +168,7 @@
 			backdrop-filter: blur(22px) saturate(1.6) brightness(1.08);
 			border-top: 1px solid oklch(1 0 0 / 0.18);
 			transition: background 0.5s ease;
+			z-index: 2;
 		}
 
 		/* ── Landscape override (.is-landscape added by JS when
