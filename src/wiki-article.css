@@ -75,13 +75,18 @@
 	/* ── Card layout (default) ── */
 	.wiki-article.card {
 		background: transparent;
-		/* opacity starts at 0; JS sets it to 1 via requestAnimationFrame
-		   after color extraction, avoiding a flash of default colors */
-		opacity: 1;
+		/* Starts invisible; JS adds .ready after color extraction to fade in,
+		   avoiding a flash of default Wikipedia-blue before the image hue
+		   is extracted. */
+		opacity: 0;
 		transition:
 			opacity 0.38s ease,
 			transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
 			box-shadow 0.32s ease;
+
+		&.ready {
+			opacity: 1;
+		}
 
 		/* ── Portrait (default): image fills card as a tall 3:4 canvas.
 		   figcaption is absolutely positioned over the lower portion,
@@ -133,14 +138,16 @@
 			transition: transform 0.55s ease;
 		}
 
-		/* Portrait: glass panel overlays the image bottom */
+		/* Portrait: glass panel overlays the image bottom.
+		   Background uses --wiki-article-glass-bg set by JS after color
+		   extraction (a hue-tinted glass). Falls back to plain white glass. */
 		& figcaption {
 			position: absolute;
 			bottom: 0;
 			left: 0;
 			right: 0;
 			padding: 1.3rem 1.4rem 1.4rem;
-			background: oklch(1 0 0 / 0.1);
+			background: var(--wiki-article-glass-bg, oklch(1 0 0 / 0.1));
 			backdrop-filter: blur(22px) saturate(1.6) brightness(1.08);
 			border-top: 1px solid oklch(1 0 0 / 0.18);
 			transition: background 0.5s ease;

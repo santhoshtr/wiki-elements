@@ -281,7 +281,6 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 
 	_applyTheme(hsl, isLandscape = false) {
 		const card = this.shadowRoot.querySelector(".wiki-article");
-		const figcaption = this.shadowRoot.querySelector("figcaption");
 
 		// Derive accent and shadow colors from the extracted image hue.
 		// Fallback [220, 55, 45] is Wikipedia blue.
@@ -300,29 +299,25 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			`hsla(${h | 0}, ${Math.min(s * 0.6, 45).toFixed(1)}%, 5%, 0.72)`,
 		);
 
+		// Portrait: set the glass tint as a custom property so CSS consumes it
+		// without an inline style on the element fighting the cascade.
+		// Landscape: the CSS gradient connector owns figcaption's background
+		// entirely, so we leave the property unset (CSS fallback takes over).
+		if (!isLandscape) {
+			const glassHint = `hsla(${h | 0}, ${Math.min(s * 0.28, 24).toFixed(1)}%, 98%, 0.12)`;
+			this.style.setProperty("--wiki-article-glass-bg", glassHint);
+		} else {
+			this.style.removeProperty("--wiki-article-glass-bg");
+		}
+
 		// Toggle the layout class — all structural CSS differences between
 		// portrait and landscape are handled in the stylesheet via this class.
 		card.classList.toggle("is-landscape", isLandscape);
 
-		if (isLandscape) {
-			// Landscape: figcaption sits below the image in normal flow.
-			// Its background is a dark gradient connector (set in CSS using
-			// --card-h/--card-s), so we leave it alone here.
-		} else {
-			// Portrait: figcaption overlays the image bottom. Apply a subtle
-			// hue-tinted glass tint so the panel picks up the image's colour.
-			const glassHint = `hsla(${h | 0}, ${Math.min(s * 0.28, 24).toFixed(1)}%, 98%, 0.12)`;
-			figcaption.style.background = glassHint;
-		}
-
-		// Fade the card in after the theme is applied to avoid a flash of
-		// default colors before color extraction completes.
-		card.style.opacity = "0";
-		requestAnimationFrame(() =>
-			requestAnimationFrame(() => {
-				card.style.opacity = "1";
-			}),
-		);
+		// Fade the card in by adding .ready — CSS starts at opacity:0 and
+		// transitions to opacity:1 on .ready, avoiding a flash of default
+		// colors before color extraction completes.
+		requestAnimationFrame(() => card.classList.add("ready"));
 	}
 }
 
