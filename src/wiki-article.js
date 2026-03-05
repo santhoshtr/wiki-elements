@@ -81,6 +81,13 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 	}
 
 	async render() {
+		// Abort any in-flight fetch from a previous render call. This prevents
+		// a stale response from a slow request overwriting a newer one when
+		// the article or language attribute changes rapidly.
+		this._abortController?.abort();
+		this._abortController = new AbortController();
+		const { signal } = this._abortController;
+
 		let data;
 		if (this["data-article"]) {
 			data = this["data-article"];
@@ -92,7 +99,12 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 			// dimensions (e.g. figure needs aspect-ratio from the card class).
 			this._applyLayout();
 			this._setProgress(true);
-			data = await this._fetchArticleData();
+			data = await this._fetchArticleData(signal);
+			// If this render was superseded by a newer one, the signal will
+			// have been aborted. Bail out silently — the newer render owns the DOM.
+			if (signal.aborted) {
+				return;
+			}
 		}
 		if (!data) {
 			this._setProgress(false);
@@ -126,15 +138,20 @@ class WikiArticle extends LazyLoadMixin(WikiElement) {
 		root.classList.add(this.layout || "card");
 	}
 
-	async _fetchArticleData() {
+	async _fetchArticleData(signal) {
 		const url = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(this.article)}?redirect=true`;
 		try {
-			const response = await fetch(url);
+			const response = await fetch(url, { signal });
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);
 			}
 			return await response.json();
 		} catch (error) {
+			// AbortError is expected when a newer render() call supersedes this
+			// one — not a real error, so we return null silently.
+			if (error.name === "AbortError") {
+				return null;
+			}
 			console.error("wiki-article fetch error:", error);
 			return null;
 		}
