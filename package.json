@@ -1,6 +1,6 @@
 {
 	"name": "wiki-elements",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"description": "A collection of WebComponents to share or interact with Wikipedia content",
 	"type": "module",
 	"main": "src/index.js",
